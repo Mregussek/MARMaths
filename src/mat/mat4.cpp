@@ -74,6 +74,14 @@ namespace mar {
 			return result;
 		}
 
+		mat4 mat4::lookAt(const vec3&& eye, const vec3&& center, const vec3&& up) {
+			vec3 e = eye;
+			vec3 c = center;
+			vec3 u = up;
+
+			return lookAt(e, c, u);
+		}
+
 		mat4 mat4::lookAt(const vec3& eye, const vec3& center, const vec3& up) {
 			mat4 rtn;
 
