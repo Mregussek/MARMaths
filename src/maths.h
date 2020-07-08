@@ -6,8 +6,6 @@
 #ifndef MAR_MATH_H
 #define MAR_MATH_H
 
-#define _USE_MATH_DEFINES
-#include <math.h>
 #include <iostream>
 
 #include "trig/trigonometric.h"
