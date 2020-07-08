@@ -60,16 +60,13 @@ namespace mar {
 		mat4 mat4::perspective(float fov, float aspectRatio, float near, float far) {
 			mat4 result(1.0f);
 
-			float q = 1.0f / tan(Angles::toRadians(0.5f * fov));
-			float a = q / aspectRatio;
-			float b = (near + far) / (near - far);
-			float c = (2.0f * near * far) / (near - far);
+			float tanfov2 = tan(Angles::toRadians(fov / 2));
 
-			result.elements[0 + 0 * 4] = a;
-			result.elements[1 + 1 * 4] = q;
-			result.elements[2 + 2 * 4] = b;
+			result.elements[0 + 0 * 4] = 1 / (aspectRatio * tanfov2);
+			result.elements[1 + 1 * 4] = 1 / tanfov2;
+			result.elements[2 + 2 * 4] = - ((far + near) / (far - near));
 			result.elements[3 + 2 * 4] = -1.0f;
-			result.elements[2 + 3 * 4] = c;
+			result.elements[2 + 3 * 4] = - ((2 * far * near) / (far - near));
 
 			return result;
 		}
@@ -82,38 +79,30 @@ namespace mar {
 			return lookAt(e, c, u);
 		}
 
-		mat4 mat4::lookAt(const vec3& eye, const vec3& center, const vec3& up) {
+		mat4 mat4::lookAt(const vec3& eye, const vec3& center, const vec3& y) {
 			mat4 rtn;
 
-			vec3 Z = eye - center;
-			Z = vec3::normalize(Z);
+			vec3 fwd = vec3::normalize(center - eye);
+			vec3 side = vec3::normalize(vec3::cross(fwd, y));
+			vec3 up = vec3::cross(side, fwd);
 
-			vec3 Y = up;
-			vec3 X = Y.cross(Z);
-			Y = Z.cross(X);
-
-			X = vec3::normalize(X);
-			Y = vec3::normalize(Y);
-
-			//mat4[row + col * 4]
-
-			rtn[0 + 0 * 4] = X.x;
-			rtn[1 + 0 * 4] = X.y;
-			rtn[2 + 0 * 4] = X.z;
-			rtn[3 + 0 * 4] = -X.dot(eye);
-			rtn[0 + 1 * 4] = Y.x;
-			rtn[1 + 1 * 4] = Y.y;
-			rtn[2 + 1 * 4] = Y.z;
-			rtn[3 + 1 * 4] = -Y.dot(eye);
-			rtn[0 + 2 * 4] = Z.x;
-			rtn[1 + 2 * 4] = Z.y;
-			rtn[2 + 2 * 4] = Z.z;
-			rtn[3 + 2 * 4] = -Z.dot(eye);
-			rtn[0 + 3 * 4] = 0;
-			rtn[1 + 3 * 4] = 0;
-			rtn[2 + 3 * 4] = 0;
+			rtn[0 + 0 * 4] = side.x;
+			rtn[1 + 0 * 4] = side.y;
+			rtn[2 + 0 * 4] = side.z;
+			rtn[3 + 0 * 4] = -vec3::dot(side, eye);
+			rtn[0 + 1 * 4] = up.x;
+			rtn[1 + 1 * 4] = up.y;
+			rtn[2 + 1 * 4] = up.z;
+			rtn[3 + 1 * 4] = -vec3::dot(up, eye);
+			rtn[0 + 2 * 4] = -fwd.x;
+			rtn[1 + 2 * 4] = -fwd.y;
+			rtn[2 + 2 * 4] = -fwd.z;
+			rtn[3 + 2 * 4] = vec3::dot(fwd, eye);
+			rtn[0 + 3 * 4] = 0.f;
+			rtn[1 + 3 * 4] = 0.f;
+			rtn[2 + 3 * 4] = 0.f;
 			rtn[3 + 3 * 4] = 1.0f;
-
+			
 			return rtn;
 		}
 

@@ -32,7 +32,7 @@ namespace mar {
             static mat4 perspective(float fov, float aspectRatio, float near, float far);
 
             static mat4 lookAt(const vec3&& eye, const vec3&& center, const vec3&& up);
-            static mat4 lookAt(const vec3& eye, const vec3& center, const vec3& up);
+            static mat4 lookAt(const vec3& eye, const vec3& center, const vec3& y);
 
             static mat4 translation(const vec3& trans);
             static mat4 rotation(float angle, const vec3& axis);

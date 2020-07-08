@@ -105,7 +105,7 @@ namespace mar {
 			vec3 rtn;
 
 			rtn.x = left.y * right.z - left.z * right.y;
-			rtn.y = left.z * right.x - left.x * right.z;
+			rtn.y = left.x * right.z - left.z * right.x;
 			rtn.z = left.x * right.y - left.y * right.x;
 
 			return rtn;
@@ -120,9 +120,10 @@ namespace mar {
 		}
 
 		vec3 vec3::normalize(const vec3& other) {
-			float magnitude = sqrt((other.x * other.x) + (other.y * other.y) + (other.z * other.z));
+			float magnitude = dot(other, other);
+			float inverse_square = 1 / sqrt(magnitude);
 
-			vec3 rtn{other.x / magnitude, other.y / magnitude, other.z / magnitude};
+			vec3 rtn = other * inverse_square;
 
 			return rtn;
 		}
