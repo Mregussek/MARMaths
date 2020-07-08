@@ -13,4 +13,7 @@ int main() {
     vec3 up{ 0.0f, 1.0f, 0.0f };
 
     std::cout << mat4::lookAt(position, position + front, up) << "\n";
+    std::cout << position << "\n";
+    position += 1.f;
+    std::cout << position << "\n";
 }

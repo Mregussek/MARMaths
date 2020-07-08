@@ -20,6 +20,11 @@ namespace mar {
 			vec2(const float& x, const float& y);
 			vec2(const float&& x, const float&& y);
 
+			vec2& add(const float& f);
+			vec2& subtract(const float& f);
+			vec2& multiply(const float& f);
+			vec2& divide(const float& f);
+
 			vec2& add(const vec2& other);
 			vec2& subtract(const vec2& other);
 			vec2& multiply(const vec2& other);
@@ -27,10 +32,20 @@ namespace mar {
 
 			static vec2 normalize(const vec2& other);
 
+			friend vec2 operator+(vec2 left, float right);
+			friend vec2 operator-(vec2 left, float right);
+			friend vec2 operator*(vec2 left, float right);
+			friend vec2 operator/(vec2 left, float right);
+
 			friend vec2 operator+(vec2 left, const vec2& right);
 			friend vec2 operator-(vec2 left, const vec2& right);
 			friend vec2 operator*(vec2 left, const vec2& right);
 			friend vec2 operator/(vec2 left, const vec2& right);
+
+			vec2& operator+=(const float& other);
+			vec2& operator-=(const float& other);
+			vec2& operator*=(const float& other);
+			vec2& operator/=(const float& other);
 
 			vec2& operator+=(const vec2& other);
 			vec2& operator-=(const vec2& other);

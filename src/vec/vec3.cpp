@@ -26,6 +26,41 @@ namespace mar {
 			this->z = z;
 		}
 
+		vec3& vec3::add(const float& f) {
+			x += f;
+			y += f;
+			z += f;
+
+			return *this;
+		}
+
+		vec3& vec3::subtract(const float& f) {
+			x -= f;
+			y -= f;
+			z -= f;
+		
+			return *this;
+		}
+
+		vec3& vec3::multiply(const float& f) {
+			x *= f;
+			y *= f;
+			z *= f;
+
+			return *this;
+		}
+
+		vec3& vec3::divide(const float& f) {
+			if (f == 0.f) return *this;
+
+			x /= f;
+			y /= f;
+			z /= f;
+
+			return *this;
+		}
+
+
 		vec3& vec3::add(const vec3& other) {
 			x += other.x;
 			y += other.y;
@@ -92,6 +127,22 @@ namespace mar {
 			return rtn;
 		}
 
+		vec3 operator+(vec3 left, float right) {
+			return left.add(right);
+		}
+
+		vec3 operator-(vec3 left, float right) {
+			return left.subtract(right);
+		}
+
+		vec3 operator*(vec3 left, float right) {
+			return left.multiply(right);
+		}
+
+		vec3 operator/(vec3 left, float right) {
+			return left.divide(right);
+		}
+
 		vec3 operator+(vec3 left, const vec3& right) {
 			return left.add(right);
 		}
@@ -106,6 +157,22 @@ namespace mar {
 
 		vec3 operator/(vec3 left, const vec3& right) {
 			return left.divide(right);
+		}
+
+		vec3& vec3::operator+=(const float& other) {
+			return add(other);
+		}
+
+		vec3& vec3::operator-=(const float& other) {
+			return subtract(other);
+		}
+
+		vec3& vec3::operator*=(const float& other) {
+			return multiply(other);
+		}
+
+		vec3& vec3::operator/=(const float& other) {
+			return divide(other);
 		}
 
 		vec3& vec3::operator+=(const vec3& other) {

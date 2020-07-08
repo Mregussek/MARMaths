@@ -21,6 +21,11 @@ namespace mar {
 			vec3(const float& x, const float& y, const float& z);
 			vec3(const float&& x, const float&& y, const float&& z);
 
+			vec3& add(const float& f);
+			vec3& subtract(const float& f);
+			vec3& multiply(const float& f);
+			vec3& divide(const float& f);
+
 			vec3& add(const vec3& other);
 			vec3& subtract(const vec3& other);
 			vec3& multiply(const vec3& other);
@@ -34,10 +39,20 @@ namespace mar {
 
 			static vec3 normalize(const vec3& other);
 
+			friend vec3 operator+(vec3 left, float right);
+			friend vec3 operator-(vec3 left, float right);
+			friend vec3 operator*(vec3 left, float right);
+			friend vec3 operator/(vec3 left, float right);
+
 			friend vec3 operator+(vec3 left, const vec3& right);
 			friend vec3 operator-(vec3 left, const vec3& right);
 			friend vec3 operator*(vec3 left, const vec3& right);
 			friend vec3 operator/(vec3 left, const vec3& right);
+
+			vec3& operator+=(const float& other);
+			vec3& operator-=(const float& other);
+			vec3& operator*=(const float& other);
+			vec3& operator/=(const float& other);
 
 			vec3& operator+=(const vec3& other);
 			vec3& operator-=(const vec3& other);

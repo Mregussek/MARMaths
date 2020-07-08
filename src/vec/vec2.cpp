@@ -23,6 +23,36 @@ namespace mar {
 		this->y = y;
 	}
 
+	vec2& vec2::add(const float& f) {
+		x += f;
+		y += f;
+
+		return *this;
+	}
+
+	vec2& vec2::subtract(const float& f) {
+		x -= f;
+		y -= f;
+
+		return *this;
+	}
+
+	vec2& vec2::multiply(const float& f) {
+		x *= f;
+		y *= f;
+
+		return *this;
+	}
+
+	vec2& vec2::divide(const float& f) {
+		if (f == 0.f) return *this;
+
+		x /= f;
+		y /= f;
+
+		return *this;
+	}
+
 	vec2& vec2::add(const vec2& other) {
 		x += other.x;
 		y += other.y;
@@ -63,6 +93,22 @@ namespace mar {
 		return rtn;
 	}
 
+	vec2 operator+(vec2 left, float right) {
+		return left.add(right);
+	}
+
+	vec2 operator-(vec2 left, float right) {
+		return left.subtract(right);
+	}
+
+	vec2 operator*(vec2 left, float right) {
+		return left.multiply(right);
+	}
+
+	vec2 operator/(vec2 left, float right) {
+		return left.divide(right);
+	}
+
 	vec2 operator+(vec2 left, const vec2& right) {
 		return left.add(right);
 	}
@@ -77,6 +123,22 @@ namespace mar {
 
 	vec2 operator/(vec2 left, const vec2& right) {
 		return left.divide(right);
+	}
+
+	vec2& vec2::operator+=(const float& other) {
+		return add(other);
+	}
+
+	vec2& vec2::operator-=(const float& other) {
+		return subtract(other);
+	}
+
+	vec2& vec2::operator*=(const float& other) {
+		return multiply(other);
+	}
+
+	vec2& vec2::operator/=(const float& other) {
+		return divide(other);
 	}
 
 	vec2& vec2::operator+=(const vec2& other) {
