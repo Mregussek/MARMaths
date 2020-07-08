@@ -1,3 +1,7 @@
+<p align="center">
+  <img width="1275" height="400" src="img/marmaths.jpg">
+</p>
+
 # MARMaths
 
 MARMaths is a library for written specially for MAREngine. It contains everything needed
