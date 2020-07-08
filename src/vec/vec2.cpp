@@ -55,6 +55,14 @@ namespace mar {
 		return *this;
 	}
 
+	vec2 vec2::normalize(const vec2& other) {
+		float magnitude = sqrt((other.x * other.x) + (other.y * other.y));
+
+		vec2 rtn{ other.x / magnitude, other.y / magnitude };
+
+		return rtn;
+	}
+
 	vec2 operator+(vec2 left, const vec2& right) {
 		return left.add(right);
 	}

@@ -8,12 +8,9 @@
 int main() {
     using namespace mar::maths;
 
-    mat4 ide = mat4::identity();
-    ide = mat4(2.0f);
-    mat4 diag(3.0f);
+    vec3 position{ 0.5, 0.5, 0.5 };
+    vec3 front{ 0.0f, 0.0f, -1.0f };
+    vec3 up{ 0.0f, 1.0f, 0.0f };
 
-    std::cout << ide << std::endl;
-    std::cout << diag << std::endl;
-
-    std::cout << ide * diag << std::endl;
+    std::cout << mat4::lookAt(position, position + front, up) << "\n";
 }

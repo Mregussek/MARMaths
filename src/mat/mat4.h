@@ -31,6 +31,8 @@ namespace mar {
             static mat4 orthographic(float left, float right, float top, float bottom, float near, float far);
             static mat4 perspective(float fov, float aspectRatio, float near, float far);
 
+            static mat4 lookAt(const vec3& eye, const vec3& center, const vec3& up);
+
             static mat4 translation(const vec3& trans);
             static mat4 rotation(float angle, const vec3& axis);
             static mat4 scale(const vec3& scal);
@@ -38,6 +40,7 @@ namespace mar {
             friend mat4 operator*(mat4 left, const mat4& right);
             mat4& operator*=(const mat4& other);
             const float& operator[](unsigned int index) const;
+            float& operator[](unsigned int index);
 
             friend std::ostream& operator<<(std::ostream& stream, const mat4& matrix);
         };

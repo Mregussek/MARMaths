@@ -69,6 +69,14 @@ namespace mar {
 			return *this;
 		}
 
+		vec4 vec4::normalize(const vec4& other) {
+			float magnitude = sqrt((other.x * other.x) + (other.y * other.y) + (other.z * other.z) + (other.w * other.w));
+
+			vec4 rtn{ other.x / magnitude, other.y / magnitude, other.z / magnitude, other.w / magnitude };
+
+			return rtn;
+		}
+
 		vec4 operator+(vec4 left, const vec4& right) {
 			return left.add(right);
 		}

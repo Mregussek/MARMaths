@@ -74,6 +74,41 @@ namespace mar {
 			return result;
 		}
 
+		mat4 mat4::lookAt(const vec3& eye, const vec3& center, const vec3& up) {
+			mat4 rtn;
+
+			vec3 Z = eye - center;
+			Z = vec3::normalize(Z);
+
+			vec3 Y = up;
+			vec3 X = Y.cross(Z);
+			Y = Z.cross(X);
+
+			X = vec3::normalize(X);
+			Y = vec3::normalize(Y);
+
+			//mat4[row + col * 4]
+
+			rtn[0 + 0 * 4] = X.x;
+			rtn[1 + 0 * 4] = X.y;
+			rtn[2 + 0 * 4] = X.z;
+			rtn[3 + 0 * 4] = -X.dot(eye);
+			rtn[0 + 1 * 4] = Y.x;
+			rtn[1 + 1 * 4] = Y.y;
+			rtn[2 + 1 * 4] = Y.z;
+			rtn[3 + 1 * 4] = -Y.dot(eye);
+			rtn[0 + 2 * 4] = Z.x;
+			rtn[1 + 2 * 4] = Z.y;
+			rtn[2 + 2 * 4] = Z.z;
+			rtn[3 + 2 * 4] = -Z.dot(eye);
+			rtn[0 + 3 * 4] = 0;
+			rtn[1 + 3 * 4] = 0;
+			rtn[2 + 3 * 4] = 0;
+			rtn[3 + 3 * 4] = 1.0f;
+
+			return rtn;
+		}
+
 		mat4 mat4::translation(const vec3& trans) {
 			mat4 result(1.0f);
 
@@ -127,6 +162,15 @@ namespace mar {
 
 		mat4& mat4::operator*=(const mat4& other) {
 			return multiply(other);
+		}
+
+		float& mat4::operator[](unsigned int index) {
+			if (index >= 4 * 4) {
+				std::cout << "Index out of bound!\n";
+				return elements[0];
+			}
+
+			return elements[index];
 		}
 
 		const float& mat4::operator[](unsigned int index) const {

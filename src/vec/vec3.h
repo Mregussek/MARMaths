@@ -26,6 +26,14 @@ namespace mar {
 			vec3& multiply(const vec3& other);
 			vec3& divide(const vec3& other);
 
+			vec3 cross(const vec3& other);
+			static vec3 cross(const vec3& left, const vec3& right);
+
+			float dot(const vec3& other);
+			static float dot(const vec3& left, const vec3& right);
+
+			static vec3 normalize(const vec3& other);
+
 			friend vec3 operator+(vec3 left, const vec3& right);
 			friend vec3 operator-(vec3 left, const vec3& right);
 			friend vec3 operator*(vec3 left, const vec3& right);

@@ -62,6 +62,36 @@ namespace mar {
 			return *this;
 		}
 
+		vec3 vec3::cross(const vec3& other) {
+			return cross(*this, other);
+		}
+		
+		vec3 vec3::cross(const vec3& left, const vec3& right) {
+			vec3 rtn;
+
+			rtn.x = left.y * right.z - left.z * right.y;
+			rtn.y = left.z * right.x - left.x * right.z;
+			rtn.z = left.x * right.y - left.y * right.x;
+
+			return rtn;
+		}
+
+		float vec3::dot(const vec3& other) {
+			return dot(*this, other);
+		}
+
+		float vec3::dot(const vec3& left, const vec3& right) {
+			return left.x * right.x + left.y * right.y + left.z * right.z;
+		}
+
+		vec3 vec3::normalize(const vec3& other) {
+			float magnitude = sqrt((other.x * other.x) + (other.y * other.y) + (other.z * other.z));
+
+			vec3 rtn{other.x / magnitude, other.y / magnitude, other.z / magnitude};
+
+			return rtn;
+		}
+
 		vec3 operator+(vec3 left, const vec3& right) {
 			return left.add(right);
 		}
