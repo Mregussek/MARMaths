@@ -25,22 +25,54 @@ namespace mar {
 			return mat4(1.0f);
 		}
 
-		mat4& mat4::multiply(const mat4& other) {
-			mat4 result;
+		vec4 mat4::getColumn(unsigned int index) {
+			return {
+				elements[0 + index * 4],
+				elements[1 + index * 4],
+				elements[2 + index * 4],
+				elements[3 + index * 4]
+			};
+		}
 
-			for (int y = 0; y < 4; y++) {
-				for (int x = 0; x < 4; x++) {
-					float sum = 0.0f;
+		mat4& mat4::multiply(mat4& other) {
+			mat4 rtn;
 
-					for (int i = 0; i < 4; i++) {
-						sum += elements[x + i * 4] * other.elements[i + y * 4];
-					}
+			vec4 left_one = getColumn(0);
+			vec4 left_two = getColumn(1);
+			vec4 left_three = getColumn(2);
+			vec4 left_four = getColumn(3);
 
-					elements[x + y * 4] = sum;
-				}
-			}
+			vec4 right_one = other.getColumn(0);
+			vec4 right_two = other.getColumn(1);
+			vec4 right_three = other.getColumn(2);
+			vec4 right_four = other.getColumn(3);
 
-			return *this;
+			vec4 col1 = left_one * right_one[0]   + left_two * right_one[1]   + left_three * right_one[2]   + left_four * right_one[3];
+			vec4 col2 = left_one * right_two[0]   + left_two * right_two[1]   + left_three * right_two[2]   + left_four * right_two[3];
+			vec4 col3 = left_one * right_three[0] + left_two * right_three[1] + left_three * right_three[2] + left_four * right_three[3];
+			vec4 col4 = left_one * right_four[0]  + left_two * right_four[1]  + left_three * right_four[2]  + left_four * right_four[3];
+
+			rtn[0 + 0 * 4] = col1.x;
+			rtn[1 + 0 * 4] = col1.y;
+			rtn[2 + 0 * 4] = col1.z;
+			rtn[3 + 0 * 4] = col1.w;
+
+			rtn[0 + 1 * 4] = col2.x;
+			rtn[1 + 1 * 4] = col2.y;
+			rtn[2 + 1 * 4] = col2.z;
+			rtn[3 + 1 * 4] = col2.w;
+
+			rtn[0 + 2 * 4] = col3.x;
+			rtn[1 + 2 * 4] = col3.y;
+			rtn[2 + 2 * 4] = col3.z;
+			rtn[3 + 2 * 4] = col3.w;
+
+			rtn[0 + 3 * 4] = col4.x;
+			rtn[1 + 3 * 4] = col4.y;
+			rtn[2 + 3 * 4] = col4.z;
+			rtn[3 + 3 * 4] = col4.w;
+
+			return rtn;
 		}
 
 		mat4 mat4::orthographic(float left, float right, float top, float bottom, float near, float far) {
@@ -60,16 +92,13 @@ namespace mar {
 		mat4 mat4::perspective(float fov, float aspectRatio, float near, float far) {
 			mat4 result(1.0f);
 
-			float q = 1.0f / tan(Angles::toRadians(0.5f * fov));
-			float a = q / aspectRatio;
-			float b = (near + far) / (near - far);
-			float c = (2.0f * near * far) / (near - far);
+			float tanfov2 = tan(fov / 2);
 
-			result.elements[0 + 0 * 4] = a;
-			result.elements[1 + 1 * 4] = q;
-			result.elements[2 + 2 * 4] = b;
+			result.elements[0 + 0 * 4] = 1 / (aspectRatio * tanfov2);
+			result.elements[1 + 1 * 4] = 1 / tanfov2;
+			result.elements[2 + 2 * 4] = - ((far + near) / (far - near));
 			result.elements[3 + 2 * 4] = -1.0f;
-			result.elements[2 + 3 * 4] = c;
+			result.elements[2 + 3 * 4] = - ((2 * far * near) / (far - near));
 
 			return result;
 		}
@@ -82,36 +111,28 @@ namespace mar {
 			return lookAt(e, c, u);
 		}
 
-		mat4 mat4::lookAt(const vec3& eye, const vec3& center, const vec3& up) {
+		mat4 mat4::lookAt(const vec3& eye, const vec3& center, const vec3& y) {
+			vec3 fwd = vec3::normalize(center - eye);
+			vec3 side = vec3::normalize(vec3::cross(fwd, y));
+			vec3 up = vec3::cross(side, fwd);
+
 			mat4 rtn;
 
-			vec3 Z = eye - center;
-			Z = vec3::normalize(Z);
-
-			vec3 Y = up;
-			vec3 X = Y.cross(Z);
-			Y = Z.cross(X);
-
-			X = vec3::normalize(X);
-			Y = vec3::normalize(Y);
-
-			//mat4[row + col * 4]
-
-			rtn[0 + 0 * 4] = X.x;
-			rtn[1 + 0 * 4] = X.y;
-			rtn[2 + 0 * 4] = X.z;
-			rtn[3 + 0 * 4] = -X.dot(eye);
-			rtn[0 + 1 * 4] = Y.x;
-			rtn[1 + 1 * 4] = Y.y;
-			rtn[2 + 1 * 4] = Y.z;
-			rtn[3 + 1 * 4] = -Y.dot(eye);
-			rtn[0 + 2 * 4] = Z.x;
-			rtn[1 + 2 * 4] = Z.y;
-			rtn[2 + 2 * 4] = Z.z;
-			rtn[3 + 2 * 4] = -Z.dot(eye);
-			rtn[0 + 3 * 4] = 0;
-			rtn[1 + 3 * 4] = 0;
-			rtn[2 + 3 * 4] = 0;
+			rtn[0 + 0 * 4] = side.x;
+			rtn[1 + 0 * 4] = side.y;
+			rtn[2 + 0 * 4] = side.z;
+			rtn[3 + 0 * 4] = 0.f;
+			rtn[0 + 1 * 4] = up.x;
+			rtn[1 + 1 * 4] = up.y;
+			rtn[2 + 1 * 4] = up.z;
+			rtn[3 + 1 * 4] = 0.f;
+			rtn[0 + 2 * 4] = -fwd.x;
+			rtn[1 + 2 * 4] = -fwd.y;
+			rtn[2 + 2 * 4] = -fwd.z;
+			rtn[3 + 2 * 4] = 0.f;
+			rtn[0 + 3 * 4] = -vec3::dot(side, eye);
+			rtn[1 + 3 * 4] = -vec3::dot(up, eye);
+			rtn[2 + 3 * 4] = vec3::dot(fwd, eye);
 			rtn[3 + 3 * 4] = 1.0f;
 
 			return rtn;
@@ -130,26 +151,26 @@ namespace mar {
 		mat4 mat4::rotation(float angle, const vec3& axis) {
 			mat4 result(1.0f);
 
-			float r = Angles::toRadians(angle);
-			float cosine = cos(r);
+			float cosine = Trig::cosine(angle);
+			float sine = Trig::sine(angle);
 			float neg_cosine = 1.0f - cosine;
-			float sine = sin(r);
 
-			float x = axis.x;
-			float y = axis.y;
-			float z = axis.z;
+			vec3 ax = vec3::normalize(axis);
+			float x = ax.x;
+			float y = ax.y;
+			float z = ax.z;
 
-			result.elements[0 + 0 * 4] = x * neg_cosine + cosine;
+			result.elements[0 + 0 * 4] = cosine + x * x * neg_cosine;
 			result.elements[1 + 0 * 4] = y * x * neg_cosine + z * sine;
-			result.elements[2 + 0 * 4] = x * z * neg_cosine - y * sine;
-
+			result.elements[2 + 0 * 4] = z * x * neg_cosine - y * sine;
+				 
 			result.elements[0 + 1 * 4] = x * y * neg_cosine - z * sine;
-			result.elements[1 + 1 * 4] = y * neg_cosine + cosine;
-			result.elements[2 + 1 * 4] = y * z * neg_cosine + x * sine;
-
+			result.elements[1 + 1 * 4] = cosine + y * y * neg_cosine;
+			result.elements[2 + 1 * 4] = z * y * neg_cosine + x * sine;
+			
 			result.elements[0 + 2 * 4] = x * z * neg_cosine + y * sine;
 			result.elements[1 + 2 * 4] = y * z * neg_cosine - x * sine;
-			result.elements[2 + 2 * 4] = z * neg_cosine + cosine;
+			result.elements[2 + 2 * 4] = cosine + z * z * neg_cosine;
 
 			return result;
 		}
@@ -165,11 +186,13 @@ namespace mar {
 		}
 
 		mat4 operator*(mat4 left, const mat4& right) {
-			return left.multiply(right);
+			mat4 copy = right;
+			return left.multiply(copy);
 		}
 
 		mat4& mat4::operator*=(const mat4& other) {
-			return multiply(other);
+			mat4 copy = other;
+			return multiply(copy);
 		}
 
 		float& mat4::operator[](unsigned int index) {

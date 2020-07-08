@@ -54,6 +54,9 @@ namespace mar {
 			vec4& operator*=(const vec4& other);
 			vec4& operator/=(const vec4& other);
 
+			const float& operator[](unsigned int index) const;
+			float& operator[](unsigned int index);
+
 			bool operator==(const vec4& other);
 			bool operator!=(const vec4& other);
 

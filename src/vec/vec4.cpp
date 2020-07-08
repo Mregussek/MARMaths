@@ -187,6 +187,24 @@ namespace mar {
 			return !(*this == other);
 		}
 
+		const float& vec4::operator[](unsigned int index) const {
+			switch (index) {
+			case 0: return x; break;
+			case 1: return y; break;
+			case 2: return z; break;
+			case 3: return w; break;
+			}
+		}
+
+		float& vec4::operator[](unsigned int index) {
+			switch (index) {
+			case 0: return x; break;
+			case 1: return y; break;
+			case 2: return z; break;
+			case 3: return w; break;
+			}
+		}
+
 		std::ostream& operator<<(std::ostream& stream, const vec4& vector) {
 			stream << "vec4: ( " << vector.x << " , " << vector.y << " , " << 
 				vector.z << " , " << vector.w << " )";
