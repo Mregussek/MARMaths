@@ -23,16 +23,16 @@ namespace mar {
                 return radians * 57.29577951308f;
             }
 
-            static float sine(float degrees) {
-                return sin(toRadians(degrees));
+            static float sine(float radians) {
+                return sin(radians);
             }
 
-            static float cosine(float degrees) {
-                return cos(toRadians(degrees));
+            static float cosine(float radians) {
+                return cos(radians);
             }
 
-            static float tangent(float degrees) {
-                return tan(toRadians(degrees));
+            static float tangent(float radians) {
+                return tan(radians);
             }
 
         };

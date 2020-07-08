@@ -13,6 +13,7 @@ namespace mar {
 
         // I don't know why it must be here, but it somehow works ;)
         struct vec3;
+        struct vec4;
 
         /*
             column major is used here, cause OpenGL is using it!
@@ -25,8 +26,10 @@ namespace mar {
             mat4();
             mat4(float diagonal);
 
+            vec4 getColumn(unsigned int index);
+
             static mat4 identity();
-            mat4& multiply(const mat4& other);
+            mat4& multiply(mat4& other);
 
             static mat4 orthographic(float left, float right, float top, float bottom, float near, float far);
             static mat4 perspective(float fov, float aspectRatio, float near, float far);
@@ -40,6 +43,7 @@ namespace mar {
 
             friend mat4 operator*(mat4 left, const mat4& right);
             mat4& operator*=(const mat4& other);
+
             const float& operator[](unsigned int index) const;
             float& operator[](unsigned int index);
 
