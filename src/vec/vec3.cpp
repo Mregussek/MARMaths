@@ -101,12 +101,12 @@ namespace mar {
 			return cross(*this, other);
 		}
 		
-		vec3 vec3::cross(const vec3& left, const vec3& right) {
+		vec3 vec3::cross(const vec3& x, const vec3& y) {
 			vec3 rtn;
 
-			rtn.x = left.y * right.z - left.z * right.y;
-			rtn.y = left.x * right.z - left.z * right.x;
-			rtn.z = left.x * right.y - left.y * right.x;
+			rtn.x = x.y * y.z - y.y * x.z;
+			rtn.y = x.z * y.x - y.z * x.x;
+			rtn.z = x.x * y.y - y.x * x.y;
 
 			return rtn;
 		}
@@ -120,8 +120,7 @@ namespace mar {
 		}
 
 		vec3 vec3::normalize(const vec3& other) {
-			float magnitude = dot(other, other);
-			float inverse_square = 1 / sqrt(magnitude);
+			float inverse_square = 1 / sqrt(dot(other, other));
 
 			vec3 rtn = other * inverse_square;
 

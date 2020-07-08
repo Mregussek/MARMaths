@@ -10,7 +10,7 @@
 #include <math.h>
 #include <iostream>
 
-#include "maths_functions.h"
+#include "trig/trigonometric.h"
 
 #include "vec/vec2.h"
 #include "vec/vec3.h"
@@ -21,7 +21,7 @@
 namespace mar { 
     namespace maths {
 
-        struct Angles;
+        struct Trig;
 
 		struct vec2;
 		struct vec3;

@@ -60,7 +60,7 @@ namespace mar {
 		mat4 mat4::perspective(float fov, float aspectRatio, float near, float far) {
 			mat4 result(1.0f);
 
-			float tanfov2 = tan(Angles::toRadians(fov / 2));
+			float tanfov2 = tan(fov / 2);
 
 			result.elements[0 + 0 * 4] = 1 / (aspectRatio * tanfov2);
 			result.elements[1 + 1 * 4] = 1 / tanfov2;
@@ -80,29 +80,29 @@ namespace mar {
 		}
 
 		mat4 mat4::lookAt(const vec3& eye, const vec3& center, const vec3& y) {
-			mat4 rtn;
-
 			vec3 fwd = vec3::normalize(center - eye);
 			vec3 side = vec3::normalize(vec3::cross(fwd, y));
 			vec3 up = vec3::cross(side, fwd);
 
+			mat4 rtn;
+
 			rtn[0 + 0 * 4] = side.x;
 			rtn[1 + 0 * 4] = side.y;
 			rtn[2 + 0 * 4] = side.z;
-			rtn[3 + 0 * 4] = -vec3::dot(side, eye);
+			rtn[3 + 0 * 4] = 0.f;
 			rtn[0 + 1 * 4] = up.x;
 			rtn[1 + 1 * 4] = up.y;
 			rtn[2 + 1 * 4] = up.z;
-			rtn[3 + 1 * 4] = -vec3::dot(up, eye);
+			rtn[3 + 1 * 4] = 0.f;
 			rtn[0 + 2 * 4] = -fwd.x;
 			rtn[1 + 2 * 4] = -fwd.y;
 			rtn[2 + 2 * 4] = -fwd.z;
-			rtn[3 + 2 * 4] = vec3::dot(fwd, eye);
-			rtn[0 + 3 * 4] = 0.f;
-			rtn[1 + 3 * 4] = 0.f;
-			rtn[2 + 3 * 4] = 0.f;
+			rtn[3 + 2 * 4] = 0.f;
+			rtn[0 + 3 * 4] = -vec3::dot(side, eye);
+			rtn[1 + 3 * 4] = -vec3::dot(up, eye);
+			rtn[2 + 3 * 4] = vec3::dot(fwd, eye);
 			rtn[3 + 3 * 4] = 1.0f;
-			
+
 			return rtn;
 		}
 
@@ -119,7 +119,7 @@ namespace mar {
 		mat4 mat4::rotation(float angle, const vec3& axis) {
 			mat4 result(1.0f);
 
-			float r = Angles::toRadians(angle);
+			float r = Trig::toRadians(angle);
 			float cosine = cos(r);
 			float neg_cosine = 1.0f - cosine;
 			float sine = sin(r);

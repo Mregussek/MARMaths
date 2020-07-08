@@ -32,7 +32,7 @@ namespace mar {
 			vec3& divide(const vec3& other);
 
 			vec3 cross(const vec3& other);
-			static vec3 cross(const vec3& left, const vec3& right);
+			static vec3 cross(const vec3& x, const vec3& y);
 
 			float dot(const vec3& other);
 			static float dot(const vec3& left, const vec3& right);

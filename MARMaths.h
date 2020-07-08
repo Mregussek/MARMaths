@@ -9,7 +9,7 @@
 #define _USE_MATH_DEFINES
 #include <math.h>
 
-#include "src/maths_functions.h"
+#include "src/trig/trigonometric.h"
 
 #include "src/vec/vec2.h"
 #include "src/vec/vec3.h"
