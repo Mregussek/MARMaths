@@ -75,6 +75,17 @@ namespace mar {
 			return rtn;
 		}
 
+		vec4& mat4::multiply(vec4& other) {
+			vec4 rtn;
+
+			rtn.x = elements[0 + 0 * 4] + other.x + elements[0 + 1 * 4] + other.y + elements[0 + 2 * 4] + other.z + elements[0 + 3 * 4] + other.w;
+			rtn.y = elements[1 + 0 * 4] + other.x + elements[1 + 1 * 4] + other.y + elements[1 + 2 * 4] + other.z + elements[1 + 3 * 4] + other.w;
+			rtn.z = elements[2 + 0 * 4] + other.x + elements[2 + 1 * 4] + other.y + elements[2 + 2 * 4] + other.z + elements[2 + 3 * 4] + other.w;
+			rtn.w = elements[3 + 0 * 4] + other.x + elements[3 + 1 * 4] + other.y + elements[3 + 2 * 4] + other.z + elements[3 + 3 * 4] + other.w;
+		
+			return rtn;
+		}
+
 		mat4 mat4::orthographic(float left, float right, float top, float bottom, float near, float far) {
 			mat4 result(1.0f);
 
@@ -92,7 +103,7 @@ namespace mar {
 		mat4 mat4::perspective(float fov, float aspectRatio, float near, float far) {
 			mat4 result(1.0f);
 
-			float tanfov2 = tan(fov / 2);
+			float tanfov2 = Trig::tangent(fov / 2);
 
 			result.elements[0 + 0 * 4] = 1 / (aspectRatio * tanfov2);
 			result.elements[1 + 1 * 4] = 1 / tanfov2;
@@ -185,6 +196,136 @@ namespace mar {
 			return result;
 		}
 
+		mat4 mat4::inverse(const mat4& m) {
+			mat4 inv;
+
+			inv[0] = m[5] * m[10] * m[15] -
+					m[5] * m[11] * m[14] -
+					m[9] * m[6] * m[15] +
+					m[9] * m[7] * m[14] +
+					m[13] * m[6] * m[11] -
+					m[13] * m[7] * m[10];
+
+			inv[4] = -m[4] * m[10] * m[15] +
+					m[4] * m[11] * m[14] +
+					m[8] * m[6] * m[15] -
+					m[8] * m[7] * m[14] -
+					m[12] * m[6] * m[11] +
+					m[12] * m[7] * m[10];
+
+			inv[8] = m[4] * m[9] * m[15] -
+				m[4] * m[11] * m[13] -
+				m[8] * m[5] * m[15] +
+				m[8] * m[7] * m[13] +
+				m[12] * m[5] * m[11] -
+				m[12] * m[7] * m[9];
+
+			inv[12] = -m[4] * m[9] * m[14] +
+				m[4] * m[10] * m[13] +
+				m[8] * m[5] * m[14] -
+				m[8] * m[6] * m[13] -
+				m[12] * m[5] * m[10] +
+				m[12] * m[6] * m[9];
+
+			inv[1] = -m[1] * m[10] * m[15] +
+				m[1] * m[11] * m[14] +
+				m[9] * m[2] * m[15] -
+				m[9] * m[3] * m[14] -
+				m[13] * m[2] * m[11] +
+				m[13] * m[3] * m[10];
+
+			inv[5] = m[0] * m[10] * m[15] -
+				m[0] * m[11] * m[14] -
+				m[8] * m[2] * m[15] +
+				m[8] * m[3] * m[14] +
+				m[12] * m[2] * m[11] -
+				m[12] * m[3] * m[10];
+
+			inv[9] = -m[0] * m[9] * m[15] +
+				m[0] * m[11] * m[13] +
+				m[8] * m[1] * m[15] -
+				m[8] * m[3] * m[13] -
+				m[12] * m[1] * m[11] +
+				m[12] * m[3] * m[9];
+
+			inv[13] = m[0] * m[9] * m[14] -
+				m[0] * m[10] * m[13] -
+				m[8] * m[1] * m[14] +
+				m[8] * m[2] * m[13] +
+				m[12] * m[1] * m[10] -
+				m[12] * m[2] * m[9];
+
+			inv[2] = m[1] * m[6] * m[15] -
+				m[1] * m[7] * m[14] -
+				m[5] * m[2] * m[15] +
+				m[5] * m[3] * m[14] +
+				m[13] * m[2] * m[7] -
+				m[13] * m[3] * m[6];
+
+			inv[6] = -m[0] * m[6] * m[15] +
+				m[0] * m[7] * m[14] +
+				m[4] * m[2] * m[15] -
+				m[4] * m[3] * m[14] -
+				m[12] * m[2] * m[7] +
+				m[12] * m[3] * m[6];
+
+			inv[10] = m[0] * m[5] * m[15] -
+				m[0] * m[7] * m[13] -
+				m[4] * m[1] * m[15] +
+				m[4] * m[3] * m[13] +
+				m[12] * m[1] * m[7] -
+				m[12] * m[3] * m[5];
+
+			inv[14] = -m[0] * m[5] * m[14] +
+				m[0] * m[6] * m[13] +
+				m[4] * m[1] * m[14] -
+				m[4] * m[2] * m[13] -
+				m[12] * m[1] * m[6] +
+				m[12] * m[2] * m[5];
+
+			inv[3] = -m[1] * m[6] * m[11] +
+				m[1] * m[7] * m[10] +
+				m[5] * m[2] * m[11] -
+				m[5] * m[3] * m[10] -
+				m[9] * m[2] * m[7] +
+				m[9] * m[3] * m[6];
+
+			inv[7] = m[0] * m[6] * m[11] -
+				m[0] * m[7] * m[10] -
+				m[4] * m[2] * m[11] +
+				m[4] * m[3] * m[10] +
+				m[8] * m[2] * m[7] -
+				m[8] * m[3] * m[6];
+
+			inv[11] = -m[0] * m[5] * m[11] +
+				m[0] * m[7] * m[9] +
+				m[4] * m[1] * m[11] -
+				m[4] * m[3] * m[9] -
+				m[8] * m[1] * m[7] +
+				m[8] * m[3] * m[5];
+
+			inv[15] = m[0] * m[5] * m[10] -
+				m[0] * m[6] * m[9] -
+				m[4] * m[1] * m[10] +
+				m[4] * m[2] * m[9] +
+				m[8] * m[1] * m[6] -
+				m[8] * m[2] * m[5];
+
+			float det = m[0] * inv[0] + m[1] * inv[4] + m[2] * inv[8] + m[3] * inv[12];
+
+			if (det == 0) {
+				std::cout << "Mat4 determinant is equal to 0!\n";
+				static_assert(true, "Err");
+			}
+
+			det = 1.0 / det;
+
+			for (unsigned int i = 0; i < 16; i++)
+				inv[i] *= det;
+
+			return inv;
+		}
+
 		mat4 operator*(mat4 left, const mat4& right) {
 			mat4 copy = right;
 			return left.multiply(copy);
@@ -192,6 +333,16 @@ namespace mar {
 
 		mat4& mat4::operator*=(const mat4& other) {
 			mat4 copy = other;
+			return multiply(copy);
+		}
+
+		vec4 operator*(mat4 left, const vec4& right) {
+			vec4 copy = right;
+			return left.multiply(copy);
+		}
+
+		vec4& mat4::operator*=(const vec4& other) {
+			vec4 copy = other;
 			return multiply(copy);
 		}
 

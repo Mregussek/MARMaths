@@ -15,6 +15,13 @@ namespace mar {
 			this->w = 0.0f;
 		}
 
+		vec4::vec4(const vec3& v, const float& w) {
+			this->x = v.x;
+			this->y = v.y;
+			this->z = v.z;
+			this->w = w;
+		}
+
 		vec4::vec4(const float& x, const float& y, const float& z, const float& w) {
 			this->x = x;
 			this->y = y;

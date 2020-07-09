@@ -11,6 +11,8 @@
 namespace mar { 
 	namespace maths {
 
+		struct vec3;
+
 		struct vec4 {
 
 			float x;
@@ -19,6 +21,7 @@ namespace mar {
 			float w;
 
 			vec4();
+			vec4(const vec3& v, const float&);
 			vec4(const float& x, const float& y, const float& z, const float& w);
 			vec4(const float&& x, const float&& y, const float&& z, const float&& w);
 

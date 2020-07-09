@@ -30,6 +30,7 @@ namespace mar {
 
             static mat4 identity();
             mat4& multiply(mat4& other);
+            vec4& multiply(vec4& other);
 
             static mat4 orthographic(float left, float right, float top, float bottom, float near, float far);
             static mat4 perspective(float fov, float aspectRatio, float near, float far);
@@ -41,8 +42,13 @@ namespace mar {
             static mat4 rotation(float angle, const vec3& axis);
             static mat4 scale(const vec3& scal);
 
+            static mat4 inverse(const mat4& m);
+
             friend mat4 operator*(mat4 left, const mat4& right);
             mat4& operator*=(const mat4& other);
+
+            friend vec4 operator*(mat4 left, const vec4& right);
+            vec4& operator*=(const vec4& other);
 
             const float& operator[](unsigned int index) const;
             float& operator[](unsigned int index);
