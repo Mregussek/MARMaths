@@ -8,6 +8,9 @@
 
 #include <iostream>
 
+#define _USE_MATH_DEFINES
+#include <cmath>
+
 #include "trig/trigonometric.h"
 
 #include "vec/vec2.h"
@@ -15,6 +18,8 @@
 #include "vec/vec4.h"
 
 #include "mat/mat4.h"
+
+#define MAR_MATH_PI M_PI
 
 namespace mar { 
     namespace maths {
@@ -26,6 +31,7 @@ namespace mar {
 		struct vec4;
 
         struct mat4;
+
 
 } }
 

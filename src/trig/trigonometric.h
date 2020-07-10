@@ -6,8 +6,6 @@
 #ifndef MAR_MATH_TRIGONOMETRIC_H
 #define MAR_MATH_TRIGONOMETRIC_H
 
-#define _USE_MATH_DEFINES
-#include <cmath>
 #include "../maths.h"
 
 namespace mar {

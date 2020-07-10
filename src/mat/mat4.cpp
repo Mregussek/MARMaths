@@ -130,15 +130,15 @@ namespace mar {
 			mat4 rtn;
 
 			rtn[0 + 0 * 4] = side.x;
-			rtn[1 + 0 * 4] = side.y;
-			rtn[2 + 0 * 4] = side.z;
+			rtn[1 + 0 * 4] = up.x;
+			rtn[2 + 0 * 4] = -fwd.x;
 			rtn[3 + 0 * 4] = 0.f;
-			rtn[0 + 1 * 4] = up.x;
+			rtn[0 + 1 * 4] = side.y;
 			rtn[1 + 1 * 4] = up.y;
-			rtn[2 + 1 * 4] = up.z;
+			rtn[2 + 1 * 4] = -fwd.y;
 			rtn[3 + 1 * 4] = 0.f;
-			rtn[0 + 2 * 4] = -fwd.x;
-			rtn[1 + 2 * 4] = -fwd.y;
+			rtn[0 + 2 * 4] = side.z;
+			rtn[1 + 2 * 4] = up.z;
 			rtn[2 + 2 * 4] = -fwd.z;
 			rtn[3 + 2 * 4] = 0.f;
 			rtn[0 + 3 * 4] = -vec3::dot(side, eye);
