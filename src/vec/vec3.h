@@ -37,6 +37,10 @@ namespace mar {
 			float dot(const vec3& other);
 			static float dot(const vec3& left, const vec3& right);
 
+			float length();
+			static float length(vec3& v);
+			static float length(vec3&& v);
+
 			static vec3 normalize(const vec3& other);
 
 			friend vec3 operator+(vec3 left, float right);

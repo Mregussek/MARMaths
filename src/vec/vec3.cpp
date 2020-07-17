@@ -117,6 +117,18 @@ namespace mar {
 			return left.x * right.x + left.y * right.y + left.z * right.z;
 		}
 
+		float vec3::length() {
+			return sqrt( dot(*this, *this) );
+		}
+
+		float vec3::length(vec3& v) {
+			return v.length();
+		}
+
+		float vec3::length(vec3&& v) {
+			return v.length();
+		}
+
 		vec3 vec3::normalize(const vec3& other) {
 			float inverse_square = 1 / sqrt(dot(other, other));
 
