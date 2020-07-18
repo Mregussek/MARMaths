@@ -153,8 +153,10 @@
   <ItemGroup>
     <ClInclude Include="MARMaths.h" />
     <ClInclude Include="src\maths_functions.h" />
+    <ClInclude Include="src\math_func\Basic_Math.h" />
     <ClInclude Include="src\mat\mat4.h" />
     <ClInclude Include="src\maths.h" />
+    <ClInclude Include="src\trig\trigonometric.h" />
     <ClInclude Include="src\vec\vec2.h" />
     <ClInclude Include="src\vec\vec3.h" />
     <ClInclude Include="src\vec\vec4.h" />

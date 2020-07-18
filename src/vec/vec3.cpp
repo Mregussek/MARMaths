@@ -117,8 +117,8 @@ namespace mar {
 			return left.x * right.x + left.y * right.y + left.z * right.z;
 		}
 
-		float vec3::length() {
-			return sqrt( dot(*this, *this) );
+		float vec3::length() const {
+			return basic::square( dot(*this, *this) );
 		}
 
 		float vec3::length(vec3& v) {
@@ -130,7 +130,7 @@ namespace mar {
 		}
 
 		vec3 vec3::normalize(const vec3& other) {
-			float inverse_square = 1 / sqrt(dot(other, other));
+			float inverse_square = 1 / basic::square(dot(other, other));
 
 			return other * inverse_square;
 		}

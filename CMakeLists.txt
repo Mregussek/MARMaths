@@ -14,7 +14,7 @@ file(GLOB_RECURSE HEADER_FILES
 	${CMAKE_SOURCE_DIR}/src/*.h
 	${CMAKE_SOURCE_DIR}/src/*.hpp)
 	
-set(MAIN_FILE ${CMAKE_SOURCE_DIR}/MARMaths.h)
+set(MAIN_FILE MARMaths.h)
 	
 add_library(${PROJECT_NAME} ${HEADER_FILES} ${SOURCE_FILES} ${MAIN_FILE})
 target_compile_features(${PROJECT_NAME} PRIVATE cxx_std_17)

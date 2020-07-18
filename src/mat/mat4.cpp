@@ -34,7 +34,7 @@ namespace mar {
 			};
 		}
 
-		mat4& mat4::multiply(mat4& other) {
+		mat4 mat4::multiply(mat4& other) {
 			mat4 rtn;
 
 			vec4 left_one = getColumn(0);
@@ -75,7 +75,7 @@ namespace mar {
 			return rtn;
 		}
 
-		vec4& mat4::multiply(vec4& other) {
+		vec4 mat4::multiply(vec4& other) {
 			vec4 rtn;
 
 			rtn.x = elements[0 + 0 * 4] + other.x + elements[0 + 1 * 4] + other.y + elements[0 + 2 * 4] + other.z + elements[0 + 3 * 4] + other.w;
@@ -318,7 +318,7 @@ namespace mar {
 				static_assert(true, "Err");
 			}
 
-			det = 1.0 / det;
+			det = 1.f / det;
 
 			for (unsigned int i = 0; i < 16; i++)
 				inv[i] *= det;
@@ -331,7 +331,7 @@ namespace mar {
 			return left.multiply(copy);
 		}
 
-		mat4& mat4::operator*=(const mat4& other) {
+		mat4 mat4::operator*=(const mat4& other) {
 			mat4 copy = other;
 			return multiply(copy);
 		}
@@ -341,7 +341,7 @@ namespace mar {
 			return left.multiply(copy);
 		}
 
-		vec4& mat4::operator*=(const vec4& other) {
+		vec4 mat4::operator*=(const vec4& other) {
 			vec4 copy = other;
 			return multiply(copy);
 		}

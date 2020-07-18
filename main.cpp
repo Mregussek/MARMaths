@@ -12,8 +12,12 @@ int main() {
     vec3 front{ 0.0f, 0.0f, -1.0f };
     vec3 up{ 0.0f, 1.0f, 0.0f };
 
-    std::cout << mat4::lookAt(position, position + front, up) << "\n";
-    std::cout << position << "\n";
-    position += 1.f;
-    std::cout << position << "\n";
+    mat4 id = mat4::identity();
+    std::cout << id << "\n";
+
+    mat4 look = mat4::lookAt(position, position + front, up);
+    std::cout << look << "\n";
+
+    std::cout << id * look << "\n";
+
 }

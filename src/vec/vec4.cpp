@@ -114,8 +114,28 @@ namespace mar {
 			return *this;
 		}
 
+		float vec4::dot(const vec4& other) {
+			return dot(*this, other);
+		}
+
+		float vec4::dot(const vec4& left, const vec4& right) {
+			return left.x * right.x + left.y * right.y + left.z * right.z + left.w * right.w;
+		}
+
+		float vec4::length() const {
+			return basic::square(dot(*this, *this));
+		}
+
+		float vec4::length(const vec4& v) {
+			return v.length();
+		}
+
+		float vec4::length(const vec4&& v) {
+			return v.length();
+		}
+
 		vec4 vec4::normalize(const vec4& other) {
-			float magnitude = sqrt((other.x * other.x) + (other.y * other.y) + (other.z * other.z) + (other.w * other.w));
+			float magnitude = other.length();
 
 			vec4 rtn{ other.x / magnitude, other.y / magnitude, other.z / magnitude, other.w / magnitude };
 
@@ -195,11 +215,16 @@ namespace mar {
 		}
 
 		const float& vec4::operator[](unsigned int index) const {
+			if (index > 3) return 0.f;
+			
 			switch (index) {
 			case 0: return x; break;
 			case 1: return y; break;
 			case 2: return z; break;
 			case 3: return w; break;
+			default:
+				std::cout << "[MARMath Error] Trying to call index > 3!\n";
+				static_assert(true, "Err");
 			}
 		}
 
@@ -209,6 +234,9 @@ namespace mar {
 			case 1: return y; break;
 			case 2: return z; break;
 			case 3: return w; break;
+			default:
+				std::cout << "[MARMath Error] Trying to call index > 3!\n";
+				static_assert(true, "Err");
 			}
 		}
 

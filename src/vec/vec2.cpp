@@ -85,8 +85,28 @@ namespace mar {
 		return *this;
 	}
 
+	float vec2::dot(const vec2& other) {
+		return dot(*this, other);
+	}
+
+	float vec2::dot(const vec2& left, const vec2& right) {
+		return left.x * right.x + left.y * right.y;
+	}
+
+	float vec2::length() const {
+		return basic::square(dot(*this, *this));
+	}
+
+	float vec2::length(vec2& v) {
+		return v.length();
+	}
+
+	float vec2::length(vec2&& v) {
+		return v.length();
+	}
+
 	vec2 vec2::normalize(const vec2& other) {
-		float magnitude = sqrt((other.x * other.x) + (other.y * other.y));
+		float magnitude = basic::square((other.x * other.x) + (other.y * other.y));
 
 		vec2 rtn{ other.x / magnitude, other.y / magnitude };
 

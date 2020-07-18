@@ -11,6 +11,10 @@
 namespace mar {
     namespace maths {
 
+        /*
+        Trig is a structure, that gives some trigonometric functions, such as sine, 
+        tangent calculations (and many others).
+        */
         struct Trig {
 
             static float toRadians(float degrees) {
@@ -31,6 +35,42 @@ namespace mar {
 
             static float tangent(float radians) {
                 return tan(radians);
+            }
+
+            static float arcsine(float radians) {
+                return asin(radians);
+            }
+
+            static float arccosine(float radians) {
+                return acos(radians);
+            }
+
+            static float arctangent(float radians) {
+                return atan(radians);
+            }
+
+            static float h_sine(float radians) {
+                return sinh(radians);
+            }
+
+            static float h_cosine(float radians) {
+                return cosh(radians);
+            }
+
+            static float h_tangent(float radians) {
+                return tanh(radians);
+            }
+
+            static float h_arcsine(float radians) {
+                return asinh(radians);
+            }
+
+            static float h_arccosine(float radians) {
+                return acosh(radians);
+            }
+
+            static float h_arctangent(float radians) {
+                return atanh(radians);
             }
 
         };

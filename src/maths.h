@@ -13,6 +13,8 @@
 
 #include "trig/trigonometric.h"
 
+#include "math_func/Basic_Math.h"
+
 #include "vec/vec2.h"
 #include "vec/vec3.h"
 #include "vec/vec4.h"
@@ -25,6 +27,8 @@ namespace mar {
     namespace maths {
 
         struct Trig;
+
+		struct basic;
 
 		struct vec2;
 		struct vec3;
