@@ -188,6 +188,14 @@ namespace mar {
 			*/
 			static vec3 normalize(const vec3& other);
 
+			static const float* value_ptr(const std::vector<vec3>& vec) {
+				return &(*vec.data()).x;
+			}
+
+			static const float* value_ptr(const vec3& vec) {
+				return &vec.x;
+			}
+
 			// -------------------------------------------
 			// Overloaded operators, I think they are self-explanatory.
 			// -------------------------------------------

@@ -156,6 +156,14 @@ namespace mar {
             */
             static mat4 inverse(const mat4& m);
 
+            static const float* value_ptr(const std::vector<mat4>& matrices) {
+                return &(*matrices.data())[0];
+            }
+
+            static const float* value_ptr(const mat4& matrix4x4) {
+                return matrix4x4.elements;
+            }
+
             /*
             Overloaded multiplication operator. Says that, matrix on the left and matrix on 
             the right must be multiplied with each other.

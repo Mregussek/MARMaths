@@ -11,6 +11,8 @@
 #define _USE_MATH_DEFINES
 #include <cmath>
 
+#include <vector>
+
 #include "trig/trigonometric.h"
 
 #include "math_func/Basic_Math.h"
@@ -28,13 +30,13 @@ namespace mar {
 
         struct Trig;
 
-		struct basic;
-
 		struct vec2;
 		struct vec3;
 		struct vec4;
 
         struct mat4;
+
+		struct basic;
 
 
 } }

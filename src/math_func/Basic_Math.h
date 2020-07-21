@@ -7,12 +7,14 @@
 #define MAR_MATH_BASIC_MATH_H
 
 #include "../maths.h"
+#include "../mat/mat4.h"
+#include "../vec/vec3.h"
 
 
 namespace mar {
 	namespace maths {
 
-		
+
 		/*
 		basic structure defines basic mathematical methods.
 		*/
