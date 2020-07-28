@@ -196,6 +196,10 @@ namespace mar {
 				return &vec.x;
 			}
 
+			static float* value_ptr_nonconst(vec3& vec) {
+				return  &vec.x;
+			}
+
 			// -------------------------------------------
 			// Overloaded operators, I think they are self-explanatory.
 			// -------------------------------------------

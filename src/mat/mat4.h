@@ -164,6 +164,10 @@ namespace mar {
                 return matrix4x4.elements;
             }
 
+            static float* value_ptr_nonconst(mat4 matrix4x4) {
+                return matrix4x4.elements;
+            }
+
             /*
             Overloaded multiplication operator. Says that, matrix on the left and matrix on 
             the right must be multiplied with each other.
