@@ -15,28 +15,21 @@ namespace mar {
 			this->w = 0.0f;
 		}
 
-		vec4::vec4(const vec3& v, const float& w) {
+		vec4::vec4(const vec3& v, float w) {
 			this->x = v.x;
 			this->y = v.y;
 			this->z = v.z;
 			this->w = w;
 		}
 
-		vec4::vec4(const float& x, const float& y, const float& z, const float& w) {
+		vec4::vec4(float x, float y, float z, float w) {
 			this->x = x;
 			this->y = y;
 			this->z = z;
 			this->w = w;
 		}
 
-		vec4::vec4(const float&& x, const float&& y, const float&& z, const float&& w) {
-			this->x = x;
-			this->y = y;
-			this->z = z;
-			this->w = w;
-		}
-
-		vec4& vec4::add(const float& f) {
+		vec4& vec4::add(float f) {
 			x += f;
 			y += f;
 			z += f;
@@ -45,7 +38,7 @@ namespace mar {
 			return *this;
 		}
 
-		vec4& vec4::subtract(const float& f) {
+		vec4& vec4::subtract(float f) {
 			x -= f;
 			y -= f;
 			z -= f;
@@ -54,7 +47,7 @@ namespace mar {
 			return *this;
 		}
 
-		vec4& vec4::multiply(const float& f) {
+		vec4& vec4::multiply(float f) {
 			x *= f;
 			y *= f;
 			z *= f;
@@ -63,7 +56,7 @@ namespace mar {
 			return *this;
 		}
 
-		vec4& vec4::divide(const float& f) {
+		vec4& vec4::divide(float f) {
 			if (f == 0.f) return *this;
 
 			x /= f;
@@ -130,10 +123,6 @@ namespace mar {
 			return v.length();
 		}
 
-		float vec4::length(const vec4&& v) {
-			return v.length();
-		}
-
 		vec4 vec4::normalize(const vec4& other) {
 			float magnitude = other.length();
 
@@ -174,19 +163,19 @@ namespace mar {
 			return left.divide(right);
 		}
 
-		vec4& vec4::operator+=(const float& other) {
+		vec4& vec4::operator+=(float other) {
 			return add(other);
 		}
 
-		vec4& vec4::operator-=(const float& other) {
+		vec4& vec4::operator-=(float other) {
 			return subtract(other);
 		}
 
-		vec4& vec4::operator*=(const float& other) {
+		vec4& vec4::operator*=(float other) {
 			return multiply(other);
 		}
 
-		vec4& vec4::operator/=(const float& other) {
+		vec4& vec4::operator/=(float other) {
 			return divide(other);
 		}
 

@@ -97,17 +97,6 @@ namespace mar {
             static mat4 perspective(float fov, float aspectRatio, float near, float far);
 
             /*
-            Get lookAt matrix - View Matrix with given parameters. R-value method is going to 
-            create l-value vec3's and then pass it to l-value method.
-
-                \param eye - defines positions of view (camera)
-                \param center - defines place, where the camera is looking
-                \param up - specifies the up direction of the camera
-                \return mat4 - created lookAt matrix
-            */
-            static mat4 lookAt(const vec3&& eye, const vec3&& center, const vec3&& up);
-
-            /*
             Get lookAt matrix - View Matrix with given parameters.
 
                 \param eye - defines positions of view (camera)
@@ -115,7 +104,7 @@ namespace mar {
                 \param up - specifies the up direction of the camera
                 \return mat4 - created lookAt matrix
             */
-            static mat4 lookAt(const vec3& eye, const vec3& center, const vec3& y);
+            static mat4 lookAt(vec3 eye, vec3 center, vec3 y);
 
             /*
             Get Translation matrix specified for new position.
@@ -123,7 +112,7 @@ namespace mar {
                 \param trans - where the object must be have its center
                 \return mat4 - created translation matrix
             */
-            static mat4 translation(const vec3& trans);
+            static mat4 translation(vec3 trans);
 
             /*
             Get Rotation matrix with specified angle and axis. Angle must be given in radians! 
@@ -134,7 +123,7 @@ namespace mar {
                 \param axis - vec3, which specifies rotation axis
                 \return mat4 - created rotation matrix
             */
-            static mat4 rotation(float angle, const vec3& axis);
+            static mat4 rotation(float angle, vec3 axis);
 
             /*
             Get Scale matrix with specified coefficients. Given paramater is vec3, it says 
@@ -144,7 +133,7 @@ namespace mar {
                 \param scal - vec3, which specifies scale coefficients
                 \return mat4 - created scale matrix
             */
-            static mat4 scale(const vec3& scal);
+            static mat4 scale(vec3 scal);
 
 
             /*

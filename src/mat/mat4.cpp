@@ -114,15 +114,7 @@ namespace mar {
 			return result;
 		}
 
-		mat4 mat4::lookAt(const vec3&& eye, const vec3&& center, const vec3&& up) {
-			vec3 e = eye;
-			vec3 c = center;
-			vec3 u = up;
-
-			return lookAt(e, c, u);
-		}
-
-		mat4 mat4::lookAt(const vec3& eye, const vec3& center, const vec3& y) {
+		mat4 mat4::lookAt(vec3 eye, vec3 center, vec3 y) {
 			vec3 fwd = vec3::normalize(center - eye);
 			vec3 side = vec3::normalize(vec3::cross(fwd, y));
 			vec3 up = vec3::cross(side, fwd);
@@ -149,7 +141,7 @@ namespace mar {
 			return rtn;
 		}
 
-		mat4 mat4::translation(const vec3& trans) {
+		mat4 mat4::translation(vec3 trans) {
 			mat4 result(1.0f);
 
 			result.elements[0 + 3 * 4] = trans.x;
@@ -159,7 +151,7 @@ namespace mar {
 			return result;
 		}
 
-		mat4 mat4::rotation(float angle, const vec3& axis) {
+		mat4 mat4::rotation(float angle, vec3 axis) {
 			mat4 result(1.0f);
 
 			float cosine = Trig::cosine(angle);
@@ -186,7 +178,7 @@ namespace mar {
 			return result;
 		}
 
-		mat4 mat4::scale(const vec3& scal) {
+		mat4 mat4::scale(vec3 scal) {
 			mat4 result(1.0f);
 
 			result.elements[0 + 0 * 4] = scal.x;

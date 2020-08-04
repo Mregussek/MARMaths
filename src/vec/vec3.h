@@ -32,16 +32,7 @@ namespace mar {
 				\param y - y value, that will be prescribed to vec3(x, y, z)
 				\param z - z value, that will be prescribed to vec3(x, y, z)
 			*/
-			vec3(const float& x, const float& y, const float& z);
-
-			/*
-			Constructor, that can create vec3 from given 3 floats (r-values).
-
-				\param x - x value, that will be prescribed to vec3(x, y, z)
-				\param y - y value, that will be prescribed to vec3(x, y, z)
-				\param z - z value, that will be prescribed to vec3(x, y, z)
-			*/
-			vec3(const float&& x, const float&& y, const float&& z);
+			vec3(float x, float y, float z);
 
 			/*
 			Addition method of vec3 and float value. 
@@ -50,7 +41,7 @@ namespace mar {
 				\param f - float value, which will be added
 				\return vec3 - returns modified *this
 			*/
-			vec3& add(const float& f);
+			vec3& add(float f);
 
 			/*
 			Subtraction method of vec3 and float value. 
@@ -59,7 +50,7 @@ namespace mar {
 				\param f - float value, which will be subtracted
 				\return vec3 - returns modified *this
 			*/
-			vec3& subtract(const float& f);
+			vec3& subtract(float f);
 
 			/*
 			Multiplication method of vec3 and float value. 
@@ -68,7 +59,7 @@ namespace mar {
 				\param f - float value, which will be multiplied
 				\return vec3 - returns modified *this
 			*/
-			vec3& multiply(const float& f);
+			vec3& multiply(float f);
 
 			/*
 			Division method of vec3 and float value. 
@@ -79,7 +70,7 @@ namespace mar {
 				\param f - float value, which will be divided
 				\return vec3 - returns modified *this
 			*/
-			vec3& divide(const float& f);
+			vec3& divide(float f);
 
 			/*
 			Addition method of vec3 and vec3.
@@ -170,14 +161,6 @@ namespace mar {
 			static float length(vec3& v);
 
 			/*
-			Computes length of given vector as a paramater (r-value).
-
-				\param v - vec3, which length will be calculated
-				\return float - calculated length
-			*/
-			static float length(vec3&& v);
-
-			/*
 			Computes normalized vec2. Firstly it calculates length of vector, 
 			then it divides every value with length.
 
@@ -214,10 +197,10 @@ namespace mar {
 			friend vec3 operator*(vec3 left, const vec3& right);
 			friend vec3 operator/(vec3 left, const vec3& right);
 
-			vec3& operator+=(const float& other);
-			vec3& operator-=(const float& other);
-			vec3& operator*=(const float& other);
-			vec3& operator/=(const float& other);
+			vec3& operator+=(float other);
+			vec3& operator-=(float other);
+			vec3& operator*=(float other);
+			vec3& operator/=(float other);
 
 			vec3& operator+=(const vec3& other);
 			vec3& operator-=(const vec3& other);

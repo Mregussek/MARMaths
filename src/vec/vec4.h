@@ -35,7 +35,7 @@ namespace mar {
 				\param v - vec3, which will be expanded
 				\param w - value, which is needed to create fourth dimension
 			*/
-			vec4(const vec3& v, const float& w);
+			vec4(const vec3& v, float w);
 			
 			/*
 			Constructor, that can create vec4 from given 4 floats (l-values).
@@ -45,17 +45,7 @@ namespace mar {
 				\param z - z value, that will be prescribed to vec4(x, y, z, w)
 				\param w - w value, that will be prescribed to vec4(x, y, z, w)
 			*/
-			vec4(const float& x, const float& y, const float& z, const float& w);
-
-			/*
-			Constructor, that can create vec4 from given 4 floats (r-values).
-
-				\param x - x value, that will be prescribed to vec4(x, y, z, w)
-				\param y - y value, that will be prescribed to vec4(x, y, z, w)
-				\param z - z value, that will be prescribed to vec4(x, y, z, w)
-				\param w - w value, that will be prescribed to vec4(x, y, z, w)
-			*/
-			vec4(const float&& x, const float&& y, const float&& z, const float&& w);
+			vec4(float x, float y, float z, float w);
 
 			/*
 			Addition method of vec4 and float value. 
@@ -64,7 +54,7 @@ namespace mar {
 				\param f - float value, which will be added
 				\return vec4 - returns modified *this
 			*/
-			vec4& add(const float& f);
+			vec4& add(float f);
 
 			/*
 			Subtraction method of vec4 and float value. 
@@ -73,7 +63,7 @@ namespace mar {
 				\param f - float value, which will be subtracted
 				\return vec4 - returns modified *this
 			*/
-			vec4& subtract(const float& f);
+			vec4& subtract(float f);
 
 			/*
 			Multiplication method of vec4 and float value. 
@@ -82,7 +72,7 @@ namespace mar {
 				\param f - float value, which will be multiplied
 				\return vec4 - returns modified *this
 			*/
-			vec4& multiply(const float& f);
+			vec4& multiply(float f);
 
 			/*
 			Division method of vec4 and float value. 
@@ -93,7 +83,7 @@ namespace mar {
 				\param f - float value, which will be divided
 				\return vec4 - returns modified *this
 			*/
-			vec4& divide(const float& f);
+			vec4& divide(float f);
 
 			/*
 			Addition method of vec4 and vec4.
@@ -167,14 +157,6 @@ namespace mar {
 			static float length(const vec4& v);
 
 			/*
-			Computes length of given vector as a paramater (r-value).
-
-				\param v - vec4, which length will be calculated
-				\return float - calculated length
-			*/
-			static float length(const vec4&& v);
-
-			/*
 			Computes normalized vec4. Firstly it calculates length of vector, 
 			then it divides every value with length.
 
@@ -199,10 +181,10 @@ namespace mar {
 			friend vec4 operator*(vec4 left, const vec4& right);
 			friend vec4 operator/(vec4 left, const vec4& right);
 
-			vec4& operator+=(const float& other);
-			vec4& operator-=(const float& other);
-			vec4& operator*=(const float& other);
-			vec4& operator/=(const float& other);
+			vec4& operator+=(float other);
+			vec4& operator-=(float other);
+			vec4& operator*=(float other);
+			vec4& operator/=(float other);
 
 			vec4& operator+=(const vec4& other);
 			vec4& operator-=(const vec4& other);
