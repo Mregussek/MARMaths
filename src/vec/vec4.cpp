@@ -204,16 +204,14 @@ namespace mar {
 		}
 
 		const float& vec4::operator[](unsigned int index) const {
-			if (index > 3) return 0.f;
-			
 			switch (index) {
 			case 0: return x; break;
 			case 1: return y; break;
 			case 2: return z; break;
 			case 3: return w; break;
 			default:
-				std::cout << "[MARMath Error] Trying to call index > 3!\n";
-				static_assert(true, "Err");
+				static_assert(true, "[MARMath Error] Trying to call index > 3!");
+				return x;
 			}
 		}
 
@@ -224,8 +222,8 @@ namespace mar {
 			case 2: return z; break;
 			case 3: return w; break;
 			default:
-				std::cout << "[MARMath Error] Trying to call index > 3!\n";
-				static_assert(true, "Err");
+				static_assert(true, "[MARMath Error] Trying to call index > 3!");
+				return x;
 			}
 		}
 
