@@ -162,14 +162,32 @@ namespace mar {
             */
             static mat4 inverse(const mat4& m);
 
+            /*
+            Get value pointer to first matrix element. Used especially in shaders.
+                
+                \param matrices - vector of matrices
+                \return const float* - pointer to first value
+            */
             static const float* value_ptr(const std::vector<mat4>& matrices) {
                 return &(*matrices.data())[0];
             }
 
+            /*
+            Get value pointer to first matrix element. Used especially in shaders.
+
+                \param matrix4x4
+                \return const float* - pointer to first value
+            */
             static const float* value_ptr(const mat4& matrix4x4) {
                 return matrix4x4.elements;
             }
 
+            /*
+            Get value pointer to first matrix element. Used especially in shaders.
+
+                \param matrix4x4
+                \return float* - pointer to first value, which you can modify
+            */
             static float* value_ptr_nonconst(mat4 matrix4x4) {
                 return matrix4x4.elements;
             }
@@ -230,14 +248,6 @@ namespace mar {
             */
             float& operator[](unsigned int index);
 
-            /*
-            Overloaded << operator, so that we can call std::cout << mat4 << "\n". Returns stream.
-
-                \param stream - stream on the left side (std::cout)
-                \param matrix - matrix on the right side of operator
-                \return std::ostream - stream with designed result of matrix, that user can read.
-            */
-            friend std::ostream& operator<<(std::ostream& stream, const mat4& matrix);
         };
 
 } }

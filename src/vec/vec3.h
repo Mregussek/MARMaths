@@ -188,14 +188,32 @@ namespace mar {
 			*/
 			static vec3 normalize(const vec3& other);
 
+			/*
+			Returns value_ptr to first vec3 at vector. Used especially in shaders.
+
+				\param vec - vector of vec3
+				\return const float* - value pointer
+			*/
 			static const float* value_ptr(const std::vector<vec3>& vec) {
 				return &(*vec.data()).x;
 			}
 
+			/*
+			Returns const value_ptr to vec3. Used especially in shaders.
+
+				\param vec - vector of vec3
+				\return float* - value pointer
+			*/
 			static const float* value_ptr(const vec3& vec) {
 				return &vec.x;
 			}
 
+			/*
+			Returns value_ptr to vec3. Used especially in shaders.
+
+				\param vec - vector of vec3
+				\return float* - value pointer
+			*/
 			static float* value_ptr_nonconst(vec3& vec) {
 				return  &vec.x;
 			}
@@ -226,8 +244,6 @@ namespace mar {
 
 			bool operator==(const vec3& other);
 			bool operator!=(const vec3& other);
-
-			friend std::ostream& operator<<(std::ostream& stream, const vec3& vector);
 
 		};
 

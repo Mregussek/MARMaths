@@ -201,10 +201,4 @@ namespace mar {
 		return !(*this == other);
 	}
 
-	std::ostream& operator<<(std::ostream& stream, const vec2& vector) {
-		stream << "vec2: ( " << vector.x << " , " << vector.y << " )";
-
-		return stream;
-	}
-
 } }

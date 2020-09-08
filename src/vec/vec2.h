@@ -212,8 +212,6 @@ namespace mar {
 			bool operator==(const vec2& other);
 			bool operator!=(const vec2& other);
 
-			friend std::ostream& operator<<(std::ostream& stream, const vec2& vector);
-
 		};
 
 } }
