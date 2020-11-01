@@ -209,8 +209,8 @@ namespace mar {
 			vec2& operator*=(const vec2& other);
 			vec2& operator/=(const vec2& other);
 
-			bool operator==(const vec2& other);
-			bool operator!=(const vec2& other);
+			bool operator==(const vec2& other) const;
+			bool operator!=(const vec2& other) const;
 
 		};
 

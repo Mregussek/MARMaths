@@ -211,8 +211,8 @@ namespace mar {
 			const float& operator[](unsigned int index) const;
 			float& operator[](unsigned int index);
 
-			bool operator==(const vec4& other);
-			bool operator!=(const vec4& other);
+			bool operator==(const vec4& other) const;
+			bool operator!=(const vec4& other) const;
 
 		};
 
