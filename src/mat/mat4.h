@@ -188,7 +188,7 @@ namespace mar {
                 \param matrix4x4
                 \return float* - pointer to first value, which you can modify
             */
-            static float* value_ptr_nonconst(mat4 matrix4x4) {
+            static float* value_ptr_nonconst(mat4& matrix4x4) {
                 return matrix4x4.elements;
             }
 
