@@ -102,7 +102,7 @@ int main() {
     maths::vec3 rotation_axis = { 0.f, 1.f, 0.f }; // rotating around y-axis
 
     std::cout << "maths::mat4::rotation(maths::Trig::toRadians(45.f), rotation_axis):\n";
-    std::cout << maths::mat4::rotation(maths::Trig::toRadians(angle_in_degrees), rotation_axis) << "\n";
+    std::cout << maths::mat4::rotation(maths::trig::toRadians(angle_in_degrees), rotation_axis) << "\n";
 
     maths::vec3 position{ 0.5, 0.5, 0.5 };
     maths::vec3 front{ 0.0f, 0.0f, -1.0f };
@@ -125,7 +125,7 @@ int main() {
     std::cout << id * look << "\n";
 
     auto vec = maths::vec4{ 3.f, 3.f, 3.f, 3.f };
-    auto rotate = maths::mat4::rotation(maths::Trig::toRadians(angle_in_degrees), rotation_axis);
+    auto rotate = maths::mat4::rotation(maths::trig::toRadians(angle_in_degrees), rotation_axis);
 
     std::cout << "rotate * vec:\n";
     std::cout << rotate * vec << "\n";

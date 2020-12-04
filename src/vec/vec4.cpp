@@ -19,6 +19,8 @@
 
 
 #include "vec4.h"
+#include "vec3.h"
+#include "../math_func/basic.h"
 
 
 namespace mar { 
@@ -123,7 +125,7 @@ namespace mar {
 			return *this;
 		}
 
-		float vec4::dot(const vec4& other) {
+		float vec4::dot(const vec4& other) const {
 			return dot(*this, other);
 		}
 
@@ -140,7 +142,7 @@ namespace mar {
 		}
 
 		vec4 vec4::normalize(const vec4& other) {
-			float magnitude = other.length();
+			const float magnitude = other.length();
 
 			vec4 rtn{ other.x / magnitude, other.y / magnitude, other.z / magnitude, other.w / magnitude };
 

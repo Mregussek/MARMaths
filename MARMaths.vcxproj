@@ -160,7 +160,9 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="src\math_func\basic.cpp" />
     <ClCompile Include="src\mat\mat4.cpp" />
+    <ClCompile Include="src\trig\trig.cpp" />
     <ClCompile Include="src\vec\vec2.cpp" />
     <ClCompile Include="src\vec\vec3.cpp" />
     <ClCompile Include="src\vec\vec4.cpp" />
@@ -168,10 +170,10 @@
   <ItemGroup>
     <ClInclude Include="include\MARMaths.h" />
     <ClInclude Include="src\maths_functions.h" />
-    <ClInclude Include="src\math_func\Basic_Math.h" />
+    <ClInclude Include="src\math_func\basic.h" />
     <ClInclude Include="src\mat\mat4.h" />
     <ClInclude Include="src\maths.h" />
-    <ClInclude Include="src\trig\trigonometric.h" />
+    <ClInclude Include="src\trig\trig.h" />
     <ClInclude Include="src\vec\vec2.h" />
     <ClInclude Include="src\vec\vec3.h" />
     <ClInclude Include="src\vec\vec4.h" />

@@ -19,6 +19,10 @@
 
 
 #include "mat4.h"
+#include "../vec/vec4.h"
+#include "../vec/vec3.h"
+#include "../trig/trig.h"
+#include "../math_func/basic.h"
 
 
 namespace mar {
@@ -41,7 +45,7 @@ namespace mar {
 			return mat4(1.0f);
 		}
 
-		vec4 mat4::getColumn(unsigned int index) {
+		vec4 mat4::getColumn(size_t index) const {
 			return {
 				elements[0 + index * 4],
 				elements[1 + index * 4],
@@ -50,7 +54,16 @@ namespace mar {
 			};
 		}
 
-		mat4 mat4::multiply(mat4& other) {
+		vec4 mat4::getRow(size_t index) const {
+			return {
+				elements[index + 0 * 4],
+				elements[index + 1 * 4],
+				elements[index + 2 * 4],
+				elements[index + 3 * 4]
+			};
+		}
+
+		mat4 mat4::multiply(const mat4& other) const {
 			mat4 rtn;
 
 			vec4 left_one = getColumn(0);
@@ -91,7 +104,7 @@ namespace mar {
 			return rtn;
 		}
 
-		vec4 mat4::multiply(vec4& other) {
+		vec4 mat4::multiply(const vec4& other) const {
 			vec4 rtn;
 
 			rtn.x = elements[0 + 0 * 4] + other.x + elements[0 + 1 * 4] + other.y + elements[0 + 2 * 4] + other.z + elements[0 + 3 * 4] + other.w;
@@ -119,7 +132,7 @@ namespace mar {
 		mat4 mat4::perspective(float fov, float aspectRatio, float near, float far) {
 			mat4 result(1.0f);
 
-			float tanfov2 = Trig::tangent(fov / 2);
+			float tanfov2 = trig::tangent(fov / 2);
 
 			result.elements[0 + 0 * 4] = 1 / (aspectRatio * tanfov2);
 			result.elements[1 + 1 * 4] = 1 / tanfov2;
@@ -170,8 +183,8 @@ namespace mar {
 		mat4 mat4::rotation(float angle, vec3 axis) {
 			mat4 result(1.0f);
 
-			float cosine = Trig::cosine(angle);
-			float sine = Trig::sine(angle);
+			float cosine = trig::cosine(angle);
+			float sine = trig::sine(angle);
 			float neg_cosine = 1.0f - cosine;
 
 			vec3 ax = vec3::normalize(axis);
@@ -332,6 +345,64 @@ namespace mar {
 				inv[i] *= det;
 
 			return inv;
+		}
+
+		void mat4::decompose(const mat4& transform, vec3& translation, vec3& rotation, vec3& scale) {
+			constexpr float epsilon{ 1.f };
+			mat4 localMatrix(transform);
+
+			translation = vec3(transform.getColumn(3));
+			scale = [&transform]()->vec3 {
+				return vec3{
+					transform.getRow(0).length(),
+					transform.getRow(1).length(),
+					transform.getRow(2).length()
+				};
+			}();
+
+			localMatrix[0 + 0 * 4] /= scale.x;
+			localMatrix[1 + 0 * 4] /= scale.x;
+			localMatrix[2 + 0 * 4] /= scale.x;
+			localMatrix[0 + 1 * 4] /= scale.y;
+			localMatrix[1 + 1 * 4] /= scale.y;
+			localMatrix[2 + 1 * 4] /= scale.y;
+			localMatrix[0 + 2 * 4] /= scale.z;
+			localMatrix[1 + 2 * 4] /= scale.z;
+			localMatrix[2 + 2 * 4] /= scale.z;
+
+			rotation = [&localMatrix]()->vec3 {
+				const float theta1 = atan2(localMatrix[6], localMatrix[10]);
+				const float c2 = basic::square(localMatrix[0] * localMatrix[0] + localMatrix[1] * localMatrix[1]);
+				const float theta2 = atan2(-localMatrix[2], c2);
+				const float s1 = trig::sine(theta1);
+				const float c1 = trig::cosine(theta1);
+				const float theta3 = atan2(s1 * localMatrix[8] - c1 * localMatrix[4], c1 * localMatrix[5] - s1 * localMatrix[9]);
+				return vec3{ -theta1, -theta2, -theta3 };
+			}();
+		}
+
+		void mat4::decompose(vec3& translation, vec3& rotation, vec3& scale) const {
+			decompose(*this, translation, rotation, scale);
+		}
+
+		const float* mat4::value_ptr(const std::vector<mat4>& matrices) {
+			return &(*matrices.data())[0];
+		}
+
+		const float* mat4::value_ptr(const mat4& matrix4x4) {
+			return matrix4x4.elements;
+		}
+
+		float* mat4::value_ptr_nonconst(mat4& matrix4x4) {
+			return matrix4x4.elements;
+		}
+
+		const float* mat4::value_ptr() const {
+			return value_ptr(*this);
+		}
+
+		float* mat4::value_ptr_nonconst() {
+			return value_ptr_nonconst(*this);
 		}
 
 		mat4 operator*(mat4 left, const mat4& right) {

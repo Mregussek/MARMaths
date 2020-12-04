@@ -18,20 +18,44 @@
 **/
 
 
-#ifndef MAR_MATH_MAIN_H
-#define MAR_MATH_MAIN_H
+#ifndef MAR_MATH_BASIC_MATH_H
+#define MAR_MATH_BASIC_MATH_H
 
-#define _USE_MATH_DEFINES
-#include <math.h>
 
-#include "../src/math_func/basic.h"
+#include "../maths.h"
 
-#include "../src/trig/trig.h"
 
-#include "../src/vec/vec2.h"
-#include "../src/vec/vec3.h"
-#include "../src/vec/vec4.h"
+namespace mar {
+	namespace maths {
 
-#include "../src/mat/mat4.h"
 
-#endif // !MAR_MATH_MAIN_H
+		/*
+		basic structure defines basic mathematical methods.
+		*/
+		struct basic {
+		
+			/*
+			Calculates square root of given value.
+
+				\param val - value, of which square root will be computed/
+				\return float - calculated sqrt(val).
+			*/
+			static float square(float val);
+
+			/*
+			Returns the component-wise compare of |x - y| < epsilon.
+			*/
+			static bool epsilonEqual(float x, float y, float epsilon);
+
+			/*
+			Returns the component-wise compare of |x - y| >= epsilon.
+			*/
+			static bool epsilonNotEqual(float x, float y, float epsilon);
+
+
+		};
+
+
+} }
+
+#endif // !MAR_MATH_BASIC_MATH_H

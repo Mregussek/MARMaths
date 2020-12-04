@@ -28,7 +28,6 @@
 namespace mar {
     namespace maths {
 
-        // I don't know why it must be here, but it somehow works ;)
         struct vec3;
         struct vec4;
 
@@ -64,7 +63,15 @@ namespace mar {
                 \param index - index of column
                 \return vec4 - vector, that contains data
             */
-            vec4 getColumn(unsigned int index);
+            vec4 getColumn(size_t index) const;
+
+            /*
+            Returns selected row of 4x4 matrix in vec4 form.
+
+                \param index - index of row
+                \return vec4 - vector, that contains data
+            */
+            vec4 getRow(size_t index) const;
 
             /*
             Static method to create identity matrix. It simply calls mat4(1.f) constructor and returns it.
@@ -79,7 +86,7 @@ namespace mar {
                 \param other - matrix to multiply with *this
                 \return mat4 - result of multiplication
             */
-            mat4 multiply(mat4& other);
+            mat4 multiply(const mat4& other) const;
 
             /*
             Multiplication method of *this matrix and given vec4.
@@ -87,7 +94,7 @@ namespace mar {
                 \param other - vec4 to multiply with *this
                 \return vec4 - result of multiplication
             */
-            vec4 multiply(vec4& other);
+            vec4 multiply(const vec4& other) const;
 
             /*
             Get Projection Matrix - Orthographic with given parameters. Usually used in 2D.
@@ -152,6 +159,27 @@ namespace mar {
             */
             static mat4 scale(vec3 scal);
 
+            /*
+            Decomposes a model matrix to translations, rotation and scale components.
+
+                \param transform - transform which will be decomposed
+                \param translation - reference to which decomposed translation will be written
+                \param rotation - reference to which decomposed rotation will be written
+                \param scale - reference to which decomposed scale will be written
+                \return decomposed - True if correctly decomposed matrix
+            */
+            static void decompose(const mat4& transform, vec3& translation, vec3& rotation, vec3& scale);
+
+            /*
+            Decomposes a model matrix to translations, rotation and scale components.
+
+               \param transform - transform which will be decomposed
+               \param translation - reference to which decomposed translation will be written
+               \param rotation - reference to which decomposed rotation will be written
+               \param scale - reference to which decomposed scale will be written
+               \return decomposed - True if correctly decomposed matrix
+           */
+            void decompose(vec3& translation, vec3& rotation, vec3& scale) const;
 
             /*
             Get inverse matrix of given matrix as parameter. If determinant is equal to 0, 
@@ -168,9 +196,7 @@ namespace mar {
                 \param matrices - vector of matrices
                 \return const float* - pointer to first value
             */
-            static const float* value_ptr(const std::vector<mat4>& matrices) {
-                return &(*matrices.data())[0];
-            }
+            static const float* value_ptr(const std::vector<mat4>& matrices);
 
             /*
             Get value pointer to first matrix element. Used especially in shaders.
@@ -178,9 +204,7 @@ namespace mar {
                 \param matrix4x4
                 \return const float* - pointer to first value
             */
-            static const float* value_ptr(const mat4& matrix4x4) {
-                return matrix4x4.elements;
-            }
+            static const float* value_ptr(const mat4& matrix4x4);
 
             /*
             Get value pointer to first matrix element. Used especially in shaders.
@@ -188,9 +212,21 @@ namespace mar {
                 \param matrix4x4
                 \return float* - pointer to first value, which you can modify
             */
-            static float* value_ptr_nonconst(mat4& matrix4x4) {
-                return matrix4x4.elements;
-            }
+            static float* value_ptr_nonconst(mat4& matrix4x4);
+
+            /*
+            Get value pointer to first matrix element. Used especially in shaders.
+
+                \return const float* - pointer to first value
+            */
+            const float* value_ptr() const;
+
+            /*
+            Get value pointer to first matrix element. Used especially in shaders.
+
+                \return float* - pointer to first value, which you can modify
+            */
+            float* value_ptr_nonconst();
 
             /*
             Overloaded multiplication operator. Says that, matrix on the left and matrix on 

@@ -28,6 +28,9 @@
 namespace mar {
 	namespace maths {
 
+		struct vec4;
+
+
 		/*
 		3-dimensional vector.
 		*/
@@ -50,6 +53,13 @@ namespace mar {
 				\param z - z value, that will be prescribed to vec3(x, y, z)
 			*/
 			vec3(float x, float y, float z);
+
+			/*
+			Constructor, that takes values from vec4 x-y-z
+				
+				\param v - vec4, which values x,y,z will be prescribed to new vec3
+			*/
+			vec3(const vec4& v);
 
 			/*
 			Addition method of vec3 and float value. 
@@ -134,7 +144,7 @@ namespace mar {
 				\param other - vec3
 				\return vec3 - result of cross product
 			*/
-			vec3 cross(const vec3& other);
+			vec3 cross(const vec3& other) const;
 
 			/*
 			Static method, Computes cross Product of 2 given vec3's.
@@ -151,7 +161,7 @@ namespace mar {
 				\param other - vec3
 				\return float - calculated dot product
 			*/
-			float dot(const vec3& other);
+			float dot(const vec3& other) const;
 
 			/*
 			Static method, which computes dot product of 2 given vec3's.
@@ -194,9 +204,7 @@ namespace mar {
 				\param vec - vector of vec3
 				\return const float* - value pointer
 			*/
-			static const float* value_ptr(const std::vector<vec3>& vec) {
-				return &(*vec.data()).x;
-			}
+			static const float* value_ptr(const std::vector<vec3>& vec);
 
 			/*
 			Returns const value_ptr to vec3. Used especially in shaders.
@@ -204,9 +212,7 @@ namespace mar {
 				\param vec - vector of vec3
 				\return float* - value pointer
 			*/
-			static const float* value_ptr(const vec3& vec) {
-				return &vec.x;
-			}
+			static const float* value_ptr(const vec3& vec);
 
 			/*
 			Returns value_ptr to vec3. Used especially in shaders.
@@ -214,9 +220,7 @@ namespace mar {
 				\param vec - vector of vec3
 				\return float* - value pointer
 			*/
-			static float* value_ptr_nonconst(vec3& vec) {
-				return  &vec.x;
-			}
+			static float* value_ptr_nonconst(vec3& vec);
 
 			// -------------------------------------------
 			// Overloaded operators, I think they are self-explanatory.

@@ -19,10 +19,11 @@
 
 
 #include "vec2.h"
+#include "../math_func/basic.h"
 
 
-namespace mar { 
-	namespace maths {
+namespace mar::maths {
+
 
 	vec2::vec2() {
 		this->x = 0.0f;
@@ -201,4 +202,5 @@ namespace mar {
 		return !(*this == other);
 	}
 
-} }
+
+} 

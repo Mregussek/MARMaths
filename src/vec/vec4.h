@@ -28,8 +28,8 @@
 namespace mar { 
 	namespace maths {
 
-		// Linker problems
 		struct vec3;
+
 
 		/*
 		4-dimensional vector.
@@ -147,7 +147,7 @@ namespace mar {
 				\param other - vec4
 				\return float - calculated dot product
 			*/
-			float dot(const vec4& other);
+			float dot(const vec4& other) const;
 
 			/*
 			Static method, which computes dot product of 2 given vec4's.

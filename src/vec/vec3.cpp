@@ -19,6 +19,8 @@
 
 
 #include "vec3.h"
+#include "vec4.h"
+#include "../math_func/basic.h"
 
 
 namespace mar {
@@ -34,6 +36,12 @@ namespace mar {
 			this->x = x;
 			this->y = y;
 			this->z = z;
+		}
+
+		vec3::vec3(const vec4& v) {
+			x = v.x;
+			y = v.y;
+			z = v.z;
 		}
 
 		vec3& vec3::add(float f) {
@@ -107,7 +115,7 @@ namespace mar {
 			return *this;
 		}
 
-		vec3 vec3::cross(const vec3& other) {
+		vec3 vec3::cross(const vec3& other) const {
 			return cross(*this, other);
 		}
 		
@@ -119,7 +127,7 @@ namespace mar {
 			};
 		}
 
-		float vec3::dot(const vec3& other) {
+		float vec3::dot(const vec3& other) const {
 			return dot(*this, other);
 		}
 
@@ -136,9 +144,21 @@ namespace mar {
 		}
 
 		vec3 vec3::normalize(const vec3& other) {
-			float inverse_square = 1 / basic::square(dot(other, other));
+			const float inverse_square = 1.f / basic::square(dot(other, other));
 
 			return other * inverse_square;
+		}
+
+		const float* vec3::value_ptr(const std::vector<vec3>& vec) {
+			return &(*vec.data()).x;
+		}
+
+		const float* vec3::value_ptr(const vec3& vec) {
+			return &vec.x;
+		}
+
+		float* vec3::value_ptr_nonconst(vec3& vec) {
+			return  &vec.x;
 		}
 
 		vec3 operator+(vec3 left, float right) {
