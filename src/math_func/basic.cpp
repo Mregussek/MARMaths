@@ -28,6 +28,10 @@ namespace mar::maths {
 		return sqrt(val);
 	}
 
+	float basic::power(float val) {
+		return val * val;
+	}
+
 	bool basic::epsilonEqual(float x, float y, float epsilon) {
 		return abs(x - y) < epsilon;
 	}

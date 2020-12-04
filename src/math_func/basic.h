@@ -37,10 +37,18 @@ namespace mar {
 			/*
 			Calculates square root of given value.
 
-				\param val - value, of which square root will be computed/
+				\param val - value, of which square root will be computed
 				\return float - calculated sqrt(val).
 			*/
 			static float square(float val);
+
+			/*
+			Calculates power of given value.
+				
+				\param val - value, of which power will be computed
+				\return float - calculated power
+			*/
+			static float power(float val);
 
 			/*
 			Returns the component-wise compare of |x - y| < epsilon.

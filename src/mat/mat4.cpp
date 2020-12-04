@@ -353,10 +353,19 @@ namespace mar {
 
 			translation = vec3(transform.getColumn(3));
 			scale = [&transform]()->vec3 {
+				const auto m0 = basic::power(transform[0]);
+				const auto m1 = basic::power(transform[1]);
+				const auto m3 = basic::power(transform[3]);
+				const auto m4 = basic::power(transform[4]);
+				const auto m5 = basic::power(transform[5]);
+				const auto m6 = basic::power(transform[6]);
+				const auto m8 = basic::power(transform[8]);
+				const auto m9 = basic::power(transform[9]);
+				const auto m10 = basic::power(transform[10]);
 				return vec3{
-					transform.getRow(0).length(),
-					transform.getRow(1).length(),
-					transform.getRow(2).length()
+					transform[15] * basic::square(m0 + m1 + m3),
+					transform[15] * basic::square(m4 + m5 + m6),
+					transform[15] * basic::square(m8 + m9 + m10)
 				};
 			}();
 
@@ -369,6 +378,7 @@ namespace mar {
 			localMatrix[0 + 2 * 4] /= scale.z;
 			localMatrix[1 + 2 * 4] /= scale.z;
 			localMatrix[2 + 2 * 4] /= scale.z;
+			localMatrix[15] = 1.f;
 
 			rotation = [&localMatrix]()->vec3 {
 				const float theta1 = atan2(localMatrix[6], localMatrix[10]);
