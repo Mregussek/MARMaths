@@ -63,7 +63,15 @@ namespace mar {
                 \param index - index of column
                 \return vec4 - vector, that contains data
             */
-            vec4 getColumn(size_t index) const;
+            vec4 getColumn4(size_t index) const;
+
+            /*
+            Returns selected column of 4x4 matrix in vec3 form, without last value
+
+                \param index - index of column
+                \return vec3 - vector, that contains data
+            */
+            vec3 getColumn3(size_t index) const;
 
             /*
             Returns selected row of 4x4 matrix in vec4 form.
@@ -71,7 +79,15 @@ namespace mar {
                 \param index - index of row
                 \return vec4 - vector, that contains data
             */
-            vec4 getRow(size_t index) const;
+            vec4 getRow4(size_t index) const;
+
+            /*
+            Returns selected row of 4x4 matrix in vec3 form, without last value
+
+                \param index - index of row
+                \return vec3 - vector, that contains data
+            */
+            vec3 getRow3(size_t index) const;
 
             /*
             Static method to create identity matrix. It simply calls mat4(1.f) constructor and returns it.
@@ -160,13 +176,21 @@ namespace mar {
             static mat4 scale(vec3 scal);
 
             /*
+            Get inverse matrix of given matrix as parameter. If determinant is equal to 0,
+            debug break is called and application stops.
+
+                \param m - the matrix we'll count the inverse of
+                \return mat4 - calculated inverse matrix
+            */
+            static mat4 inverse(const mat4& m);
+
+            /*
             Decomposes a model matrix to translations, rotation and scale components.
 
                 \param transform - transform which will be decomposed
                 \param translation - reference to which decomposed translation will be written
                 \param rotation - reference to which decomposed rotation will be written
                 \param scale - reference to which decomposed scale will be written
-                \return decomposed - True if correctly decomposed matrix
             */
             static void decompose(const mat4& transform, vec3& translation, vec3& rotation, vec3& scale);
 
@@ -177,18 +201,36 @@ namespace mar {
                \param translation - reference to which decomposed translation will be written
                \param rotation - reference to which decomposed rotation will be written
                \param scale - reference to which decomposed scale will be written
-               \return decomposed - True if correctly decomposed matrix
            */
             void decompose(vec3& translation, vec3& rotation, vec3& scale) const;
 
             /*
-            Get inverse matrix of given matrix as parameter. If determinant is equal to 0, 
-            debug break is called and application stops.
+            Recomposes matrix from given parameters.
 
-                \param m - the matrix we'll count the inverse of
-                \return mat4 - calculated inverse matrix
+                \param transform - transform which will be decomposed
+               \param translation - reference to which decomposed translation will be written
+               \param rotation - reference to which decomposed rotation will be written
+               \param scale - reference to which decomposed scale will be written
             */
-            static mat4 inverse(const mat4& m);
+            static void recompose(mat4& transform, const vec3& translation, const vec3& rotation, const vec3& scale);
+
+            /*
+            Recomposes matrix from given parameters.
+
+               \param transform - transform which will be decomposed
+               \param translation - reference to which decomposed translation will be written
+               \param rotation - reference to which decomposed rotation will be written
+               \param scale - reference to which decomposed scale will be written
+            */
+            void recompose(const vec3& translation, const vec3& rotation, const vec3& scale);
+
+            /*
+            Creates rotation matrix from given quanternion
+
+                \param quat - vec3 that is quanternion
+                \return mat4 - newly created rotation matrix
+            */
+            static mat4 rotationFromQuat(const vec3& quat);
 
             /*
             Get value pointer to first matrix element. Used especially in shaders.

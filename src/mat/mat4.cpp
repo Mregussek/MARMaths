@@ -45,7 +45,7 @@ namespace mar {
 			return mat4(1.0f);
 		}
 
-		vec4 mat4::getColumn(size_t index) const {
+		vec4 mat4::getColumn4(size_t index) const {
 			return {
 				elements[0 + index * 4],
 				elements[1 + index * 4],
@@ -54,7 +54,15 @@ namespace mar {
 			};
 		}
 
-		vec4 mat4::getRow(size_t index) const {
+		vec3 mat4::getColumn3(size_t index) const {
+			return {
+				elements[0 + index * 4],
+				elements[1 + index * 4],
+				elements[2 + index * 4]
+			};
+		}
+
+		vec4 mat4::getRow4(size_t index) const {
 			return {
 				elements[index + 0 * 4],
 				elements[index + 1 * 4],
@@ -63,18 +71,26 @@ namespace mar {
 			};
 		}
 
+		vec3 mat4::getRow3(size_t index) const {
+			return {
+				elements[index + 0 * 4],
+				elements[index + 1 * 4],
+				elements[index + 2 * 4]
+			};
+		}
+
 		mat4 mat4::multiply(const mat4& other) const {
 			mat4 rtn;
 
-			vec4 left_one = getColumn(0);
-			vec4 left_two = getColumn(1);
-			vec4 left_three = getColumn(2);
-			vec4 left_four = getColumn(3);
+			vec4 left_one = getColumn4(0);
+			vec4 left_two = getColumn4(1);
+			vec4 left_three = getColumn4(2);
+			vec4 left_four = getColumn4(3);
 
-			vec4 right_one = other.getColumn(0);
-			vec4 right_two = other.getColumn(1);
-			vec4 right_three = other.getColumn(2);
-			vec4 right_four = other.getColumn(3);
+			vec4 right_one = other.getColumn4(0);
+			vec4 right_two = other.getColumn4(1);
+			vec4 right_three = other.getColumn4(2);
+			vec4 right_four = other.getColumn4(3);
 
 			vec4 col1 = left_one * right_one[0]   + left_two * right_one[1]   + left_three * right_one[2]   + left_four * right_one[3];
 			vec4 col2 = left_one * right_two[0]   + left_two * right_two[1]   + left_three * right_two[2]   + left_four * right_two[3];
@@ -351,24 +367,27 @@ namespace mar {
 			constexpr float epsilon{ 1.f };
 			mat4 localMatrix(transform);
 
-			translation = vec3(transform.getColumn(3));
-			scale = [&transform]()->vec3 {
-				const auto m0 = basic::power(transform[0]);
-				const auto m1 = basic::power(transform[1]);
-				const auto m3 = basic::power(transform[3]);
-				const auto m4 = basic::power(transform[4]);
-				const auto m5 = basic::power(transform[5]);
-				const auto m6 = basic::power(transform[6]);
-				const auto m8 = basic::power(transform[8]);
-				const auto m9 = basic::power(transform[9]);
-				const auto m10 = basic::power(transform[10]);
+			if (basic::epsilonEqual(localMatrix[3 + 3 * 4], 0.f, epsilon)) { return; }
+
+			translation = vec3(localMatrix.getColumn3(3));
+			scale = [&localMatrix]()->vec3 {
+				const auto m0 = basic::power(localMatrix[0]);
+				const auto m1 = basic::power(localMatrix[1]);
+				const auto m2 = basic::power(localMatrix[2]);
+				const auto m4 = basic::power(localMatrix[4]);
+				const auto m5 = basic::power(localMatrix[5]);
+				const auto m6 = basic::power(localMatrix[6]);
+				const auto m8 = basic::power(localMatrix[8]);
+				const auto m9 = basic::power(localMatrix[9]);
+				const auto m10 = basic::power(localMatrix[10]);
 				return vec3{
-					transform[15] * basic::square(m0 + m1 + m3),
-					transform[15] * basic::square(m4 + m5 + m6),
-					transform[15] * basic::square(m8 + m9 + m10)
+					localMatrix[15] * basic::square(m0 + m1 + m2),
+					localMatrix[15] * basic::square(m4 + m5 + m6),
+					localMatrix[15] * basic::square(m8 + m9 + m10)
 				};
 			}();
 
+			/*
 			localMatrix[0 + 0 * 4] /= scale.x;
 			localMatrix[1 + 0 * 4] /= scale.x;
 			localMatrix[2 + 0 * 4] /= scale.x;
@@ -380,6 +399,17 @@ namespace mar {
 			localMatrix[2 + 2 * 4] /= scale.z;
 			localMatrix[15] = 1.f;
 
+			const auto row0{ localMatrix.getRow3(0) };
+			const auto row1{ localMatrix.getRow3(1) };
+			const auto row3{ localMatrix.getRow3(2) };
+			const auto tmpZaxis{ vec3::cross(row0, row1) };
+			if (vec3::dot(tmpZaxis, row3) < 0.f) {
+				localMatrix[0 + 0 * 4] *= (-1.f);
+				localMatrix[1 + 0 * 4] *= (-1.f);
+				localMatrix[2 + 0 * 4] *= (-1.f);
+				scale.x *= (-1.f);
+			}
+			
 			rotation = [&localMatrix]()->vec3 {
 				const float theta1 = atan2(localMatrix[6], localMatrix[10]);
 				const float c2 = basic::square(localMatrix[0] * localMatrix[0] + localMatrix[1] * localMatrix[1]);
@@ -389,10 +419,60 @@ namespace mar {
 				const float theta3 = atan2(s1 * localMatrix[8] - c1 * localMatrix[4], c1 * localMatrix[5] - s1 * localMatrix[9]);
 				return vec3{ -theta1, -theta2, -theta3 };
 			}();
+			*/
+			rotation.y = trig::arcsine(-localMatrix[2 + 0 * 4]);
+			if (trig::cosine(rotation.y) != 0) {
+				rotation.x = atan2(localMatrix[2 + 1 * 4], localMatrix[2 + 2 * 4]);
+				rotation.z = atan2(localMatrix[1 + 0 * 4], localMatrix[0 + 0 * 4]);
+			}
+			else {
+				rotation.x = atan2(-localMatrix[0 + 2 * 4], localMatrix[1 + 1 * 4]);
+				rotation.z = 0.f;
+			}
 		}
 
 		void mat4::decompose(vec3& translation, vec3& rotation, vec3& scale) const {
 			decompose(*this, translation, rotation, scale);
+		}
+
+		void mat4::recompose(mat4& transform, const vec3& translation, const vec3& rotation, const vec3& scale) {
+			transform = mat4::translation(translation)*
+				mat4::rotation(trig::toRadians(rotation.x), { 1.f, 0.f, 0.f }) *
+				mat4::rotation(trig::toRadians(rotation.y), { 0.f, 1.f, 0.f }) *
+				mat4::rotation(trig::toRadians(rotation.z), { 0.f, 0.f, 1.f }) *
+				mat4::scale(scale);
+		}
+
+		void mat4::recompose(const vec3& translation, const vec3& rotation, const vec3& scale) {
+			recompose(*this, translation, rotation, scale);
+		}
+
+		mat4 mat4::rotationFromQuat(const vec3& quat) {
+			mat4 rtn(1.f);
+
+			const float qxx(quat.x * quat.x);
+			const float qyy(quat.y * quat.y);
+			const float qzz(quat.z * quat.z);
+			const float qxz(quat.x * quat.z);
+			const float qxy(quat.x * quat.y);
+			const float qyz(quat.y * quat.z);
+			const float qwx(0.f * quat.x);
+			const float qwy(0.f * quat.y);
+			const float qwz(0.f * quat.z);
+
+			rtn[0 + 0 * 4] = 1.f - 2.f * (qyy + qzz);
+			rtn[1 + 0 * 4] = 2.f * (qxy + qwz);
+			rtn[2 + 0 * 4] = 2.f * (qxz - qwy);
+
+			rtn[0 + 1 * 4] = 2.f * (qxy - qwz);
+			rtn[1 + 1 * 4] = 1.f - 2.f * (qxx + qzz);
+			rtn[2 + 1 * 4] = 2.f * (qyz + qwx);
+
+			rtn[0 + 2 * 4] = 2.f * (qxz + qwy);
+			rtn[1 + 2 * 4] = 2.f * (qyz - qwx);
+			rtn[2 + 2 * 4] = 1.f - 2.f * (qxx + qyy);
+
+			return rtn;
 		}
 
 		const float* mat4::value_ptr(const std::vector<mat4>& matrices) {
