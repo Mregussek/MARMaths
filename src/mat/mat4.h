@@ -189,7 +189,7 @@ namespace mar {
 
                 \param transform - transform which will be decomposed
                 \param translation - reference to which decomposed translation will be written
-                \param rotation - reference to which decomposed rotation will be written
+                \param rotation(radians) - reference to which decomposed rotation will be written (radians)
                 \param scale - reference to which decomposed scale will be written
             */
             static void decompose(const mat4& transform, vec3& translation, vec3& rotation, vec3& scale);
@@ -199,7 +199,7 @@ namespace mar {
 
                \param transform - transform which will be decomposed
                \param translation - reference to which decomposed translation will be written
-               \param rotation - reference to which decomposed rotation will be written
+               \param rotation(radians) - reference to which decomposed rotation will be written(radians)
                \param scale - reference to which decomposed scale will be written
            */
             void decompose(vec3& translation, vec3& rotation, vec3& scale) const;
@@ -207,9 +207,9 @@ namespace mar {
             /*
             Recomposes matrix from given parameters.
 
-                \param transform - transform which will be decomposed
+               \param transform - transform which will be decomposed
                \param translation - reference to which decomposed translation will be written
-               \param rotation - reference to which decomposed rotation will be written
+               \param rotation(degrees) - reference to which decomposed rotation will be written(degrees)
                \param scale - reference to which decomposed scale will be written
             */
             static void recompose(mat4& transform, const vec3& translation, const vec3& rotation, const vec3& scale);
@@ -219,7 +219,7 @@ namespace mar {
 
                \param transform - transform which will be decomposed
                \param translation - reference to which decomposed translation will be written
-               \param rotation - reference to which decomposed rotation will be written
+               \param rotation(degrees) - reference to which decomposed rotation will be written(degrees)
                \param scale - reference to which decomposed scale will be written
             */
             void recompose(const vec3& translation, const vec3& rotation, const vec3& scale);

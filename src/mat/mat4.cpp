@@ -82,20 +82,15 @@ namespace mar {
 		mat4 mat4::multiply(const mat4& other) const {
 			mat4 rtn;
 
-			vec4 left_one = getColumn4(0);
-			vec4 left_two = getColumn4(1);
-			vec4 left_three = getColumn4(2);
-			vec4 left_four = getColumn4(3);
+			const vec4 left_one{ getColumn4(0) };
+			const vec4 left_two{ getColumn4(1) };
+			const vec4 left_three{ getColumn4(2) };
+			const vec4 left_four{ getColumn4(3) };
 
-			vec4 right_one = other.getColumn4(0);
-			vec4 right_two = other.getColumn4(1);
-			vec4 right_three = other.getColumn4(2);
-			vec4 right_four = other.getColumn4(3);
-
-			vec4 col1 = left_one * right_one[0]   + left_two * right_one[1]   + left_three * right_one[2]   + left_four * right_one[3];
-			vec4 col2 = left_one * right_two[0]   + left_two * right_two[1]   + left_three * right_two[2]   + left_four * right_two[3];
-			vec4 col3 = left_one * right_three[0] + left_two * right_three[1] + left_three * right_three[2] + left_four * right_three[3];
-			vec4 col4 = left_one * right_four[0]  + left_two * right_four[1]  + left_three * right_four[2]  + left_four * right_four[3];
+			const vec4 col1{ left_one * other[0 + 0 * 4] + left_two * other[1 + 0 * 4] + left_three * other[2 + 0 * 4] + left_four * other[3 + 0 * 4] };
+			const vec4 col2{ left_one * other[0 + 1 * 4] + left_two * other[1 + 1 * 4] + left_three * other[2 + 1 * 4] + left_four * other[3 + 1 * 4] };
+			const vec4 col3{ left_one * other[0 + 2 * 4] + left_two * other[1 + 2 * 4] + left_three * other[2 + 2 * 4] + left_four * other[3 + 2 * 4] };
+			const vec4 col4{ left_one * other[0 + 3 * 4] + left_two * other[1 + 3 * 4] + left_three * other[2 + 3 * 4] + left_four * other[3 + 3 * 4] };
 
 			rtn[0 + 0 * 4] = col1.x;
 			rtn[1 + 0 * 4] = col1.y;
@@ -148,7 +143,7 @@ namespace mar {
 		mat4 mat4::perspective(float fov, float aspectRatio, float near, float far) {
 			mat4 result(1.0f);
 
-			float tanfov2 = trig::tangent(fov / 2);
+			const float tanfov2{ trig::tangent(fov / 2) };
 
 			result.elements[0 + 0 * 4] = 1 / (aspectRatio * tanfov2);
 			result.elements[1 + 1 * 4] = 1 / tanfov2;
@@ -160,9 +155,9 @@ namespace mar {
 		}
 
 		mat4 mat4::lookAt(vec3 eye, vec3 center, vec3 y) {
-			vec3 fwd = vec3::normalize(center - eye);
-			vec3 side = vec3::normalize(vec3::cross(fwd, y));
-			vec3 up = vec3::cross(side, fwd);
+			const vec3 fwd{ vec3::normalize(center - eye) };
+			const vec3 side{ vec3::normalize(vec3::cross(fwd, y)) };
+			const vec3 up{ vec3::cross(side, fwd) };
 
 			mat4 rtn;
 
@@ -199,14 +194,14 @@ namespace mar {
 		mat4 mat4::rotation(float angle, vec3 axis) {
 			mat4 result(1.0f);
 
-			float cosine = trig::cosine(angle);
-			float sine = trig::sine(angle);
-			float neg_cosine = 1.0f - cosine;
+			const float cosine{ trig::cosine(angle) };
+			const float sine{ trig::sine(angle) };
+			const float neg_cosine{ 1.0f - cosine };
 
-			vec3 ax = vec3::normalize(axis);
-			float x = ax.x;
-			float y = ax.y;
-			float z = ax.z;
+			const vec3 ax{ vec3::normalize(axis) };
+			const float x{ ax.x };
+			const float y{ ax.y };
+			const float z{ ax.z };
 
 			result.elements[0 + 0 * 4] = cosine + x * x * neg_cosine;
 			result.elements[1 + 0 * 4] = y * x * neg_cosine + z * sine;
@@ -357,8 +352,9 @@ namespace mar {
 
 			det = 1.f / det;
 
-			for (unsigned int i = 0; i < 16; i++)
+			for (size_t i = 0; i < 16; i++) {
 				inv[i] *= det;
+			}
 
 			return inv;
 		}
@@ -387,39 +383,6 @@ namespace mar {
 				};
 			}();
 
-			/*
-			localMatrix[0 + 0 * 4] /= scale.x;
-			localMatrix[1 + 0 * 4] /= scale.x;
-			localMatrix[2 + 0 * 4] /= scale.x;
-			localMatrix[0 + 1 * 4] /= scale.y;
-			localMatrix[1 + 1 * 4] /= scale.y;
-			localMatrix[2 + 1 * 4] /= scale.y;
-			localMatrix[0 + 2 * 4] /= scale.z;
-			localMatrix[1 + 2 * 4] /= scale.z;
-			localMatrix[2 + 2 * 4] /= scale.z;
-			localMatrix[15] = 1.f;
-
-			const auto row0{ localMatrix.getRow3(0) };
-			const auto row1{ localMatrix.getRow3(1) };
-			const auto row3{ localMatrix.getRow3(2) };
-			const auto tmpZaxis{ vec3::cross(row0, row1) };
-			if (vec3::dot(tmpZaxis, row3) < 0.f) {
-				localMatrix[0 + 0 * 4] *= (-1.f);
-				localMatrix[1 + 0 * 4] *= (-1.f);
-				localMatrix[2 + 0 * 4] *= (-1.f);
-				scale.x *= (-1.f);
-			}
-			
-			rotation = [&localMatrix]()->vec3 {
-				const float theta1 = atan2(localMatrix[6], localMatrix[10]);
-				const float c2 = basic::square(localMatrix[0] * localMatrix[0] + localMatrix[1] * localMatrix[1]);
-				const float theta2 = atan2(-localMatrix[2], c2);
-				const float s1 = trig::sine(theta1);
-				const float c1 = trig::cosine(theta1);
-				const float theta3 = atan2(s1 * localMatrix[8] - c1 * localMatrix[4], c1 * localMatrix[5] - s1 * localMatrix[9]);
-				return vec3{ -theta1, -theta2, -theta3 };
-			}();
-			*/
 			rotation.y = trig::arcsine(-localMatrix[2 + 0 * 4]);
 			if (trig::cosine(rotation.y) != 0) {
 				rotation.x = atan2(localMatrix[2 + 1 * 4], localMatrix[2 + 2 * 4]);
@@ -436,11 +399,9 @@ namespace mar {
 		}
 
 		void mat4::recompose(mat4& transform, const vec3& translation, const vec3& rotation, const vec3& scale) {
-			transform = mat4::translation(translation)*
-				mat4::rotation(trig::toRadians(rotation.x), { 1.f, 0.f, 0.f }) *
-				mat4::rotation(trig::toRadians(rotation.y), { 0.f, 1.f, 0.f }) *
-				mat4::rotation(trig::toRadians(rotation.z), { 0.f, 0.f, 1.f }) *
-				mat4::scale(scale);
+			const vec3 rotRadians{ trig::toRadians(rotation.x), trig::toRadians(rotation.y) , trig::toRadians(rotation.z) };
+			transform = mat4::translation(translation) * mat4::rotationFromQuat(rotRadians) * mat4::scale(scale);
+			//transform = mat4::translation(translation) * mat4::rotation(rotRadians.x, { 1.f, 0.f, 0.f }) * mat4::rotation(rotRadians.y, { 0.f, 1.f, 0.f }) * mat4::rotation(rotRadians.z, { 0.f, 0.f, 1.f }) * mat4::scale(scale);
 		}
 
 		void mat4::recompose(const vec3& translation, const vec3& rotation, const vec3& scale) {
@@ -450,27 +411,29 @@ namespace mar {
 		mat4 mat4::rotationFromQuat(const vec3& quat) {
 			mat4 rtn(1.f);
 
-			const float qxx(quat.x * quat.x);
-			const float qyy(quat.y * quat.y);
-			const float qzz(quat.z * quat.z);
-			const float qxz(quat.x * quat.z);
-			const float qxy(quat.x * quat.y);
-			const float qyz(quat.y * quat.z);
-			const float qwx(0.f * quat.x);
-			const float qwy(0.f * quat.y);
-			const float qwz(0.f * quat.z);
+			const float xx(quat.x * quat.x);
+			const float yy(quat.y * quat.y);
+			const float zz(quat.z * quat.z);
 
-			rtn[0 + 0 * 4] = 1.f - 2.f * (qyy + qzz);
-			rtn[1 + 0 * 4] = 2.f * (qxy + qwz);
-			rtn[2 + 0 * 4] = 2.f * (qxz - qwy);
+			const float xz(quat.x * quat.z);
+			const float xy(quat.x * quat.y);
+			const float yz(quat.y * quat.z);
 
-			rtn[0 + 1 * 4] = 2.f * (qxy - qwz);
-			rtn[1 + 1 * 4] = 1.f - 2.f * (qxx + qzz);
-			rtn[2 + 1 * 4] = 2.f * (qyz + qwx);
+			const float wx(0.f * quat.x);
+			const float wy(0.f * quat.y);
+			const float wz(0.f * quat.z);
 
-			rtn[0 + 2 * 4] = 2.f * (qxz + qwy);
-			rtn[1 + 2 * 4] = 2.f * (qyz - qwx);
-			rtn[2 + 2 * 4] = 1.f - 2.f * (qxx + qyy);
+			rtn[0 + 0 * 4] = 1.f - 2.f * (yy + zz);
+			rtn[1 + 0 * 4] = 2.f * (xy - wz);
+			rtn[2 + 0 * 4] = 2.f * (xz + wy);
+
+			rtn[0 + 1 * 4] = 2.f * (xy + wz);
+			rtn[1 + 1 * 4] = 1.f - 2.f * (xx + zz);
+			rtn[2 + 1 * 4] = 2.f * (yz - wx);
+
+			rtn[0 + 2 * 4] = 2.f * (xz - wy);
+			rtn[1 + 2 * 4] = 2.f * (yz + wx);
+			rtn[2 + 2 * 4] = 1.f - 2.f * (xx + yy);
 
 			return rtn;
 		}
@@ -496,23 +459,19 @@ namespace mar {
 		}
 
 		mat4 operator*(mat4 left, const mat4& right) {
-			mat4 copy = right;
-			return left.multiply(copy);
+			return left.multiply(right);
 		}
 
 		mat4 mat4::operator*=(const mat4& other) {
-			mat4 copy = other;
-			return multiply(copy);
+			return multiply(other);
 		}
 
 		vec4 operator*(mat4 left, const vec4& right) {
-			vec4 copy = right;
-			return left.multiply(copy);
+			return left.multiply(right);
 		}
 
 		vec4 mat4::operator*=(const vec4& other) {
-			vec4 copy = other;
-			return multiply(copy);
+			return multiply(other);
 		}
 
 		float& mat4::operator[](unsigned int index) {
