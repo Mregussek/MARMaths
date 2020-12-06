@@ -400,8 +400,8 @@ namespace mar {
 
 		void mat4::recompose(mat4& transform, const vec3& translation, const vec3& rotation, const vec3& scale) {
 			const vec3 rotRadians{ trig::toRadians(rotation.x), trig::toRadians(rotation.y) , trig::toRadians(rotation.z) };
-			transform = mat4::translation(translation) * mat4::rotationFromQuat(rotRadians) * mat4::scale(scale);
-			//transform = mat4::translation(translation) * mat4::rotation(rotRadians.x, { 1.f, 0.f, 0.f }) * mat4::rotation(rotRadians.y, { 0.f, 1.f, 0.f }) * mat4::rotation(rotRadians.z, { 0.f, 0.f, 1.f }) * mat4::scale(scale);
+			//transform = mat4::translation(translation) * mat4::rotationFromQuat(rotRadians) * mat4::scale(scale);
+			transform = mat4::translation(translation) * mat4::rotation(rotRadians.x, { 1.f, 0.f, 0.f }) * mat4::rotation(rotRadians.y, { 0.f, 1.f, 0.f }) * mat4::rotation(rotRadians.z, { 0.f, 0.f, 1.f }) * mat4::scale(scale);
 		}
 
 		void mat4::recompose(const vec3& translation, const vec3& rotation, const vec3& scale) {
