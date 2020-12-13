@@ -121,9 +121,9 @@ namespace mar {
 		
 		vec3 vec3::cross(const vec3& x, const vec3& y) {
 			return {
-				x.y* y.z - y.y * x.z,
-				x.z* y.x - y.z * x.x,
-				x.x* y.y - y.x * x.y
+				x.y * y.z - y.y * x.z,
+				x.z * y.x - y.z * x.x,
+				x.x * y.y - y.x * x.y
 			};
 		}
 
@@ -147,6 +147,56 @@ namespace mar {
 			const float inverse_square = 1.f / basic::square(dot(other, other));
 
 			return other * inverse_square;
+		}
+
+		float vec3::angleBetween(const vec3& other) const {
+			return angleBetween(*this, other);
+		}
+
+		float vec3::angleBetween(const vec3& left, const vec3& right) {
+			float angle{ dot(left, right) };
+			angle /= (left.length() * right.length());
+			return acosf(angle);
+		}
+
+		vec3 vec3::projectOnto(const vec3& other) const {
+			return projectOnto(*this, other);
+		}
+
+		vec3 vec3::projectOnto(const vec3& left, const vec3& right) {
+			const auto normalized{ right / right.length() };
+			return normalized * dot(left, right);
+		}
+
+		bool vec3::sameSide(const vec3& p1, const vec3& p2, const vec3& a, const vec3& b) {
+			const vec3 cp1{ cross(b - a, p1 - a) };
+			const vec3 cp2{ cross(b - a, p2 - a) };
+
+			if (dot(cp1, cp2) >= 0.f) { return true; }
+			else { return false; }
+		}
+
+		vec3 vec3::getTriangleNormal(const vec3& t1, const vec3& t2, const vec3& t3) {
+			const vec3 u{ t2 - t1 };
+			const vec3 v{ t3 - t1 };
+
+			return cross(u, v);
+		}
+
+		bool vec3::inTriangle(const vec3& point, const vec3& t1, const vec3& t2, const vec3& t3) {
+			const bool withTrianglePrism{
+				sameSide(point, t1, t2, t3) &&
+				sameSide(point, t2, t1, t3) &&
+				sameSide(point, t3, t1, t2)
+			};
+
+			if (!withTrianglePrism) { return false; }
+
+			const auto normal{ getTriangleNormal(t1, t2, t3) };
+			const auto proj{ projectOnto(point, normal) };
+
+			if (proj.length() == 0.f) { return true; }
+			else { return false; }
 		}
 
 		const float* vec3::value_ptr(const std::vector<vec3>& vec) {

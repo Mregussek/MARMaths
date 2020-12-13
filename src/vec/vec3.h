@@ -199,6 +199,71 @@ namespace mar {
 			static vec3 normalize(const vec3& other);
 
 			/*
+			Calculates angle between 'this' vec3 and other
+				
+				\param other - vec3 between which angle will be calculated
+				\return angle - radians
+			*/
+			float angleBetween(const vec3& other) const;
+
+			/*
+			Calculates angle between left and right vec3
+				
+				\param left - vec3
+				\param right - vec3
+				\return angle - radians
+			*/
+			static float angleBetween(const vec3& left, const vec3& right);
+
+			/*
+			Calculates projection vec3 of *this and other
+				
+				\param other - vec3, to be computed with *this
+				\return vec3 - projected vec3
+			*/
+			vec3 projectOnto(const vec3& other) const;
+
+			/*
+			Calculates projection vec3 of left and right
+				
+				\param left - vec3
+				\param right - vec3
+				\return vec3 - projected vec3
+			*/
+			static vec3 projectOnto(const vec3& left, const vec3& right);
+
+			/*
+			Test if P1 is on the same side as P2 of a line segment A <-> B
+
+				\param P1 - point1
+				\param P2 - point2
+				\param A - vec3
+				\param B - vec3
+				\return true if yes
+			*/
+			static bool sameSide(const vec3& p1, const vec3& p2, const vec3& a, const vec3& b);
+
+			/*
+			Returns triangle normal from 3 vectors
+
+				\param t1 - vec3
+				\param t2 - vec3
+				\param t3 - vec3
+			*/
+			static vec3 getTriangleNormal(const vec3& t1, const vec3& t2, const vec3& t3);
+
+			/*
+			Check to see if a vec3 Point is within a 3 Vector3 Triangle
+
+				\param point - vec3
+				\param t1
+				\param t2
+				\param t3
+				\return true if is within
+			*/
+			static bool inTriangle(const vec3& point, const vec3& t1, const vec3& t2, const vec3& t3);
+
+			/*
 			Returns value_ptr to first vec3 at vector. Used especially in shaders.
 
 				\param vec - vector of vec3
