@@ -21,7 +21,7 @@
 #include "basic.h"
 
 
-namespace mar::maths {
+namespace marengine::maths {
 
 
 	float basic::square(float val) {

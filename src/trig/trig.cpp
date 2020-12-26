@@ -21,7 +21,7 @@
 #include "trig.h"
 
 
-namespace mar::maths {
+namespace marengine::maths {
 
 
     float trig::toRadians(float degrees) {

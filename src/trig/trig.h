@@ -25,47 +25,46 @@
 #include "../maths.h"
 
 
-namespace mar {
-    namespace maths {
+namespace marengine::maths {
 
-        /*
-        Trig is a structure, that gives some trigonometric functions, such as sine, 
-        tangent calculations (and many others).
-        */
-        struct trig {
 
-            static float toRadians(float degrees);
+    /*
+    Trig is a structure, that gives some trigonometric functions, such as sine, 
+    tangent calculations (and many others).
+    */
+    struct trig {
+    
+        static float toRadians(float degrees);
+    
+        static float toDegrees(float radians);
+    
+        static float sine(float radians);
+    
+        static float cosine(float radians);
+    
+        static float tangent(float radians);
+    
+        static float arcsine(float radians);
+    
+        static float arccosine(float radians);
+    
+        static float arctangent(float radians);
+    
+        static float h_sine(float radians);
+    
+        static float h_cosine(float radians);
+    
+        static float h_tangent(float radians);
+    
+        static float h_arcsine(float radians);
+    
+        static float h_arccosine(float radians);
+    
+        static float h_arctangent(float radians);
+    
+    };
 
-            static float toDegrees(float radians);
 
-            static float sine(float radians);
-
-            static float cosine(float radians);
-
-            static float tangent(float radians);
-
-            static float arcsine(float radians);
-
-            static float arccosine(float radians);
-
-            static float arctangent(float radians);
-
-            static float h_sine(float radians);
-
-            static float h_cosine(float radians);
-
-            static float h_tangent(float radians);
-
-            static float h_arcsine(float radians);
-
-            static float h_arccosine(float radians);
-
-            static float h_arctangent(float radians);
-
-        };
-
-    }
 }
-
 
 #endif // !MAR_MATH_TRIGONOMETRIC_H

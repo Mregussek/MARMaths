@@ -25,198 +25,197 @@
 #include "../maths.h"
 
 
-namespace mar { 
-	namespace maths {
+namespace marengine::maths {
 
-		struct vec3;
+	struct vec3;
 
+
+	/*
+	4-dimensional vector.
+	*/
+	struct vec4 {
+		
+		// -------------------------------
+		float x; /* x value of vec4 */
+		float y; /* y value of vec4 */
+		float z; /* z value of vec4 */
+		float w; /* w value of vec4 */
+		// ------------------------------
+
+		// Default constructor, creates vec4(0, 0, 0, 0).
+		vec4();
+
+		/* 
+		Constructor, that expands vec3 to vec4 with given w parameter.
+
+			\param v - vec3, which will be expanded
+			\param w - value, which is needed to create fourth dimension
+		*/
+		vec4(const vec3& v, float w);
+		
+		/*
+		Constructor, that can create vec4 from given 4 floats (l-values).
+
+			\param x - x value, that will be prescribed to vec4(x, y, z, w)
+			\param y - y value, that will be prescribed to vec4(x, y, z, w)
+			\param z - z value, that will be prescribed to vec4(x, y, z, w)
+			\param w - w value, that will be prescribed to vec4(x, y, z, w)
+		*/
+		vec4(float x, float y, float z, float w);
 
 		/*
-		4-dimensional vector.
+		Addition method of vec4 and float value. 
+		vec4(x, y, z, w) + float = vec4(x + float, y + float, z + float, w + float)
+
+			\param f - float value, which will be added
+			\return vec4 - returns modified *this
 		*/
-		struct vec4 {
-			
-			// -------------------------------
-			float x; /* x value of vec4 */
-			float y; /* y value of vec4 */
-			float z; /* z value of vec4 */
-			float w; /* w value of vec4 */
-			// ------------------------------
+		vec4& add(float f);
 
-			// Default constructor, creates vec4(0, 0, 0, 0).
-			vec4();
+		/*
+		Subtraction method of vec4 and float value. 
+		vec4(x, y, z, w) - float = vec4(x - float, y - float, z - float, w - float)
 
-			/* 
-			Constructor, that expands vec3 to vec4 with given w parameter.
+			\param f - float value, which will be subtracted
+			\return vec4 - returns modified *this
+		*/
+		vec4& subtract(float f);
 
-				\param v - vec3, which will be expanded
-				\param w - value, which is needed to create fourth dimension
-			*/
-			vec4(const vec3& v, float w);
-			
-			/*
-			Constructor, that can create vec4 from given 4 floats (l-values).
+		/*
+		Multiplication method of vec4 and float value. 
+		vec4(x, y, z, w) * float = vec4(x * float, y * float, z * float, w * float)
 
-				\param x - x value, that will be prescribed to vec4(x, y, z, w)
-				\param y - y value, that will be prescribed to vec4(x, y, z, w)
-				\param z - z value, that will be prescribed to vec4(x, y, z, w)
-				\param w - w value, that will be prescribed to vec4(x, y, z, w)
-			*/
-			vec4(float x, float y, float z, float w);
+			\param f - float value, which will be multiplied
+			\return vec4 - returns modified *this
+		*/
+		vec4& multiply(float f);
 
-			/*
-			Addition method of vec4 and float value. 
-			vec4(x, y, z, w) + float = vec4(x + float, y + float, z + float, w + float)
+		/*
+		Division method of vec4 and float value. 
+		vec4(x, y, z, w) / float = vec4(x / float, y / float, z / float, w / float)
 
-				\param f - float value, which will be added
-				\return vec4 - returns modified *this
-			*/
-			vec4& add(float f);
+		If user send f as 0, it will return unmodified *this!
 
-			/*
-			Subtraction method of vec4 and float value. 
-			vec4(x, y, z, w) - float = vec4(x - float, y - float, z - float, w - float)
+			\param f - float value, which will be divided
+			\return vec4 - returns modified *this
+		*/
+		vec4& divide(float f);
 
-				\param f - float value, which will be subtracted
-				\return vec4 - returns modified *this
-			*/
-			vec4& subtract(float f);
+		/*
+		Addition method of vec4 and vec4.
+		v1 + v2 = vec4(v1.x + v2.x, v1.y + v2.y, v1.z + v2.z, v1.w + v2.w)
 
-			/*
-			Multiplication method of vec4 and float value. 
-			vec4(x, y, z, w) * float = vec4(x * float, y * float, z * float, w * float)
+			\param other - second vec4, which will be added to *this
+			\return vec4 - computed *this
+		*/
+		vec4& add(const vec4& other);
 
-				\param f - float value, which will be multiplied
-				\return vec4 - returns modified *this
-			*/
-			vec4& multiply(float f);
+		/*
+		Subtraction method of vec4 and vec4.
+		v1 - v2 = vec4(v1.x - v2.x, v1.y - v2.y, v1.z - v2.z, v1.w - v2.w)
 
-			/*
-			Division method of vec4 and float value. 
-			vec4(x, y, z, w) / float = vec4(x / float, y / float, z / float, w / float)
+			\param other - second vec4, which will be subtracted from *this
+			\return vec4 - computed *this
+		*/
+		vec4& subtract(const vec4& other);
 
-			If user send f as 0, it will return unmodified *this!
+		/*
+		Multiplication method of vec4 and vec4.
+		v1 * v2 = vec4(v1.x * v2.x, v1.y * v2.y, v1.z * v2.z, v1.w * v2.w)
 
-				\param f - float value, which will be divided
-				\return vec4 - returns modified *this
-			*/
-			vec4& divide(float f);
+			\param other - second vec4, which will be mutliplied with *this
+			\return vec4 - computed *this
+		*/
+		vec4& multiply(const vec4& other);
 
-			/*
-			Addition method of vec4 and vec4.
-			v1 + v2 = vec4(v1.x + v2.x, v1.y + v2.y, v1.z + v2.z, v1.w + v2.w)
+		/*
+		Division method of vec4 and vec4.
+		v1 / v2 = vec4(v1.x / v2.x, v1.y / v2.y, v1.z / v2.z, v1.w / v2.w)
 
-				\param other - second vec4, which will be added to *this
-				\return vec4 - computed *this
-			*/
-			vec4& add(const vec4& other);
+		Please make sure, that other vec4 isn't equal to 0 (any of its values). If so,
+		method returns unmodified *this.
 
-			/*
-			Subtraction method of vec4 and vec4.
-			v1 - v2 = vec4(v1.x - v2.x, v1.y - v2.y, v1.z - v2.z, v1.w - v2.w)
+			\param other - second vec4
+			\return vec4 - computed *this
+		*/
+		vec4& divide(const vec4& other);
 
-				\param other - second vec4, which will be subtracted from *this
-				\return vec4 - computed *this
-			*/
-			vec4& subtract(const vec4& other);
+		/*
+		Computes dot product of *this and other vec4.
 
-			/*
-			Multiplication method of vec4 and vec4.
-			v1 * v2 = vec4(v1.x * v2.x, v1.y * v2.y, v1.z * v2.z, v1.w * v2.w)
+			\param other - vec4
+			\return float - calculated dot product
+		*/
+		float dot(const vec4& other) const;
 
-				\param other - second vec4, which will be mutliplied with *this
-				\return vec4 - computed *this
-			*/
-			vec4& multiply(const vec4& other);
+		/*
+		Static method, which computes dot product of 2 given vec4's.
 
-			/*
-			Division method of vec4 and vec4.
-			v1 / v2 = vec4(v1.x / v2.x, v1.y / v2.y, v1.z / v2.z, v1.w / v2.w)
+			\param left - first vec4
+			\param right - second vec4
+			\return float - calculated dot product
+		*/
+		static float dot(const vec4& left, const vec4& right);
 
-			Please make sure, that other vec4 isn't equal to 0 (any of its values). If so,
-			method returns unmodified *this.
+		/*
+		Calculate length / magnitude of a vector.
 
-				\param other - second vec4
-				\return vec4 - computed *this
-			*/
-			vec4& divide(const vec4& other);
+			\return float - its magnitude
+		*/
+		float length() const;
 
-			/*
-			Computes dot product of *this and other vec4.
+		/*
+		Computes length of given vector as a paramater (l-value).
 
-				\param other - vec4
-				\return float - calculated dot product
-			*/
-			float dot(const vec4& other) const;
+			\param v - vec4, which length will be calculated
+			\return float - calculated length
+		*/
+		static float length(const vec4& v);
 
-			/*
-			Static method, which computes dot product of 2 given vec4's.
+		/*
+		Computes normalized vec4. Firstly it calculates length of vector, 
+		then it divides every value with length.
 
-				\param left - first vec4
-				\param right - second vec4
-				\return float - calculated dot product
-			*/
-			static float dot(const vec4& left, const vec4& right);
+		If magnitude is equal to 0, we have debug break.
 
-			/*
-			Calculate length / magnitude of a vector.
+			\param other - vec4, which will be normalized
+			\return vec4 - normalized vec4
+		*/
+		static vec4 normalize(const vec4& other);
 
-				\return float - its magnitude
-			*/
-			float length() const;
+		// -------------------------------------------
+		// Overloaded operators, I think they are self-explanatory.
+		// -------------------------------------------
 
-			/*
-			Computes length of given vector as a paramater (l-value).
+		friend vec4 operator+(vec4 left, float right);
+		friend vec4 operator-(vec4 left, float right);
+		friend vec4 operator*(vec4 left, float right);
+		friend vec4 operator/(vec4 left, float right);
 
-				\param v - vec4, which length will be calculated
-				\return float - calculated length
-			*/
-			static float length(const vec4& v);
+		friend vec4 operator+(vec4 left, const vec4& right);
+		friend vec4 operator-(vec4 left, const vec4& right);
+		friend vec4 operator*(vec4 left, const vec4& right);
+		friend vec4 operator/(vec4 left, const vec4& right);
 
-			/*
-			Computes normalized vec4. Firstly it calculates length of vector, 
-			then it divides every value with length.
+		vec4& operator+=(float other);
+		vec4& operator-=(float other);
+		vec4& operator*=(float other);
+		vec4& operator/=(float other);
 
-			If magnitude is equal to 0, we have debug break.
+		vec4& operator+=(const vec4& other);
+		vec4& operator-=(const vec4& other);
+		vec4& operator*=(const vec4& other);
+		vec4& operator/=(const vec4& other);
 
-				\param other - vec4, which will be normalized
-				\return vec4 - normalized vec4
-			*/
-			static vec4 normalize(const vec4& other);
+		const float& operator[](unsigned int index) const;
+		float& operator[](unsigned int index);
 
-			// -------------------------------------------
-			// Overloaded operators, I think they are self-explanatory.
-			// -------------------------------------------
+		bool operator==(const vec4& other) const;
+		bool operator!=(const vec4& other) const;
 
-			friend vec4 operator+(vec4 left, float right);
-			friend vec4 operator-(vec4 left, float right);
-			friend vec4 operator*(vec4 left, float right);
-			friend vec4 operator/(vec4 left, float right);
+	};
 
-			friend vec4 operator+(vec4 left, const vec4& right);
-			friend vec4 operator-(vec4 left, const vec4& right);
-			friend vec4 operator*(vec4 left, const vec4& right);
-			friend vec4 operator/(vec4 left, const vec4& right);
 
-			vec4& operator+=(float other);
-			vec4& operator-=(float other);
-			vec4& operator*=(float other);
-			vec4& operator/=(float other);
-
-			vec4& operator+=(const vec4& other);
-			vec4& operator-=(const vec4& other);
-			vec4& operator*=(const vec4& other);
-			vec4& operator/=(const vec4& other);
-
-			const float& operator[](unsigned int index) const;
-			float& operator[](unsigned int index);
-
-			bool operator==(const vec4& other) const;
-			bool operator!=(const vec4& other) const;
-
-		};
-
-	}
 }
 
 

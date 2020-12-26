@@ -25,298 +25,297 @@
 #include "../maths.h"
 
 
-namespace mar {
-	namespace maths {
+namespace marengine::maths {
 
-		struct vec4;
+	struct vec4;
 
+
+	/*
+	3-dimensional vector.
+	*/
+	struct vec3 {
+
+		// -------------------------------
+		float x; /* x value of vec3 */
+		float y; /* y value of vec3 */
+		float z; /* w value of vec3 */
+		// -------------------------------
+
+		// Default constructor, creates vec3(0, 0, 0).
+		vec3();
+		
+		/*
+		Constructor, that can create vec3 from given 3 floats (l-values).
+
+			\param x - x value, that will be prescribed to vec3(x, y, z)
+			\param y - y value, that will be prescribed to vec3(x, y, z)
+			\param z - z value, that will be prescribed to vec3(x, y, z)
+		*/
+		vec3(float x, float y, float z);
 
 		/*
-		3-dimensional vector.
-		*/
-		struct vec3 {
-
-			// -------------------------------
-			float x; /* x value of vec3 */
-			float y; /* y value of vec3 */
-			float z; /* w value of vec3 */
-			// -------------------------------
-
-			// Default constructor, creates vec3(0, 0, 0).
-			vec3();
+		Constructor, that takes values from vec4 x-y-z
 			
-			/*
-			Constructor, that can create vec3 from given 3 floats (l-values).
+			\param v - vec4, which values x,y,z will be prescribed to new vec3
+		*/
+		vec3(const vec4& v);
 
-				\param x - x value, that will be prescribed to vec3(x, y, z)
-				\param y - y value, that will be prescribed to vec3(x, y, z)
-				\param z - z value, that will be prescribed to vec3(x, y, z)
-			*/
-			vec3(float x, float y, float z);
+		/*
+		Addition method of vec3 and float value. 
+		vec3(x, y, z) + float = vec3(x + float, y + float, z + float)
 
-			/*
-			Constructor, that takes values from vec4 x-y-z
-				
-				\param v - vec4, which values x,y,z will be prescribed to new vec3
-			*/
-			vec3(const vec4& v);
+			\param f - float value, which will be added
+			\return vec3 - returns modified *this
+		*/
+		vec3& add(float f);
 
-			/*
-			Addition method of vec3 and float value. 
-			vec3(x, y, z) + float = vec3(x + float, y + float, z + float)
+		/*
+		Subtraction method of vec3 and float value. 
+		vec3(x, y, z) - float = vec3(x - float, y - float, z - float)
 
-				\param f - float value, which will be added
-				\return vec3 - returns modified *this
-			*/
-			vec3& add(float f);
+			\param f - float value, which will be subtracted
+			\return vec3 - returns modified *this
+		*/
+		vec3& subtract(float f);
 
-			/*
-			Subtraction method of vec3 and float value. 
-			vec3(x, y, z) - float = vec3(x - float, y - float, z - float)
+		/*
+		Multiplication method of vec3 and float value. 
+		vec3(x, y, z) * float = vec3(x * float, y * float, z * float)
 
-				\param f - float value, which will be subtracted
-				\return vec3 - returns modified *this
-			*/
-			vec3& subtract(float f);
+			\param f - float value, which will be multiplied
+			\return vec3 - returns modified *this
+		*/
+		vec3& multiply(float f);
 
-			/*
-			Multiplication method of vec3 and float value. 
-			vec3(x, y, z) * float = vec3(x * float, y * float, z * float)
+		/*
+		Division method of vec3 and float value. 
+		vec3(x, y, z) / float = vec3(x / float, y / float, z / float)
 
-				\param f - float value, which will be multiplied
-				\return vec3 - returns modified *this
-			*/
-			vec3& multiply(float f);
+		If user send f as 0, it will return unmodified *this!
 
-			/*
-			Division method of vec3 and float value. 
-			vec3(x, y, z) / float = vec3(x / float, y / float, z / float)
+			\param f - float value, which will be divided
+			\return vec3 - returns modified *this
+		*/
+		vec3& divide(float f);
 
-			If user send f as 0, it will return unmodified *this!
+		/*
+		Addition method of vec3 and vec3.
+		v1 + v2 = vec3(v1.x + v2.x, v1.y + v2.y, v1.z + v2.z)
 
-				\param f - float value, which will be divided
-				\return vec3 - returns modified *this
-			*/
-			vec3& divide(float f);
+			\param other - second vec3, which will be added to *this
+			\return vec3 - computed *this
+		*/
+		vec3& add(const vec3& other);
 
-			/*
-			Addition method of vec3 and vec3.
-			v1 + v2 = vec3(v1.x + v2.x, v1.y + v2.y, v1.z + v2.z)
+		/*
+		Subtraction method of vec3 and vec3.
+		v1 - v2 = vec3(v1.x - v2.x, v1.y - v2.y, v1.z - v2.z)
 
-				\param other - second vec3, which will be added to *this
-				\return vec3 - computed *this
-			*/
-			vec3& add(const vec3& other);
+			\param other - second vec3, which will be subtracted from *this
+			\return vec3 - computed *this
+		*/
+		vec3& subtract(const vec3& other);
 
-			/*
-			Subtraction method of vec3 and vec3.
-			v1 - v2 = vec3(v1.x - v2.x, v1.y - v2.y, v1.z - v2.z)
+		/*
+		Multiplication method of vec3 and vec3.
+		v1 * v2 = vec3(v1.x * v2.x, v1.y * v2.y, v1.z * v2.z)
 
-				\param other - second vec3, which will be subtracted from *this
-				\return vec3 - computed *this
-			*/
-			vec3& subtract(const vec3& other);
+			\param other - second vec3, which will be mutliplied with *this
+			\return vec3 - computed *this
+		*/
+		vec3& multiply(const vec3& other);
 
-			/*
-			Multiplication method of vec3 and vec3.
-			v1 * v2 = vec3(v1.x * v2.x, v1.y * v2.y, v1.z * v2.z)
+		/*
+		Division method of vec3 and vec3.
+		v1 / v2 = vec3(v1.x / v2.x, v1.y / v2.y, v1.z / v2.z)
 
-				\param other - second vec3, which will be mutliplied with *this
-				\return vec3 - computed *this
-			*/
-			vec3& multiply(const vec3& other);
+		Please make sure, that other vec3 isn't equal to 0 (any of its values). If so,
+		method returns unmodified *this.
 
-			/*
-			Division method of vec3 and vec3.
-			v1 / v2 = vec3(v1.x / v2.x, v1.y / v2.y, v1.z / v2.z)
+			\param other - second vec3
+			\return vec3 - computed *this
+		*/
+		vec3& divide(const vec3& other);
 
-			Please make sure, that other vec3 isn't equal to 0 (any of its values). If so,
-			method returns unmodified *this.
+		/*
+		Computes cross Product of *this and other vec3.
 
-				\param other - second vec3
-				\return vec3 - computed *this
-			*/
-			vec3& divide(const vec3& other);
+			\param other - vec3
+			\return vec3 - result of cross product
+		*/
+		vec3 cross(const vec3& other) const;
 
-			/*
-			Computes cross Product of *this and other vec3.
+		/*
+		Static method, Computes cross Product of 2 given vec3's.
 
-				\param other - vec3
-				\return vec3 - result of cross product
-			*/
-			vec3 cross(const vec3& other) const;
+			\param x - first vec3
+			\param y - second vec3
+			\return vec3 - result of cross product
+		*/
+		static vec3 cross(const vec3& x, const vec3& y);
 
-			/*
-			Static method, Computes cross Product of 2 given vec3's.
+		/*
+		Computes dot product of *this and other vec3.
 
-				\param x - first vec3
-				\param y - second vec3
-				\return vec3 - result of cross product
-			*/
-			static vec3 cross(const vec3& x, const vec3& y);
+			\param other - vec3
+			\return float - calculated dot product
+		*/
+		float dot(const vec3& other) const;
 
-			/*
-			Computes dot product of *this and other vec3.
+		/*
+		Static method, which computes dot product of 2 given vec3's.
 
-				\param other - vec3
-				\return float - calculated dot product
-			*/
-			float dot(const vec3& other) const;
+			\param left - first vec3
+			\param right - second vec3
+			\return float - calculated dot product
+		*/
+		static float dot(const vec3& left, const vec3& right);
 
-			/*
-			Static method, which computes dot product of 2 given vec3's.
+		/*
+		Calculate length / magnitude of a vector.
 
-				\param left - first vec3
-				\param right - second vec3
-				\return float - calculated dot product
-			*/
-			static float dot(const vec3& left, const vec3& right);
+			\return float - its magnitude
+		*/
+		float length() const;
 
-			/*
-			Calculate length / magnitude of a vector.
+		/*
+		Computes length of given vector as a paramater (l-value).
 
-				\return float - its magnitude
-			*/
-			float length() const;
+			\param v - vec3, which length will be calculated
+			\return float - calculated length
+		*/
+		static float length(vec3& v);
 
-			/*
-			Computes length of given vector as a paramater (l-value).
+		/*
+		Computes normalized vec2. Firstly it calculates length of vector, 
+		then it divides every value with length.
 
-				\param v - vec3, which length will be calculated
-				\return float - calculated length
-			*/
-			static float length(vec3& v);
+		If magnitude is equal to 0, we have debug break.
 
-			/*
-			Computes normalized vec2. Firstly it calculates length of vector, 
-			then it divides every value with length.
+			\param other - vec3, which will be normalized
+			\return vec3 - normalized vec3
+		*/
+		static vec3 normalize(const vec3& other);
 
-			If magnitude is equal to 0, we have debug break.
+		/*
+		Calculates angle between 'this' vec3 and other
+			
+			\param other - vec3 between which angle will be calculated
+			\return angle - radians
+		*/
+		float angleBetween(const vec3& other) const;
 
-				\param other - vec3, which will be normalized
-				\return vec3 - normalized vec3
-			*/
-			static vec3 normalize(const vec3& other);
+		/*
+		Calculates angle between left and right vec3
+			
+			\param left - vec3
+			\param right - vec3
+			\return angle - radians
+		*/
+		static float angleBetween(const vec3& left, const vec3& right);
 
-			/*
-			Calculates angle between 'this' vec3 and other
-				
-				\param other - vec3 between which angle will be calculated
-				\return angle - radians
-			*/
-			float angleBetween(const vec3& other) const;
+		/*
+		Calculates projection vec3 of *this and other
+			
+			\param other - vec3, to be computed with *this
+			\return vec3 - projected vec3
+		*/
+		vec3 projectOnto(const vec3& other) const;
 
-			/*
-			Calculates angle between left and right vec3
-				
-				\param left - vec3
-				\param right - vec3
-				\return angle - radians
-			*/
-			static float angleBetween(const vec3& left, const vec3& right);
+		/*
+		Calculates projection vec3 of left and right
+			
+			\param left - vec3
+			\param right - vec3
+			\return vec3 - projected vec3
+		*/
+		static vec3 projectOnto(const vec3& left, const vec3& right);
 
-			/*
-			Calculates projection vec3 of *this and other
-				
-				\param other - vec3, to be computed with *this
-				\return vec3 - projected vec3
-			*/
-			vec3 projectOnto(const vec3& other) const;
+		/*
+		Test if P1 is on the same side as P2 of a line segment A <-> B
 
-			/*
-			Calculates projection vec3 of left and right
-				
-				\param left - vec3
-				\param right - vec3
-				\return vec3 - projected vec3
-			*/
-			static vec3 projectOnto(const vec3& left, const vec3& right);
+			\param P1 - point1
+			\param P2 - point2
+			\param A - vec3
+			\param B - vec3
+			\return true if yes
+		*/
+		static bool sameSide(const vec3& p1, const vec3& p2, const vec3& a, const vec3& b);
 
-			/*
-			Test if P1 is on the same side as P2 of a line segment A <-> B
+		/*
+		Returns triangle normal from 3 vectors
 
-				\param P1 - point1
-				\param P2 - point2
-				\param A - vec3
-				\param B - vec3
-				\return true if yes
-			*/
-			static bool sameSide(const vec3& p1, const vec3& p2, const vec3& a, const vec3& b);
+			\param t1 - vec3
+			\param t2 - vec3
+			\param t3 - vec3
+		*/
+		static vec3 getTriangleNormal(const vec3& t1, const vec3& t2, const vec3& t3);
 
-			/*
-			Returns triangle normal from 3 vectors
+		/*
+		Check to see if a vec3 Point is within a 3 Vector3 Triangle
 
-				\param t1 - vec3
-				\param t2 - vec3
-				\param t3 - vec3
-			*/
-			static vec3 getTriangleNormal(const vec3& t1, const vec3& t2, const vec3& t3);
+			\param point - vec3
+			\param t1
+			\param t2
+			\param t3
+			\return true if is within
+		*/
+		static bool inTriangle(const vec3& point, const vec3& t1, const vec3& t2, const vec3& t3);
 
-			/*
-			Check to see if a vec3 Point is within a 3 Vector3 Triangle
+		/*
+		Returns value_ptr to first vec3 at vector. Used especially in shaders.
 
-				\param point - vec3
-				\param t1
-				\param t2
-				\param t3
-				\return true if is within
-			*/
-			static bool inTriangle(const vec3& point, const vec3& t1, const vec3& t2, const vec3& t3);
+			\param vec - vector of vec3
+			\return const float* - value pointer
+		*/
+		static const float* value_ptr(const std::vector<vec3>& vec);
 
-			/*
-			Returns value_ptr to first vec3 at vector. Used especially in shaders.
+		/*
+		Returns const value_ptr to vec3. Used especially in shaders.
 
-				\param vec - vector of vec3
-				\return const float* - value pointer
-			*/
-			static const float* value_ptr(const std::vector<vec3>& vec);
+			\param vec - vector of vec3
+			\return float* - value pointer
+		*/
+		static const float* value_ptr(const vec3& vec);
 
-			/*
-			Returns const value_ptr to vec3. Used especially in shaders.
+		/*
+		Returns value_ptr to vec3. Used especially in shaders.
 
-				\param vec - vector of vec3
-				\return float* - value pointer
-			*/
-			static const float* value_ptr(const vec3& vec);
+			\param vec - vector of vec3
+			\return float* - value pointer
+		*/
+		static float* value_ptr_nonconst(vec3& vec);
 
-			/*
-			Returns value_ptr to vec3. Used especially in shaders.
+		// -------------------------------------------
+		// Overloaded operators, I think they are self-explanatory.
+		// -------------------------------------------
 
-				\param vec - vector of vec3
-				\return float* - value pointer
-			*/
-			static float* value_ptr_nonconst(vec3& vec);
+		friend vec3 operator+(vec3 left, float right);
+		friend vec3 operator-(vec3 left, float right);
+		friend vec3 operator*(vec3 left, float right);
+		friend vec3 operator/(vec3 left, float right);
 
-			// -------------------------------------------
-			// Overloaded operators, I think they are self-explanatory.
-			// -------------------------------------------
+		friend vec3 operator+(vec3 left, const vec3& right);
+		friend vec3 operator-(vec3 left, const vec3& right);
+		friend vec3 operator*(vec3 left, const vec3& right);
+		friend vec3 operator/(vec3 left, const vec3& right);
 
-			friend vec3 operator+(vec3 left, float right);
-			friend vec3 operator-(vec3 left, float right);
-			friend vec3 operator*(vec3 left, float right);
-			friend vec3 operator/(vec3 left, float right);
+		vec3& operator+=(float other);
+		vec3& operator-=(float other);
+		vec3& operator*=(float other);
+		vec3& operator/=(float other);
 
-			friend vec3 operator+(vec3 left, const vec3& right);
-			friend vec3 operator-(vec3 left, const vec3& right);
-			friend vec3 operator*(vec3 left, const vec3& right);
-			friend vec3 operator/(vec3 left, const vec3& right);
+		vec3& operator+=(const vec3& other);
+		vec3& operator-=(const vec3& other);
+		vec3& operator*=(const vec3& other);
+		vec3& operator/=(const vec3& other);
 
-			vec3& operator+=(float other);
-			vec3& operator-=(float other);
-			vec3& operator*=(float other);
-			vec3& operator/=(float other);
+		bool operator==(const vec3& other) const;
+		bool operator!=(const vec3& other) const;
 
-			vec3& operator+=(const vec3& other);
-			vec3& operator-=(const vec3& other);
-			vec3& operator*=(const vec3& other);
-			vec3& operator/=(const vec3& other);
+	};
 
-			bool operator==(const vec3& other) const;
-			bool operator!=(const vec3& other) const;
 
-		};
-
-	}
 }
 
 

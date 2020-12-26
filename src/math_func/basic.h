@@ -25,45 +25,44 @@
 #include "../maths.h"
 
 
-namespace mar {
-	namespace maths {
+namespace marengine::maths {
 
+	
+	/*
+	basic structure defines basic mathematical methods.
+	*/
+	struct basic {
+	
+		/*
+		Calculates square root of given value.
+
+			\param val - value, of which square root will be computed
+			\return float - calculated sqrt(val).
+		*/
+		static float square(float val);
 
 		/*
-		basic structure defines basic mathematical methods.
+		Calculates power of given value.
+			
+			\param val - value, of which power will be computed
+			\return float - calculated power
 		*/
-		struct basic {
-		
-			/*
-			Calculates square root of given value.
+		static float power(float val);
 
-				\param val - value, of which square root will be computed
-				\return float - calculated sqrt(val).
-			*/
-			static float square(float val);
+		/*
+		Returns the component-wise compare of |x - y| < epsilon.
+		*/
+		static bool epsilonEqual(float x, float y, float epsilon);
 
-			/*
-			Calculates power of given value.
-				
-				\param val - value, of which power will be computed
-				\return float - calculated power
-			*/
-			static float power(float val);
-
-			/*
-			Returns the component-wise compare of |x - y| < epsilon.
-			*/
-			static bool epsilonEqual(float x, float y, float epsilon);
-
-			/*
-			Returns the component-wise compare of |x - y| >= epsilon.
-			*/
-			static bool epsilonNotEqual(float x, float y, float epsilon);
+		/*
+		Returns the component-wise compare of |x - y| >= epsilon.
+		*/
+		static bool epsilonNotEqual(float x, float y, float epsilon);
 
 
-		};
+	};
 
 
-} }
+}
 
 #endif // !MAR_MATH_BASIC_MATH_H

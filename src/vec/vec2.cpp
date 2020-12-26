@@ -22,7 +22,7 @@
 #include "../math_func/basic.h"
 
 
-namespace mar::maths {
+namespace marengine::maths {
 
 
 	vec2::vec2() {
