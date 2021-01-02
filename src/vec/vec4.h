@@ -183,6 +183,22 @@ namespace marengine::maths {
 		*/
 		static vec4 normalize(const vec4& other);
 
+		/*
+		Returns value_ptr to first vec4 at vector. Used especially in shaders.
+
+			\param vec - vector of vec4
+			\return const float* - value pointer
+		*/
+		static const float* value_ptr(const std::vector<vec4>& vec);
+
+		/*
+		Returns const value_ptr to vec4. Used especially in shaders.
+
+			\param vec - vector of vec4
+			\return float* - value pointer
+		*/
+		static const float* value_ptr(const vec4& vec);
+
 		// -------------------------------------------
 		// Overloaded operators, I think they are self-explanatory.
 		// -------------------------------------------

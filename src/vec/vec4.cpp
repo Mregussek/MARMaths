@@ -149,6 +149,14 @@ namespace marengine::maths {
 		return rtn;
 	}
 
+	const float* vec4::value_ptr(const std::vector<vec4>& vec) {
+		return &(*vec.data()).x;
+	}
+
+	const float* vec4::value_ptr(const vec4& vec) {
+		return &vec.x;
+	}
+
 	vec4 operator+(vec4 left, float right) {
 		return left.add(right);
 	}
