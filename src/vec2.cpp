@@ -32,104 +32,102 @@ namespace marengine::maths {
 		this->y = 0.0f;
 	}
 
-	vec2::vec2(const float& x, const float& y) {
-		this->x = x;
-		this->y = y;
+	vec2::vec2(float _x, float _y) {
+		x = _x;
+		y = _y;
 	}
 
-	vec2::vec2(const float&& x, const float&& y) {
-		this->x = x;
-		this->y = y;
+	vec2 vec2::add(float f) const {
+		return {
+			x + f,
+			y + f
+		};
 	}
 
-	vec2& vec2::add(const float& f) {
-		x += f;
-		y += f;
-
-		return *this;
+	vec2 vec2::subtract(float f) const {
+		return {
+			x - f,
+			y - f
+		};
 	}
 
-	vec2& vec2::subtract(const float& f) {
-		x -= f;
-		y -= f;
-
-		return *this;
+	vec2 vec2::multiply(float f) const {
+		return {
+			x * f,
+			y * f
+		};
 	}
 
-	vec2& vec2::multiply(const float& f) {
-		x *= f;
-		y *= f;
-
-		return *this;
+	vec2 vec2::divide(float f) const {
+		if (f == 0.f) {
+			static_assert(true, "vec2::divide(0.f) - cannot divide by zero!");
+		};
+		return {
+			x / f,
+			y / f
+		};
 	}
 
-	vec2& vec2::divide(const float& f) {
-		if (f == 0.f) return *this;
-
-		x /= f;
-		y /= f;
-
-		return *this;
+	vec2 vec2::add(vec2 other) const {
+		return {
+			x + other.x,
+			y + other.y
+		};
 	}
 
-	vec2& vec2::add(const vec2& other) {
-		x += other.x;
-		y += other.y;
-
-		return *this;
+	vec2 vec2::subtract(vec2 other) const {
+		return {
+			x - other.x,
+			y - other.y
+		};
 	}
 
-	vec2& vec2::subtract(const vec2& other) {
-		x -= other.x;
-		y -= other.y;
-
-		return *this;
+	vec2 vec2::multiply(vec2 other) const {
+		return {
+			x * other.x,
+			y * other.y
+		};
 	}
 
-	vec2& vec2::multiply(const vec2& other) {
-		x *= other.x;
-		y *= other.y;
-
-		return *this;
-	}
-
-	vec2& vec2::divide(const vec2& other) {
-		if (other.x == 0 || other.y == 0) {
-			return *this;
+	vec2 vec2::divide(vec2 other) const {
+		if (other.x == 0.f || other.y == 0.f) {
+			static_assert(true, "vec2::divide({0.f, 0.f}) - cannot divide by zero!");
 		}
-
-		x /= other.x;
-		y /= other.y;
-
-		return *this;
+		return {
+			x / other.x,
+			y / other.y
+		};
 	}
 
-	float vec2::dot(const vec2& other) {
+	float vec2::dot(vec2 other) const {
 		return dot(*this, other);
 	}
 
-	float vec2::dot(const vec2& left, const vec2& right) {
+	float vec2::dot(vec2 left, vec2 right) {
 		return left.x * right.x + left.y * right.y;
 	}
 
 	float vec2::length() const {
-		return basic::square(dot(*this, *this));
+		return length(*this);
 	}
 
-	float vec2::length(vec2& v) {
-		return v.length();
+	float vec2::length(vec2 v) {
+		return basic::square(dot(v, v));
 	}
 
-	float vec2::length(vec2&& v) {
-		return v.length();
+	vec2 vec2::normalize() const {
+		return normalize(*this);
 	}
 
-	vec2 vec2::normalize(const vec2& other) {
-		float magnitude = basic::square((other.x * other.x) + (other.y * other.y));
-
-		vec2 rtn{ other.x / magnitude, other.y / magnitude };
-
-		return rtn;
+	vec2 vec2::normalize(vec2 other) {
+		const float magnitude{ length(other) };
+		if (magnitude == 0.f) {
+			static_assert(true, "vec2::normalize(magnitude=0.f) - cannot divide by zero!");
+		}
+		return {
+			other.x / magnitude,
+			other.y / magnitude
+		};
 	}
 
 	vec2 operator+(vec2 left, float right) {
@@ -148,59 +146,59 @@ namespace marengine::maths {
 		return left.divide(right);
 	}
 
-	vec2 operator+(vec2 left, const vec2& right) {
+	vec2 operator+(vec2 left, vec2 right) {
 		return left.add(right);
 	}
 
-	vec2 operator-(vec2 left, const vec2& right) {
+	vec2 operator-(vec2 left, vec2 right) {
 		return left.subtract(right);
 	}
 
-	vec2 operator*(vec2 left, const vec2& right) {
+	vec2 operator*(vec2 left, vec2 right) {
 		return left.multiply(right);
 	}
 
-	vec2 operator/(vec2 left, const vec2& right) {
+	vec2 operator/(vec2 left, vec2 right) {
 		return left.divide(right);
 	}
 
-	vec2& vec2::operator+=(const float& other) {
+	vec2 vec2::operator+=(float other) const {
 		return add(other);
 	}
 
-	vec2& vec2::operator-=(const float& other) {
+	vec2 vec2::operator-=(float other) const {
 		return subtract(other);
 	}
 
-	vec2& vec2::operator*=(const float& other) {
+	vec2 vec2::operator*=(float other) const {
 		return multiply(other);
 	}
 
-	vec2& vec2::operator/=(const float& other) {
+	vec2 vec2::operator/=(float other) const {
 		return divide(other);
 	}
 
-	vec2& vec2::operator+=(const vec2& other) {
+	vec2 vec2::operator+=(vec2 other) const {
 		return add(other);
 	}
 
-	vec2& vec2::operator-=(const vec2& other) {
+	vec2 vec2::operator-=(vec2 other) const {
 		return subtract(other);
 	}
 
-	vec2& vec2::operator*=(const vec2& other) {
+	vec2 vec2::operator*=(vec2 other) const {
 		return multiply(other);
 	}
 
-	vec2& vec2::operator/=(const vec2& other) {
+	vec2 vec2::operator/=(vec2 other) const {
 		return divide(other);
 	}
 
-	bool vec2::operator==(const vec2& other) const {
+	bool vec2::operator==(vec2 other) const {
 		return x == other.x && y == other.y;
 	}
 
-	bool vec2::operator!=(const vec2& other) const {
+	bool vec2::operator!=(vec2 other) const {
 		return !(*this == other);
 	}
 

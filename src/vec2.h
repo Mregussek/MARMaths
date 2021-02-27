@@ -43,147 +43,125 @@ namespace marengine::maths {
 		vec2();
 
 		/**
-		 * \brief Constructor, that can create vec2 from given 2 floats (l-values).
+		 * \brief Constructor, that can create vec2 from given 2 floats.
 		 * \param x x value, that will be prescribed to vec2(x, y)
 		 * \param y y value, that will be prescribed to vec2(x, y)
 		 */
-		vec2(const float& x, const float& y);
+		vec2(float _x, float _y);
 
-		/*
-		Constructor, that can create vec2 from given 2 floats (r-values).
+		/**
+		 * \brief Addition method of vec2 and float value.  
+		 * vec2(x, y) + float = vec2(x + float, y + float) 
+		 * \param f float value, which will be added
+		 * \return modifed vec2 after addition
+		 */
+		vec2 add(float f) const;
 
-			\param x - x value, that will be prescribed to vec2(x, y)
-			\param y - y value, that will be prescribed to vec2(x, y)
-		*/
-		vec2(const float&& x, const float&& y);
+		/**
+		 * \brief Subtraction method of vec2 and float value.
+		 * vec2(x, y) - float = vec2(x - float, y - float)
+		 * \param f float value, which will be subtracted
+		 * \return modifed vec2 after subtraction
+		 */
+		vec2 subtract(float f) const;
 
-		/*
-		Addition method of vec2 and float value. 
-		vec2(x, y) + float = vec2(x + float, y + float)
+		/**
+		 * \brief Multiplication method of vec3 and float value.
+		 * vec2(x, y) * float = vec2(x * float, y * float)
+		 * \param f float value, which will be multiplied
+		 * \return modifed vec2 after multiplication
+		 */
+		vec2 multiply(float f) const;
 
-			\param f - float value, which will be added
-			\return vec2 - returns modified *this
-		*/
-		vec2& add(const float& f);
+		/**
+		 * \brief Division method of vec2 and float value.
+		 * vec2(x, y) / float = vec2(x / float, y / float)
+		 * Cannot divide by zero = 0.f! If user passes 0.f, then
+		 * debug break is called!
+		 * \param f float value, which will be divided
+		 * \return modifed vec2 after division
+		 */
+		vec2 divide(float f) const;
 
-		/*
-		Subtraction method of vec2 and float value. 
-		vec2(x, y) - float = vec2(x - float, y - float)
+		/**
+		 * \brief Addition method of vec2 and vec2.
+		 * v1 + v2 = vec2(v1.x + v2.x, v1.y + v2.y)
+		 * \param other second vec2, which will be added to *this
+		 * \return modifed vec2 after addition
+		 */
+		vec2 add(vec2 other) const;
 
-			\param f - float value, which will be subtracted
-			\return vec2 - returns modified *this
-		*/
-		vec2& subtract(const float& f);
+		/**
+		 * \brief Subtraction method of vec2 and vec2.
+		 * v1 - v2 = vec2(v1.x - v2.x, v1.y - v2.y)
+		 * \param other second vec2, which will be subtracted from *this
+		 * \return modifed vec2 after subtraction
+		 */
+		vec2 subtract(vec2 other) const;
 
-		/*
-		Multiplication method of vec3 and float value. 
-		vec2(x, y) * float = vec2(x * float, y * float)
+		/**
+		 * \brief Multiplication method of vec2 and vec2.
+		 * v1 * v2 = vec2(v1.x * v2.x, v1.y * v2.y)
+		 * \param other second vec2, which will be mutliplied with *this
+		 * \return modifed vec2 after multiplication
+		 */
+		vec2 multiply(vec2 other) const;
 
-			\param f - float value, which will be multiplied
-			\return vec2 - returns modified *this
-		*/
-		vec2& multiply(const float& f);
+		/**
+		 * \brief Division method of vec2 and vec2.
+		 * v1 / v2 = vec2(v1.x / v2.x, v1.y / v2.y)
+		 * Please make sure, that other vec2 isn't equal to 0 (any of its values). If so,
+		 * method calls debug break.
+		 * \param other second vec2
+		 * \return modifed vec2 after division
+		 */
+		vec2 divide(vec2 other) const;
 
-		/*
-		Division method of vec2 and float value. 
-		vec2(x, y) / float = vec2(x / float, y / float)
+		/**
+		 * \brief Computes dot product of *this and other vec2.
+		 * \param other other vec2, with which dot product must be calculated
+		 * \return calculated dot product
+		 */
+		float dot(vec2 other) const;
 
-		If user send f as 0, it will return unmodified *this!
+		/**
+		 * \brief Static method, which computes dot product of 2 given vec2's.
+		 * 
+		 * \param left first vec2
+		 * \param right second vec2
+		 * \return calculated dot product
+		 */
+		static float dot(vec2 left, vec2 right);
 
-			\param f - float value, which will be divided
-			\return vec2 - returns modified *this
-		*/
-		vec2& divide(const float& f);
-
-		/*
-		Addition method of vec2 and vec2.
-		v1 + v2 = vec2(v1.x + v2.x, v1.y + v2.y)
-
-			\param other - second vec2, which will be added to *this
-			\return vec2 - computed *this
-		*/
-		vec2& add(const vec2& other);
-
-		/*
-		Subtraction method of vec2 and vec2.
-		v1 - v2 = vec2(v1.x - v2.x, v1.y - v2.y)
-
-			\param other - second vec2, which will be subtracted from *this
-			\return vec2 - computed *this
-		*/
-		vec2& subtract(const vec2& other);
-
-		/*
-		Multiplication method of vec2 and vec2.
-		v1 * v2 = vec2(v1.x * v2.x, v1.y * v2.y)
-
-			\param other - second vec2, which will be mutliplied with *this
-			\return vec2 - computed *this
-		*/
-		vec2& multiply(const vec2& other);
-
-		/*
-		Division method of vec2 and vec2.
-		v1 / v2 = vec3(v1.x / v2.x, v1.y / v2.y)
-
-		Please make sure, that other vec2 isn't equal to 0 (any of its values). If so,
-		method returns unmodified *this.
-
-			\param other - second vec2
-			\return vec2 - computed *this
-		*/
-		vec2& divide(const vec2& other);
-
-		/*
-		Computes dot product of *this and other vec2.
-
-			\param other - vec2
-			\return float - calculated dot product
-		*/
-		float dot(const vec2& other);
-
-		/*
-		Static method, which computes dot product of 2 given vec2's.
-
-			\param left - first vec2
-			\param right - second vec2
-			\return float - calculated dot product
-		*/
-		static float dot(const vec2& left, const vec2& right);
-
-		/*
-		Calculate length / magnitude of a vector.
-
-			\return float - its magnitude
-		*/
+		/**
+		 * \brief Calculate length / magnitude of a vector.
+		 * \return its magnitude
+		 */
 		float length() const;
 
-		/*
-		Computes length of given vector as a paramater (l-value).
+		/**
+		 * \brief Computes length of given vector as a paramater.
+		 * \param v vec2, which length will be calculated
+		 * \return calculated length
+		 */
+		static float length(vec2 v);
+		
+		/**
+		 * \brief Computes normalized vec2. Firstly it calculates length of vector,
+		 * then it divides every value with length.
+		 * If magnitude is equal to 0, we have debug break.
+		 * \return normalized vec2
+		 */
+		vec2 normalize() const;
 
-			\param v - vec2, which length will be calculated
-			\return float - calculated length
-		*/
-		static float length(vec2& v);
-
-		/*
-		Computes length of given vector as a paramater (r-value).
-
-			\param v - vec2, which length will be calculated
-			\return float - calculated length
-		*/
-		static float length(vec2&& v);
-
-		/*
-		Computes normalized vec2. Firstly it calculates length of vector, 
-		then it divides every value with length.
-
-		If magnitude is equal to 0, we have debug break.
-
-			\param other - vec2, which will be normalized
-			\return vec2 - normalized vec2
-		*/
-		static vec2 normalize(const vec2& other);
+		/**
+		 * \brief Computes normalized vec2. Firstly it calculates length of vector,
+		 * then it divides every value with length.
+		 * If magnitude is equal to 0, we have debug break.
+		 * \param other vec2, which will be normalized
+		 * \return normalized vec2
+		 */
+		static vec2 normalize(vec2 other);
 
 		// -------------------------------------------
 		// Overloaded operators, I think they are self-explanatory.
@@ -194,23 +172,23 @@ namespace marengine::maths {
 		friend vec2 operator*(vec2 left, float right);
 		friend vec2 operator/(vec2 left, float right);
 
-		friend vec2 operator+(vec2 left, const vec2& right);
-		friend vec2 operator-(vec2 left, const vec2& right);
-		friend vec2 operator*(vec2 left, const vec2& right);
-		friend vec2 operator/(vec2 left, const vec2& right);
+		friend vec2 operator+(vec2 left, vec2 right);
+		friend vec2 operator-(vec2 left, vec2 right);
+		friend vec2 operator*(vec2 left, vec2 right);
+		friend vec2 operator/(vec2 left, vec2 right);
 
-		vec2& operator+=(const float& other);
-		vec2& operator-=(const float& other);
-		vec2& operator*=(const float& other);
-		vec2& operator/=(const float& other);
+		vec2 operator+=(float other) const;
+		vec2 operator-=(float other) const;
+		vec2 operator*=(float other) const;
+		vec2 operator/=(float other) const;
 
-		vec2& operator+=(const vec2& other);
-		vec2& operator-=(const vec2& other);
-		vec2& operator*=(const vec2& other);
-		vec2& operator/=(const vec2& other);
+		vec2 operator+=(vec2 other) const;
+		vec2 operator-=(vec2 other) const;
+		vec2 operator*=(vec2 other) const;
+		vec2 operator/=(vec2 other) const;
 
-		bool operator==(const vec2& other) const;
-		bool operator!=(const vec2& other) const;
+		bool operator==(vec2 other) const;
+		bool operator!=(vec2 other) const;
 
 	};
 
