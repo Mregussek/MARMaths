@@ -158,54 +158,67 @@ namespace marengine::maths {
 		return other * inverseMagnitude;
 	}
 
-	float vec3::angleBetween(const vec3& other) const {
+	float vec3::angleBetween(vec3 other) const {
 		return angleBetween(*this, other);
 	}
 
-	float vec3::angleBetween(const vec3& left, const vec3& right) {
-		float angle{ dot(left, right) };
-		angle /= (left.length() * right.length());
-		return acosf(angle);
+	float vec3::angleBetween(vec3 left, vec3 right) {
+		const float angle{ dot(left, right) };
+		const float len{ left.length() * right.length() };
+		if (len == 0.f) {
+			static_assert(true, "vec3::angleBetween(len=0.f) - cannot divide by zero!");
+		}
+		return acosf(angle / len);
 	}
 
-	vec3 vec3::projectOnto(const vec3& other) const {
+	vec3 vec3::projectOnto(vec3 other) const {
 		return projectOnto(*this, other);
 	}
 
-	vec3 vec3::projectOnto(const vec3& left, const vec3& right) {
-		const auto normalized{ right / right.length() };
-		return normalized * dot(left, right);
+	vec3 vec3::projectOnto(vec3 left, vec3 right) {
+		const float magnitude{ right.length() };
+		if (magnitude == 0.f) {
+			static_assert(true, "vec3::projectOnto(magnitude=0.f) - cannot divide by zero!");
+		}
+		const auto normalizedRight{ right / magnitude };
+		return normalizedRight * dot(left, right);
 	}
 
-	bool vec3::sameSide(const vec3& p1, const vec3& p2, const vec3& a, const vec3& b) {
+	bool vec3::sameSide(vec3 p1, vec3 p2, vec3 a, vec3 b) {
 		const vec3 cp1{ cross(b - a, p1 - a) };
 		const vec3 cp2{ cross(b - a, p2 - a) };
+		const bool onTheSameSide{ dot(cp1, cp2) >= 0.f };
+		if (onTheSameSide) { 
+			return true; 
+		}
 
-		if (dot(cp1, cp2) >= 0.f) { return true; }
-		else { return false; }
+		return false;
 	}
 
-	vec3 vec3::getTriangleNormal(const vec3& t1, const vec3& t2, const vec3& t3) {
+	vec3 vec3::getTriangleNormal(vec3 t1, vec3 t2, vec3 t3) {
 		const vec3 u{ t2 - t1 };
 		const vec3 v{ t3 - t1 };
-
 		return cross(u, v);
 	}
 
-	bool vec3::inTriangle(const vec3& point, const vec3& t1, const vec3& t2, const vec3& t3) {
+	bool vec3::inTriangle(vec3 point, vec3 t1, vec3 t2, vec3 t3) {
 		const bool withTrianglePrism{
 			sameSide(point, t1, t2, t3) &&
 			sameSide(point, t2, t1, t3) &&
 			sameSide(point, t3, t1, t2)
 		};
+		if (!withTrianglePrism) { 
+			return false; 
+		}
+		const vec3 normal{ getTriangleNormal(t1, t2, t3) };
+		const vec3 proj{ projectOnto(point, normal) };
 
-		if (!withTrianglePrism) { return false; }
-
-		const auto normal{ getTriangleNormal(t1, t2, t3) };
-		const auto proj{ projectOnto(point, normal) };
-
-		if (proj.length() == 0.f) { return true; }
-		else { return false; }
+		const bool isWithinTriangle{ proj.length() == 0.f };
+		if (isWithinTriangle) {
+			return true; 
+		}
+		
+		return false;
 	}
 
 	const float* vec3::value_ptr(const std::vector<vec3>& vec) {
@@ -236,59 +249,59 @@ namespace marengine::maths {
 		return left.divide(right);
 	}
 
-	vec3 operator+(vec3 left, const vec3& right) {
+	vec3 operator+(vec3 left, vec3 right) {
 		return left.add(right);
 	}
 
-	vec3 operator-(vec3 left, const vec3& right) {
+	vec3 operator-(vec3 left, vec3 right) {
 		return left.subtract(right);
 	}
 
-	vec3 operator*(vec3 left, const vec3& right) {
+	vec3 operator*(vec3 left, vec3 right) {
 		return left.multiply(right);
 	}
 
-	vec3 operator/(vec3 left, const vec3& right) {
+	vec3 operator/(vec3 left, vec3 right) {
 		return left.divide(right);
 	}
 
-	vec3& vec3::operator+=(float other) {
+	vec3 vec3::operator+=(float other) const {
 		return add(other);
 	}
 
-	vec3& vec3::operator-=(float other) {
+	vec3 vec3::operator-=(float other) const {
 		return subtract(other);
 	}
 
-	vec3& vec3::operator*=(float other) {
+	vec3 vec3::operator*=(float other) const {
 		return multiply(other);
 	}
 
-	vec3& vec3::operator/=(float other) {
+	vec3 vec3::operator/=(float other) const {
 		return divide(other);
 	}
 
-	vec3& vec3::operator+=(const vec3& other) {
+	vec3 vec3::operator+=(vec3 other) const {
 		return add(other);
 	}
 
-	vec3& vec3::operator-=(const vec3& other) {
+	vec3 vec3::operator-=(vec3 other) const {
 		return subtract(other);
 	}
 
-	vec3& vec3::operator*=(const vec3& other) {
+	vec3 vec3::operator*=(vec3 other) const {
 		return multiply(other);
 	}
 
-	vec3& vec3::operator/=(const vec3& other) {
+	vec3 vec3::operator/=(vec3 other) const {
 		return divide(other);
 	}
 
-	bool vec3::operator==(const vec3& other) const {
+	bool vec3::operator==(vec3 other) const {
 		return x == other.x && y == other.y && z == other.z;
 	}
 
-	bool vec3::operator!=(const vec3& other) const {
+	bool vec3::operator!=(vec3 other) const {
 		return !(*this == other);
 	}
 
