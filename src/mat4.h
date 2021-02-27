@@ -50,141 +50,137 @@ namespace marengine::maths {
         
         float elements[4 * 4]; ///  Float array, that contains data of 4x4 matrix   
 
-        // Default constructor for 4x4 matrix. Initialized all elements to 0.f.
+        /// \brief Default constructor for 4x4 matrix. Initializes all elements to 0.f.
         mat4();
     
-        /*
-        Constructor, that allows user to create specified diagonal.
-    
-            \param diagonal - value, to specify for diagonal
-        */
+        /**
+         * \brief Constructor, that allows user to create identity mat4 with specified diagonal.
+         * \param diagonal diagonal value
+         */
         mat4(float diagonal);
     
-        /*
-        Returns selected column of 4x4 matrix in vec4 form.
-    
-            \param index - index of column
-            \return vec4 - vector, that contains data
-        */
+        /**
+         * \brief Returns selected column of 4x4 matrix in vec4 form.
+         * Make sure, that index is in range <0;3>. Method won't check that!
+         * \param index index of column <0;3>
+         * \return vector, that contains the whole column in vec4 format
+         */
         vec4 getColumn4(size_t index) const;
     
-        /*
-        Returns selected column of 4x4 matrix in vec3 form, without last value
-    
-            \param index - index of column
-            \return vec3 - vector, that contains data
-        */
+        /**
+         * \brief Returns selected column of 4x4 matrix in vec3 form, without the last value.
+         * Make sure, that index is in range <0;3>. Method won't check that!
+         * \param index index of column <0;3>
+         * \return vector, that contains the whole column in vec3 format (without last row value)
+         */
         vec3 getColumn3(size_t index) const;
     
-        /*
-        Returns selected row of 4x4 matrix in vec4 form.
-    
-            \param index - index of row
-            \return vec4 - vector, that contains data
-        */
+        /**
+         * \brief Returns selected row of 4x4 matrix in vec4 form.
+         * Make sure, that index is in range <0;3>. Method won't check that!
+         * \param index index of row <0;3>
+         * \return vector, that contains the whole row in vec4 format
+         */
         vec4 getRow4(size_t index) const;
     
-        /*
-        Returns selected row of 4x4 matrix in vec3 form, without last value
-    
-            \param index - index of row
-            \return vec3 - vector, that contains data
-        */
+        /**
+         * \brief Returns selected row of 4x4 matrix in vec3 form, without last value.
+         * Make sure, that index is in range <0;3>. Method won't check that!
+         * \param index index of row <0;3>
+         * \return vector, that contains the whole row in vec3 format (without last column value)
+         */
         vec3 getRow3(size_t index) const;
     
-        /*
-        Static method to create identity matrix. It simply calls mat4(1.f) constructor and returns it.
-    
-            \return mat4 - identity matrix with 1.f as diagonal
-        */
+        /**
+         * \brief Static method to create identity matrix. It simply calls mat4(1.f) constructor and returns it.
+         * \return identity matrix with 1.f as diagonal
+         */
         static mat4 identity();
     
-        /*
-        Multiplication method of 2 matrices (*this matrix and given mat4).
-    
-            \param other - matrix to multiply with *this
-            \return mat4 - result of multiplication
-        */
+        /**
+         * \brief Multiplication method of 2 matrices (*this matrix and given mat4).
+         * \param other matrix, that is multiplied with *this
+         * \return result of two matrices multiplication (which is another mat4)
+         */
         mat4 multiply(const mat4& other) const;
-    
-        /*
-        Multiplication method of *this matrix and given vec4.
-    
-            \param other - vec4 to multiply with *this
-            \return vec4 - result of multiplication
-        */
+
+        /**
+         * \brief Multiplication method of *this matrix and given vec4.
+         * \param other vec4 to multiply with *this
+         * \return result of mat4 and vec4 multiplication (which is vec4)
+         */
         vec4 multiply(const vec4& other) const;
-    
-        /*
-        Get Projection Matrix - Orthographic with given parameters. Usually used in 2D.
-    
-            \param left - distance left
-            \param right - distance right
-            \param top - distance up
-            \param bottom - distance down
-            \param near - where start "seeing"
-            \param far - where stop "seeing"
-            \return mat4 - created orthographic mat4
-        */
+            
+        /**
+         * \brief Multiplication method of *this matrix and given float.
+         * \param other float to multiply with *this
+         * \return result of mat4 and float multiplication (which is mat4)
+         */
+        mat4 multiply(float other) const;
+
+        /**
+         * \brief Get Projection Matrix - Orthographic with given parameters. Usually used in 2D.
+         * \param left distance left
+         * \param right distance right
+         * \param top distance up
+         * \param bottom distance down
+         * \param near where start "seeing"
+         * \param far where stop "seeing"
+         * \return created orthographic mat4
+         */
         static mat4 orthographic(float left, float right, float top, float bottom, float near, float far);
         
-        /*
-        Get Projection Matrix - Perspective with given parameters. Usually used in 3D.
-    
-            \param fov - Fielf Of View
-            \param aspectRation
-            \param near - where start "seeing"
-            \param far - where stop "seeing"
-            \return mat4 - created perspective mat4
-        */
+        /**
+         * \brief Get Projection Matrix - Perspective with given parameters. Usually used in 3D.
+         * \param fov Fielf Of View
+         * \param aspectRatio Aspect Ratio
+         * \param near - where start "seeing"
+         * \param far - where stop "seeing"
+         * \return created perspective mat4
+         */
         static mat4 perspective(float fov, float aspectRatio, float near, float far);
-    
-        /*
-        Get lookAt matrix - View Matrix with given parameters.
-    
-            \param eye - defines positions of view (camera)
-            \param center - defines place, where the camera is looking
-            \param up - specifies the up direction of the camera
-            \return mat4 - created lookAt matrix
-        */
+
+        /**
+         * \brief Get lookAt matrix - View Matrix with given parameters.
+         * \param eye defines positions of view (camera)
+         * \param center defines place, where the camera is looking
+         * \param y specifies the up direction of the camera
+         * \return  created lookAt matrix
+         */
         static mat4 lookAt(vec3 eye, vec3 center, vec3 y);
     
-        /*
-        Get Translation matrix specified for new position.
-    
-            \param trans - where the object must be have its center
-            \return mat4 - created translation matrix
-        */
+        /**
+         * \brief Get Translation matrix specified for new position.
+         * \param trans where the object must be have its center
+         * \return created translation matrix
+         */
         static mat4 translation(vec3 trans);
-    
-        /*
-        Get Rotation matrix with specified angle and axis. Angle must be given in radians! 
-        Axis is vec3, where each its value specifies axis. vec3.x equal to 1 says, that it will be rotated 
-        around x-axis, vec3.y = 1 around y-axis and vec3.z = 1 around z-axis.
-    
-            \param angle - angle given in radians
-            \param axis - vec3, which specifies rotation axis
-            \return mat4 - created rotation matrix
-        */
+
+        /**
+         * \brief Get Rotation matrix with specified angle and axis. Angle must be given in radians!
+         * Axis is vec3, where each its value specifies axis. vec3.x equal to 1 says,
+         * that it will be rotated around x-axis, vec3.y = 1 around y-axis and vec3.z = 1 around z-axis.
+         * \param angle angle given in radians
+         * \param axis vec3, which specifies rotation axis
+         * \return created rotation matrix
+         */
         static mat4 rotation(float angle, vec3 axis);
     
-        /*
-        Get Scale matrix with specified coefficients. Given paramater is vec3, it says 
-        that every vertice must be multiplied with it. If you want scale object only in 
-        x-axis pass vec3(x, 1.f, 1.f), where x is other than 1.f.
-    
-            \param scal - vec3, which specifies scale coefficients
-            \return mat4 - created scale matrix
-        */
+        /**
+         * \brief Get Scale matrix with specified coefficients. Given paramater is vec3, it says
+         * that every vertice must be multiplied with it. If you want scale object only in
+         * x-axis pass vec3(x, 1.f, 1.f), where x is other than 1.f.
+         * \param scal vec3, which specifies scale coefficients
+         * \return created scale matrix
+         */
         static mat4 scale(vec3 scal);
     
-        /*
-        Get inverse matrix of given matrix as parameter. If determinant is equal to 0,
-        debug break is called and application stops.
-    
-            \param m - the matrix we'll count the inverse of
-            \return mat4 - calculated inverse matrix
-        */
+        /**
+         * Get inverse matrix of given matrix as parameter. If determinant is equal to 0,
+         * debug break is called and application stops.
+         * \param m the matrix we'll count the inverse of
+         * \return calculated inverse matrix
+         */
         static mat4 inverse(const mat4& m);
     
         /*

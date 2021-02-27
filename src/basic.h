@@ -61,11 +61,10 @@ namespace marengine::maths {
 
 		/**
 		 * \brief Returns the component-wise compare of |x - y| >= epsilon.
-		 * 
-		 * \param x
-		 * \param y
-		 * \param epsilon
-		 * \return 
+		 * \param x first value
+		 * \param y second value
+		 * \param epsilon  some low float value, ex: FLT_EPSILON
+		 * \return True, if equation is greater or equal to given epsilon
 		 */
 		static bool epsilonNotEqual(float x, float y, float epsilon);
 
