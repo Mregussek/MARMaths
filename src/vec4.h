@@ -22,7 +22,7 @@
 #define MAR_MATH_VEC4_H
 
 
-#include "../maths.h"
+#include "maths.h"
 
 
 namespace marengine::maths {
@@ -30,115 +30,104 @@ namespace marengine::maths {
 	struct vec3;
 
 
-	/*
-	4-dimensional vector.
-	*/
+	/**
+	 * \struct vec4 vec4 "vec4.h"
+	 * \brief 4-dimensional vector.
+	 */
 	struct vec4 {
 		
-		// -------------------------------
-		float x; /* x value of vec4 */
-		float y; /* y value of vec4 */
-		float z; /* z value of vec4 */
-		float w; /* w value of vec4 */
-		// ------------------------------
+		float x; /// x value of vec4
+		float y; /// y value of vec4
+		float z; /// z value of vec4
+		float w; /// w value of vec4
 
-		// Default constructor, creates vec4(0, 0, 0, 0).
+
+		/// \brief Default constructor, creates vec4(0.f, 0.f, 0.f, 0.f).
 		vec4();
 
-		/* 
-		Constructor, that expands vec3 to vec4 with given w parameter.
+		/**
+		 * \brief Constructor, that expands vec3 to vec4 with given w parameter.
+		 * \param v vec3, which will be expanded
+		 * \param w value, which is needed to create fourth dimension
+		 */
+		vec4(vec3 v, float w);
 
-			\param v - vec3, which will be expanded
-			\param w - value, which is needed to create fourth dimension
-		*/
-		vec4(const vec3& v, float w);
-		
-		/*
-		Constructor, that can create vec4 from given 4 floats (l-values).
+		/**
+		 * \brief Constructor, that can create vec4 from given 4 floats.
+		 * \param _x x value, that will be prescribed to vec4(x, y, z, w)
+		 * \param _y y value, that will be prescribed to vec4(x, y, z, w)
+		 * \param _z z value, that will be prescribed to vec4(x, y, z, w)
+		 * \param _w w value, that will be prescribed to vec4(x, y, z, w)
+		 */
+		vec4(float _x, float _y, float _z, float _w);
 
-			\param x - x value, that will be prescribed to vec4(x, y, z, w)
-			\param y - y value, that will be prescribed to vec4(x, y, z, w)
-			\param z - z value, that will be prescribed to vec4(x, y, z, w)
-			\param w - w value, that will be prescribed to vec4(x, y, z, w)
-		*/
-		vec4(float x, float y, float z, float w);
+		/**
+		 * \brief Addition method of vec4 and float value.
+		 * vec4(x, y, z, w) + float = vec4(x + float, y + float, z + float, w + float)
+		 * \param f float value, which will be added
+		 * \return modifed vec4 after addition
+		 */
+		vec4 add(float f) const;
 
-		/*
-		Addition method of vec4 and float value. 
-		vec4(x, y, z, w) + float = vec4(x + float, y + float, z + float, w + float)
+		/**
+		 * \brief Subtraction method of vec4 and float value.
+		 * vec4(x, y, z, w) - float = vec4(x - float, y - float, z - float, w - float)
+		 * \param f float value, which will be subtracted
+		 * \return modifed vec4 after subtraction
+		 */
+		vec4 subtract(float f) const;
 
-			\param f - float value, which will be added
-			\return vec4 - returns modified *this
-		*/
-		vec4& add(float f);
+		/**
+		 * \brief Multiplication method of vec4 and float value.
+		 * vec4(x, y, z, w) * float = vec4(x * float, y * float, z * float, w * float)
+		 * \param f float value, which will be multiplied
+		 * \return modifed vec4 after multiplication
+		 */
+		vec4 multiply(float f) const;
 
-		/*
-		Subtraction method of vec4 and float value. 
-		vec4(x, y, z, w) - float = vec4(x - float, y - float, z - float, w - float)
+		/**
+		 * \brief Division method of vec4 and float value.
+		 * vec4(x, y, z, w) / float = vec4(x / float, y / float, z / float, w / float)
+		 * Cannot divide by zero = 0.f! If user passes 0.f, then
+		 * debug break is called!
+		 * \param f float value, which will be divided
+		 * \return  modifed vec4 after division
+		 */
+		vec4 divide(float f) const;
 
-			\param f - float value, which will be subtracted
-			\return vec4 - returns modified *this
-		*/
-		vec4& subtract(float f);
+		/**
+		 * \brief Addition method of vec4 and vec4.
+		 * v1 + v2 = vec4(v1.x + v2.x, v1.y + v2.y, v1.z + v2.z, v1.w + v2.w)
+		 * \param other second vec4, which will be added to *this
+		 * \return modifed vec4 after addition
+		 */
+		vec4 add(const vec4& other) const;
 
-		/*
-		Multiplication method of vec4 and float value. 
-		vec4(x, y, z, w) * float = vec4(x * float, y * float, z * float, w * float)
+		/**
+		 * \brief Subtraction method of vec4 and vec4.
+		 * v1 - v2 = vec4(v1.x - v2.x, v1.y - v2.y, v1.z - v2.z, v1.w - v2.w)
+		 * \param other second vec4, which will be subtracted from *this
+		 * \return modifed vec4 after subtraction
+		 */
+		vec4 subtract(const vec4& other) const;
 
-			\param f - float value, which will be multiplied
-			\return vec4 - returns modified *this
-		*/
-		vec4& multiply(float f);
+		/**
+		 * \brief Multiplication method of vec4 and vec4.
+		 * v1 * v2 = vec4(v1.x * v2.x, v1.y * v2.y, v1.z * v2.z, v1.w * v2.w)
+		 * \param other second vec4, which will be mutliplied with *this
+		 * \return  modifed vec4 after multiplication
+		 */
+		vec4 multiply(const vec4& other) const;
 
-		/*
-		Division method of vec4 and float value. 
-		vec4(x, y, z, w) / float = vec4(x / float, y / float, z / float, w / float)
-
-		If user send f as 0, it will return unmodified *this!
-
-			\param f - float value, which will be divided
-			\return vec4 - returns modified *this
-		*/
-		vec4& divide(float f);
-
-		/*
-		Addition method of vec4 and vec4.
-		v1 + v2 = vec4(v1.x + v2.x, v1.y + v2.y, v1.z + v2.z, v1.w + v2.w)
-
-			\param other - second vec4, which will be added to *this
-			\return vec4 - computed *this
-		*/
-		vec4& add(const vec4& other);
-
-		/*
-		Subtraction method of vec4 and vec4.
-		v1 - v2 = vec4(v1.x - v2.x, v1.y - v2.y, v1.z - v2.z, v1.w - v2.w)
-
-			\param other - second vec4, which will be subtracted from *this
-			\return vec4 - computed *this
-		*/
-		vec4& subtract(const vec4& other);
-
-		/*
-		Multiplication method of vec4 and vec4.
-		v1 * v2 = vec4(v1.x * v2.x, v1.y * v2.y, v1.z * v2.z, v1.w * v2.w)
-
-			\param other - second vec4, which will be mutliplied with *this
-			\return vec4 - computed *this
-		*/
-		vec4& multiply(const vec4& other);
-
-		/*
-		Division method of vec4 and vec4.
-		v1 / v2 = vec4(v1.x / v2.x, v1.y / v2.y, v1.z / v2.z, v1.w / v2.w)
-
-		Please make sure, that other vec4 isn't equal to 0 (any of its values). If so,
-		method returns unmodified *this.
-
-			\param other - second vec4
-			\return vec4 - computed *this
-		*/
-		vec4& divide(const vec4& other);
+		/**
+		 * \brief Division method of vec4 and vec4.
+		 * v1 / v2 = vec4(v1.x / v2.x, v1.y / v2.y, v1.z / v2.z, v1.w / v2.w)
+		 * Please make sure, that other vec2 isn't equal to 0 (any of its values). If so,
+		 * method calls debug break.
+		 * \param other second vec4
+		 * \return modifed vec4 after division
+		 */
+		vec4 divide(const vec4& other) const;
 
 		/*
 		Computes dot product of *this and other vec4.
@@ -232,9 +221,6 @@ namespace marengine::maths {
 		vec4& operator-=(const vec4& other);
 		vec4& operator*=(const vec4& other);
 		vec4& operator/=(const vec4& other);
-
-		const float& operator[](unsigned int index) const;
-		float& operator[](unsigned int index);
 
 		bool operator==(const vec4& other) const;
 		bool operator!=(const vec4& other) const;

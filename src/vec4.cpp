@@ -20,109 +20,109 @@
 
 #include "vec4.h"
 #include "vec3.h"
-#include "../math_func/basic.h"
+#include "basic.h"
 
 
 namespace marengine::maths {
 
 
 	vec4::vec4() {
-		this->x = 0.0f;
-		this->y = 0.0f;
-		this->z = 0.0f;
-		this->w = 0.0f;
+		x = 0.0f;
+		y = 0.0f;
+		z = 0.0f;
+		w = 0.0f;
 	}
 
-	vec4::vec4(const vec3& v, float w) {
-		this->x = v.x;
-		this->y = v.y;
-		this->z = v.z;
-		this->w = w;
+	vec4::vec4(vec3 v, float _w) {
+		x = v.x;
+		y = v.y;
+		z = v.z;
+		w = _w;
 	}
 
-	vec4::vec4(float x, float y, float z, float w) {
-		this->x = x;
-		this->y = y;
-		this->z = z;
-		this->w = w;
+	vec4::vec4(float _x, float _y, float _z, float _w) {
+		x = _x;
+		y = _y;
+		z = _z;
+		w = _w;
 	}
 
-	vec4& vec4::add(float f) {
-		x += f;
-		y += f;
-		z += f;
-		w += f;
-
-		return *this;
+	vec4 vec4::add(float f) const {
+		return {
+			x + f,
+			y + f,
+			z + f,
+			w + f
+		};
 	}
 
-	vec4& vec4::subtract(float f) {
-		x -= f;
-		y -= f;
-		z -= f;
-		w -= f;
-
-		return *this;
+	vec4 vec4::subtract(float f) const {
+		return {
+			x - f,
+			y - f,
+			z - f,
+			w - f
+		};
 	}
 
-	vec4& vec4::multiply(float f) {
-		x *= f;
-		y *= f;
-		z *= f;
-		w *= f;
-
-		return *this;
+	vec4 vec4::multiply(float f) const {
+		return {
+			x * f,
+			y * f,
+			z * f,
+			w * f
+		};
 	}
 
-	vec4& vec4::divide(float f) {
-		if (f == 0.f) return *this;
-
-		x /= f;
-		y /= f;
-		z /= f;
-		w /= f;
-
-		return *this;
+	vec4 vec4::divide(float f) const {
+		if (f == 0.f) {
+			static_assert(true, "vec4::divide(0.f) - cannot divide by zero!");
+		};
+		return {
+			x / f,
+			y / f,
+			z / f,
+			w / f
+		};
 	}
 
-	vec4& vec4::add(const vec4& other) {
-		x += other.x;
-		y += other.y;
-		z += other.z;
-		w += other.w;
-
-		return *this;
+	vec4 vec4::add(const vec4& other) const {
+		return {
+			x + other.x,
+			y + other.y,
+			z + other.z,
+			w + other.w
+		};
 	}
 
-	vec4& vec4::subtract(const vec4& other) {
-		x -= other.x;
-		y -= other.y;
-		z -= other.z;
-		w -= other.w;
-
-		return *this;
+	vec4 vec4::subtract(const vec4& other) const {
+		return {
+			x - other.x,
+			y - other.y,
+			z - other.z,
+			w - other.w
+		};
 	}
 
-	vec4& vec4::multiply(const vec4& other) {
-		x *= other.x;
-		y *= other.y;
-		z *= other.z;
-		w *= other.w;
-
-		return *this;
+	vec4 vec4::multiply(const vec4& other) const {
+		return {
+			x * other.x,
+			y * other.y,
+			z * other.z,
+			w * other.w
+		};
 	}
 
-	vec4& vec4::divide(const vec4& other) {
-		if (other.x == 0 || other.y == 0 || other.z == 0 || other.w == 0) {
-			return *this;
+	vec4 vec4::divide(const vec4& other) const {
+		if (other.x == 0.f || other.y == 0.f || other.z == 0.f || other.w == 0.f) {
+			static_assert(true, "vec4::divide({0.f, 0.f, 0.f, 0.f}) - cannot divide by zero!");
 		}
-
-		x /= other.x;
-		y /= other.y;
-		z /= other.z;
-		w /= other.w;
-
-		return *this;
+		return {
+			x / other.x,
+			y / other.y,
+			z / other.z,
+			w / other.w
+		};
 	}
 
 	float vec4::dot(const vec4& other) const {
@@ -231,30 +231,6 @@ namespace marengine::maths {
 
 	bool vec4::operator!=(const vec4& other) const {
 		return !(*this == other);
-	}
-
-	const float& vec4::operator[](unsigned int index) const {
-		switch (index) {
-		case 0: return x; break;
-		case 1: return y; break;
-		case 2: return z; break;
-		case 3: return w; break;
-		default:
-			static_assert(true, "[MARMath Error] Trying to call index > 3!");
-			return x;
-		}
-	}
-
-	float& vec4::operator[](unsigned int index) {
-		switch (index) {
-		case 0: return x; break;
-		case 1: return y; break;
-		case 2: return z; break;
-		case 3: return w; break;
-		default:
-			static_assert(true, "[MARMath Error] Trying to call index > 3!");
-			return x;
-		}
 	}
 
 
