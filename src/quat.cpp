@@ -26,13 +26,10 @@
 #include "vec4.h"
 
 
-namespace marengine::maths::quat {
-
-	typedef ::marengine::maths::vec4 vec4;
-	typedef ::marengine::maths::mat4 mat4;
+namespace marengine::maths {
 
 
-	vec4 quatFromRotation(const mat4& transform) {
+	vec4 quat::quatFromRotation1(const mat4& transform) {
 		float sumOfTerms{ 0.f };
 		vec4 rtn;
 
@@ -79,6 +76,21 @@ namespace marengine::maths::quat {
 
 		rtn *= 0.5f / basic::square(sumOfTerms);
 		return rtn;
+	}
+
+	vec4 quat::quatFromRotation2(const mat4& transform) {
+		const float m00{ transform[0 + 0 * 4] };
+		const float m01{ transform[0 + 1 * 4] };
+		const float m02{ transform[0 + 2 * 4] };
+		const float m12{ transform[1 + 2 * 4] };
+		const float m22{ transform[2 + 2 * 4] };
+
+		return {
+			MARMATH_RAD2DEG * atan2f(m12, m22),
+			MARMATH_RAD2DEG * atan2f(-m02, sqrtf(m12 * m12 + m22 * m22)),
+			MARMATH_RAD2DEG * atan2f(m01, m00),
+			0.f
+		};
 	}
 
 

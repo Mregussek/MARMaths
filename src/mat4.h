@@ -198,146 +198,149 @@ namespace marengine::maths {
          */
         void orthonormalize();
 
-        /*
-        Decomposes a model matrix to translations, rotation and scale components.
-    
-            \param transform - transform which will be decomposed
-            \param translation - reference to which decomposed translation will be written
-            \param rotation(radians) - reference to which decomposed rotation will be written (radians)
-            \param scale - reference to which decomposed scale will be written
-        */
+        /**
+         * \brief Decomposes a model matrix to translations, rotation and scale components.
+         * \param transform transform which will be decomposed
+         * \param translation reference to which decomposed translation will be written
+         * \param rotation reference to which decomposed rotation will be written (radians)
+         * \param scale reference to which decomposed scale will be written
+         */
         static void decompose(const mat4& transform, vec3& translation, vec3& rotation, vec3& scale);
     
-        /*
-        Decomposes a model matrix to translations, rotation and scale components.
-    
-           \param transform - transform which will be decomposed
-           \param translation - reference to which decomposed translation will be written
-           \param rotation(radians) - reference to which decomposed rotation will be written(radians)
-           \param scale - reference to which decomposed scale will be written
-       */
+        /**
+         * \brief Decomposes a model matrix to translations, rotation and scale components.
+         * \param translation reference to which decomposed translation will be written
+         * \param rotation reference to which decomposed rotation will be written (radians)
+         * \param scale reference to which decomposed scale will be written
+         */
         void decompose(vec3& translation, vec3& rotation, vec3& scale) const;
     
-        /*
-        Recomposes matrix from given parameters.
-    
-           \param transform - transform which will be decomposed
-           \param translation - reference to which decomposed translation will be written
-           \param rotation(degrees) - reference to which decomposed rotation will be written(degrees)
-           \param scale - reference to which decomposed scale will be written
-        */
+        /** 
+         * \brief Recomposes matrix from given parameters (translation, rotation and scale).
+         * \param transform transform which will be recomposed, from given args
+         * \param translation vec3 translate used in recomposition
+         * \param rotation vec3 rotation(degrees) used in recomposition
+         * \param scale vec3 scale used in recomposition
+         */
         static void recompose(mat4& transform, const vec3& translation, const vec3& rotation, const vec3& scale);
     
-        /*
-        Recomposes matrix from given parameters.
-    
-           \param transform - transform which will be decomposed
-           \param translation - reference to which decomposed translation will be written
-           \param rotation(degrees) - reference to which decomposed rotation will be written(degrees)
-           \param scale - reference to which decomposed scale will be written
-        */
+        /**
+         * \brief Recomposes matrix from given parameters (translation, rotation and scale).
+         * \param translation vec3 translate used in recomposition
+         * \param rotation vec3 rotation(degrees) used in recomposition
+         * \param scale vec3 scale used in recomposition
+         */
         void recompose(const vec3& translation, const vec3& rotation, const vec3& scale);
-    
-        /*
-        Creates rotation matrix from given quanternion
-    
-            \param quat - vec3 that is quanternion
-            \return mat4 - newly created rotation matrix
-        */
-        static mat4 rotationFromQuat(const vec3& quat);
-    
-        /*
-        Get value pointer to first matrix element. Used especially in shaders.
-            
-            \param matrices - vector of matrices
-            \return const float* - pointer to first value
-        */
+
+        /**
+         * \brief Creates rotation matrix from given quanternion
+         * \param quat vec4 that is quanternion (should contain values in RADIANS)
+         * \return newly created rotation matrix
+         */
+        static mat4 rotationFromQuat(const vec4& quat);
+
+        /**
+         * \brief Get value pointer to first matrix element. Used especially in shaders.
+         * \param matrices vector of matrices
+         * \return pointer to first value at first matrix
+         */
         static const float* value_ptr(const std::vector<mat4>& matrices);
     
-        /*
-        Get value pointer to first matrix element. Used especially in shaders.
-    
-            \param matrix4x4
-            \return const float* - pointer to first value
-        */
+        /**
+         * \brief Get value pointer to first matrix element. Used especially in shaders.
+         * \param matrix4x4 matrix to which we want to get pointer
+         * \return pointer to first value at matrix
+         */
         static const float* value_ptr(const mat4& matrix4x4);
-    
-        /*
-        Get value pointer to first matrix element. Used especially in shaders.
-    
-            \param matrix4x4
-            \return float* - pointer to first value, which you can modify
-        */
+
+        /**
+         * \brief Get value pointer to first matrix element. Used especially in shaders.
+         * \param matrix4x4  matrix to which we want to get non-const pointer
+         * \return pointer to first value, which you can modify
+         */
         static float* value_ptr_nonconst(mat4& matrix4x4);
     
-        /*
-        Get value pointer to first matrix element. Used especially in shaders.
-    
-            \return const float* - pointer to first value
-        */
+        /**
+         * \brief Get value pointer to first matrix element. Used especially in shaders.
+         * \return pointer to first value
+         */
         const float* value_ptr() const;
     
-        /*
-        Get value pointer to first matrix element. Used especially in shaders.
-    
-            \return float* - pointer to first value, which you can modify
-        */
+        /**
+         * \brief Get value pointer to first matrix element. Used especially in shaders.
+         * \return pointer to first value, which you can modify
+         */
         float* value_ptr_nonconst();
     
-        /*
-        Overloaded multiplication operator. Says that, matrix on the left and matrix on 
-        the right must be multiplied with each other.
-    
-            \param left - matrix on the left side, before * operator
-            \param right - matrix on the right side, after * operator
-            \return mat4 - matrix 4x4 as a result of this multiplication
-        */
+        /**
+         * \brief Overloaded multiplication operator. Says that, matrix on the left and matrix on
+         * the right must be multiplied with each other.
+         * \param left - matrix on the left side, before * operator
+         * \param right - matrix on the right side, after * operator
+         * \return mat4 - matrix 4x4 as a result of this multiplication
+         */
         friend mat4 operator*(mat4 left, const mat4& right);
-    
-        /*
-        Overloaded *= multiplication operator. Says that matrix on the left side is 
-        *this and its given paramater is on the right side.
-    
-            \param other - matrix after *= operator
-            \return mat4 - calculated matrix of (*this) * other
-        */
-        mat4 operator*=(const mat4& other);
-    
-        /*
-        Overloaded * multiplication operator. Says that, matrix on the left and vec4 on 
-        the right must be multiplied with each other.
-    
-            \param left - matrix on the left side, before * operator
-            \param right - vec4 on the right side, after * operator
-            \return vec4 - 4-dimensional vector as a result of this multiplication
-        */
+
+        /**
+         * \brief Overloaded * multiplication operator. Says that, matrix on the left and vec4 on
+         * the right must be multiplied with each other.
+         * \param left - matrix on the left side, before * operator
+         * \param right - vec4 on the right side, after * operator
+         * \return vec4 - 4-dimensional vector as a result of this multiplication
+         */
         friend vec4 operator*(mat4 left, const vec4& right);
+
+        /**
+         * \brief Overloaded * multiplication operator. Says that, matrix on the left and float on
+         * the right must be multiplied with each other.
+         * \param left - matrix on the left side, before * operator
+         * \param right - float on the right side, after * operator
+         * \return mat4 - matrix 4x4 as a result of this multiplication
+         */
+        friend mat4 operator*(mat4 left, float right);
     
-        /*
-        Overloaded *= multiplication operator. Says that matrix on the left side is 
-        *this and its given paramater is on the right side.
-    
-            \param other - matrix after *= operator
-            \return mat4 - calculated matrix of (*this) * other
-        */
+        /**
+         * \brief Overloaded *= multiplication operator. Says that matrix on the left side is 
+         * *this and its given paramater is on the right side.
+         * \param other matrix after *= operator
+         * \return calculated matrix of (*this) * other
+         */
+        mat4 operator*=(const mat4& other);
+
+        /**
+         * \brief Overloaded *= multiplication operator. Says that matrix on the left side is 
+         * *this and its given paramater is on the right side.
+         * \param other vec4 after *= operator
+         * \return calculated vec4 of (*this) * other
+         */
         vec4 operator*=(const vec4& other);
+
+        /**
+         * \brief Overloaded *= multiplication operator. Says that matrix on the left side is
+         * *this and its given paramater is on the right side.
+         * \param other float after *= operator
+         * \return calculated matrix of (*this) * other
+         */
+        mat4 operator*=(float other);
     
-        /*
-        Overloaded [] operator, so that we have ability to call mat4[index], which returns 
-        mat4.elements[index]. This is version for read-only method, so returns const value.
-    
-            \param index - index of elements
-            \return const elements[index]
-        */
+        /**
+         * \brief Overloaded [] operator, so that we have ability to call mat4[index], which returns
+         * mat4.elements[index]. This is version for read-only method, so returns const value.
+         * Make sure to not cause an overflow, pass index in range <0;15>. If passed wrong value,
+         * debug break will be called.
+         * \param index index of elements <0;15>
+         * \return const elements[index]
+         */
         const float& operator[](unsigned int index) const;
     
-        /*
-        Overloaded [] operator, so that we have ability to call mat4[index], which returns 
-        mat4.elements[index]. This overloaded operator can write to specified value.
-    
-            \param index - index of elements
-            \return elements[index]
-        */
+        /**
+         * \brief Overloaded [] operator, so that we have ability to call mat4[index], which returns
+         * mat4.elements[index]. This overloaded operator can write to specified value.
+         * Make sure to not cause an overflow, pass index in range <0;15>. If passed wrong value,
+         * debug break will be called.
+         * \param index index of elements <0;15>
+         * \return elements[index]
+         */
         float& operator[](unsigned int index);
     
     };

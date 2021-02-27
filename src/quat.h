@@ -29,32 +29,35 @@
 
 namespace marengine::maths {
 
+	struct vec4;
+	struct mat4;
+
 
 	/**
-	 * \brief quat is a namespace as abstraction of quanternion. Because I don't
-	 * want to create structure with the same members as vec4 contains, I have wrote
-	 * new namespace that contains all needed functions for quanterion implementation.
+	 * \brief quat is a structure written as a abstraction of quanternion. 
+	 * I have wrote new struct that contains all needed functions for quanterion 
+	 * implementation with no members, please use vec4 as quanternion and call needed methods.
 	 */
-	namespace quat {
-
-		typedef ::marengine::maths::vec4 vec4;
-		struct vec4;
-
-		typedef ::marengine::maths::mat4 mat4;
-		struct mat4;
-
+	struct quat {
 
 		/**
-		 * \brief Retrieves quanterion from rotation matrix based on Mike Day's implementation:
+		 * \brief Retrieves quanternion from rotation matrix based on Mike Day's implementation:
 		 * https://drive.google.com/file/d/1XfGftHswm-MBsIm2d2wPb8YG8TThiXi-/view?usp=sharing
+		 * If you have issued with flipping, check if transposition will help (row-major vs column-major).
 		 * \param transform rotation matrix, from which we want to retrieve quanterion
 		 * \return retrieved quanterion in vec4 format
 		 */
-		vec4 quatFromRotation(const mat4& transform);
+		static vec4 quatFromRotation1(const mat4& transform);
 
+		/**
+		 * \brief Retrieves quanterion from rotation matrix based on:
+		 * <unknown URL> hopefully I will find it soon
+		 * \param transform rotation matrix, from which we want to retrieve quanterion
+		 * \return retrieved quanterion in vec4 format
+		 */
+		static vec4 quatFromRotation2(const mat4& transform);
 
-
-	}
+	};
 
 
 }

@@ -25,6 +25,7 @@
 #include "vec3.h"
 #include "trig.h"
 #include "basic.h"
+#include "quat.h"
 
 
 namespace marengine::maths {
@@ -366,19 +367,8 @@ namespace marengine::maths {
 		localMatrix[1 + 2 * 4] /= scale.z;
 		localMatrix[2 + 2 * 4] /= scale.z;
 
-		rotation = vec3(quatFromRotation(localMatrix));
-
-		//const float m00{ localMatrix[0 + 0 * 4] };
-		//const float m01{ localMatrix[0 + 1 * 4] };
-		//const float m02{ localMatrix[0 + 2 * 4] };
-		//const float m12{ localMatrix[1 + 2 * 4] };
-		//const float m22{ localMatrix[2 + 2 * 4] };
-		//
-		//rotation = {
-		//	MARMATH_RAD2DEG * atan2f(m12, m22),
-		//	MARMATH_RAD2DEG * atan2f(-m02, sqrtf(m12 * m12 + m22 * m22)),
-		//	MARMATH_RAD2DEG * atan2f(m01, m00)
-		//};
+		rotation = vec3(quat::quatFromRotation1(localMatrix));
+		//rotation = vec3(quat::quatFromRotation2(localMatrix));
 	}
 
 	void mat4::decompose(vec3& translation, vec3& rotation, vec3& scale) const {
@@ -386,20 +376,25 @@ namespace marengine::maths {
 	}
 
 	void mat4::recompose(mat4& transform, const vec3& translation, const vec3& rotation, const vec3& scale) {
-		const vec3 rotRadians{ trig::toRadians(rotation.x), trig::toRadians(rotation.y), trig::toRadians(rotation.z) };
-		transform = mat4::translation(translation) * mat4::rotationFromQuat(rotRadians) * mat4::scale(scale);
-		//transform = mat4::translation(translation) 
-		//	* mat4::rotation(rotRadians.x, { 1.f, 0.f, 0.f }) 
-		//	* mat4::rotation(rotRadians.y, { 0.f, 1.f, 0.f }) 
-		//	* mat4::rotation(rotRadians.z, { 0.f, 0.f, 1.f }) 
-		//	* mat4::scale(scale);
+		const vec4 rotRadians{ 
+			trig::toRadians(rotation.x), 
+			trig::toRadians(rotation.y), 
+			trig::toRadians(rotation.z),
+			0.f
+		};
+		transform = mat4::translation(translation) 
+		//    * mat4::rotation(rotRadians.x, { 1.f, 0.f, 0.f })
+		//    * mat4::rotation(rotRadians.y, { 0.f, 1.f, 0.f })
+		//    * mat4::rotation(rotRadians.z, { 0.f, 0.f, 1.f })
+			* mat4::rotationFromQuat(rotRadians) 
+			* mat4::scale(scale);
 	}
 
 	void mat4::recompose(const vec3& translation, const vec3& rotation, const vec3& scale) {
 		recompose(*this, translation, rotation, scale);
 	}
 
-	mat4 mat4::rotationFromQuat(const vec3& quat) {
+	mat4 mat4::rotationFromQuat(const vec4& quat) {
 		mat4 rtn(1.f);
 
 		const float xx(quat.x * quat.x);
@@ -410,9 +405,9 @@ namespace marengine::maths {
 		const float xy(quat.x * quat.y);
 		const float yz(quat.y * quat.z);
 
-		const float wx(0.f * quat.x);
-		const float wy(0.f * quat.y);
-		const float wz(0.f * quat.z);
+		const float wx(quat.w * quat.x);
+		const float wy(quat.w * quat.y);
+		const float wz(quat.w * quat.z);
 
 		rtn[0 + 0 * 4] = 1.f - 2.f * (yy + zz);
 		rtn[1 + 0 * 4] = 2.f * (xy - wz);
@@ -453,31 +448,37 @@ namespace marengine::maths {
 		return left.multiply(right);
 	}
 
-	mat4 mat4::operator*=(const mat4& other) {
-		return multiply(other);
-	}
-
 	vec4 operator*(mat4 left, const vec4& right) {
 		return left.multiply(right);
+	}
+
+	mat4 operator*(mat4 left, float right) {
+		return left.multiply(right);
+	}
+
+	mat4 mat4::operator*=(const mat4& other) {
+		return multiply(other);
 	}
 
 	vec4 mat4::operator*=(const vec4& other) {
 		return multiply(other);
 	}
 
-	float& mat4::operator[](unsigned int index) {
+	mat4 mat4::operator*=(float other) {
+		return multiply(other);
+	}
+
+	const float& mat4::operator[](unsigned int index) const {
 		if (index >= 4 * 4) {
-			std::cout << "Index out of bound!\n";
-			static_assert(true, "Err");
+			static_assert(true, "matrix.elements[index] out of bound!\n");
 		}
 
 		return elements[index];
 	}
 
-	const float& mat4::operator[](unsigned int index) const {
+	float& mat4::operator[](unsigned int index) {
 		if (index >= 4 * 4) {
-			std::cout << "Index out of bound!\n";
-			static_assert(true, "Err");
+			static_assert(true, "const matrix.elements[index] out of bound!\n");
 		}
 
 		return elements[index];
