@@ -29,16 +29,18 @@ namespace marengine::maths {
 
 
 	mat4::mat4() {
-		for (int i = 0; i < 4 * 4; i++)
+		for (int i = 0; i < 4 * 4; i++) {
 			elements[i] = 0.0f;
+		}
 	}
 
 	mat4::mat4(float diagonal) {
-		for(int i = 0; i < 4 * 4; i++)
+		for (int i = 0; i < 4 * 4; i++) {
 			elements[i] = 0.0f;
-
-		for (int i = 0; i < 4; i++)
+		}
+		for (int i = 0; i < 4; i++) {
 			elements[i + i * 4] = diagonal;
+		}
 	}
 
 	mat4 mat4::identity() {
@@ -116,12 +118,12 @@ namespace marengine::maths {
 	}
 
 	vec4 mat4::multiply(const vec4& other) const {
-		vec4 rtn;
-
-		rtn.x = elements[0 + 0 * 4] + other.x + elements[0 + 1 * 4] + other.y + elements[0 + 2 * 4] + other.z + elements[0 + 3 * 4] + other.w;
-		rtn.y = elements[1 + 0 * 4] + other.x + elements[1 + 1 * 4] + other.y + elements[1 + 2 * 4] + other.z + elements[1 + 3 * 4] + other.w;
-		rtn.z = elements[2 + 0 * 4] + other.x + elements[2 + 1 * 4] + other.y + elements[2 + 2 * 4] + other.z + elements[2 + 3 * 4] + other.w;
-		rtn.w = elements[3 + 0 * 4] + other.x + elements[3 + 1 * 4] + other.y + elements[3 + 2 * 4] + other.z + elements[3 + 3 * 4] + other.w;
+		const vec4 rtn{
+			elements[0 + 0 * 4] + other.x + elements[0 + 1 * 4] + other.y + elements[0 + 2 * 4] + other.z + elements[0 + 3 * 4] + other.w,
+			elements[1 + 0 * 4] + other.x + elements[1 + 1 * 4] + other.y + elements[1 + 2 * 4] + other.z + elements[1 + 3 * 4] + other.w,
+			elements[2 + 0 * 4] + other.x + elements[2 + 1 * 4] + other.y + elements[2 + 2 * 4] + other.z + elements[2 + 3 * 4] + other.w,
+			elements[3 + 0 * 4] + other.x + elements[3 + 1 * 4] + other.y + elements[3 + 2 * 4] + other.z + elements[3 + 3 * 4] + other.w
+		};
 
 		return rtn;
 	}
@@ -359,39 +361,112 @@ namespace marengine::maths {
 		return inv;
 	}
 
-	void mat4::decompose(const mat4& transform, vec3& translation, vec3& rotation, vec3& scale) {
-		constexpr float epsilon{ 1.f };
-		mat4 localMatrix(transform);
+	vec4 quatFromRotation(const mat4& transform) {
+		float sumOfTerms{ 0.f };
+		vec4 rtn;
 
-		if (basic::epsilonEqual(localMatrix[3 + 3 * 4], 0.f, epsilon)) { return; }
-
-		translation = vec3(localMatrix.getColumn3(3));
-		scale = [&localMatrix]()->vec3 {
-			const auto m0 = basic::power(localMatrix[0]);
-			const auto m1 = basic::power(localMatrix[1]);
-			const auto m2 = basic::power(localMatrix[2]);
-			const auto m4 = basic::power(localMatrix[4]);
-			const auto m5 = basic::power(localMatrix[5]);
-			const auto m6 = basic::power(localMatrix[6]);
-			const auto m8 = basic::power(localMatrix[8]);
-			const auto m9 = basic::power(localMatrix[9]);
-			const auto m10 = basic::power(localMatrix[10]);
-			return vec3{
-				localMatrix[15] * basic::square(m0 + m1 + m2),
-				localMatrix[15] * basic::square(m4 + m5 + m6),
-				localMatrix[15] * basic::square(m8 + m9 + m10)
-			};
-		}();
-
-		rotation.y = trig::arcsine(-localMatrix[2 + 0 * 4]);
-		if (trig::cosine(rotation.y) != 0) {
-			rotation.x = atan2(localMatrix[2 + 1 * 4], localMatrix[2 + 2 * 4]);
-			rotation.z = atan2(localMatrix[1 + 0 * 4], localMatrix[0 + 0 * 4]);
+		if (transform[2 + 2 * 4] < 0.f) {
+			if (transform[0 + 0 * 4] > transform[1 + 1 * 4]) {
+				sumOfTerms = 1 + transform[0 + 0 * 4] - transform[1 + 1 * 4] - transform[2 + 2 * 4];
+				rtn = {
+					sumOfTerms,
+					transform[1 + 0 * 4] + transform[0 + 1 * 4],
+					transform[0 + 2 * 4] + transform[2 + 0 * 4],
+					transform[2 + 1 * 4] - transform[1 + 2 * 4]
+				};
+			}
+			else {
+				sumOfTerms = 1 - transform[0 + 0 * 4] + transform[1 + 1 * 4] - transform[2 + 2 * 4];
+				rtn = {
+					transform[1 + 0 * 4] + transform[0 + 1 * 4],
+					sumOfTerms,
+					transform[2 + 1 * 4] + transform[1 + 2 * 4],
+					transform[0 + 2 * 4] - transform[2 + 0 * 4],
+				};
+			}
 		}
 		else {
-			rotation.x = atan2(-localMatrix[0 + 2 * 4], localMatrix[1 + 1 * 4]);
-			rotation.z = 0.f;
+			if (transform[0 + 0 * 4] < -transform[1 + 1 * 4]) {
+				sumOfTerms = 1 - transform[0 + 0 * 4] - transform[1 + 1 * 4] + transform[2 + 2 * 4];
+				rtn = {
+					transform[0 + 2 * 4] + transform[2 + 0 * 4],
+					transform[2 + 1 * 4] + transform[1 + 2 * 4],
+					sumOfTerms,
+					transform[1 + 0 * 4] - transform[0 + 1 * 4]
+				};
+			}
+			else {
+				sumOfTerms = 1 + transform[0 + 0 * 4] + transform[1 + 1 * 4] + transform[2 + 2 * 4];
+				rtn = {
+					transform[2 + 1 * 4] - transform[1 + 2 * 4],
+					transform[0 + 2 * 4] - transform[2 + 0 * 4],
+					transform[1 + 0 * 4] - transform[0 + 1 * 4],
+					sumOfTerms
+				};
+			}
 		}
+		
+		rtn *= 0.5f / basic::square(sumOfTerms);
+		return rtn;
+	}
+
+	void orthonormalize(mat4& transform) {
+		const vec4 col[]{
+			transform.getColumn4(0).normalize(),
+			transform.getColumn4(1).normalize(),
+			transform.getColumn4(2).normalize()
+		};
+
+		transform[0 + 0 * 4] = col[0].x;
+		transform[1 + 0 * 4] = col[0].x;
+		transform[2 + 0 * 4] = col[0].x;
+
+		transform[0 + 1 * 4] = col[1].x;
+		transform[1 + 1 * 4] = col[1].x;
+		transform[2 + 1 * 4] = col[1].x;
+
+		transform[0 + 2 * 4] = col[2].x;
+		transform[1 + 2 * 4] = col[2].x;
+		transform[2 + 2 * 4] = col[2].x;
+	}
+
+	void mat4::decompose(const mat4& transform, vec3& translation, vec3& rotation, vec3& scale) {
+		mat4 localMatrix(transform);
+
+		if (basic::epsilonEqual(localMatrix[3 + 3 * 4], 0.f, FLT_EPSILON)) { return; }
+		
+		translation = localMatrix.getColumn3(3);
+		scale = {
+			localMatrix.getColumn3(0).length(),
+			localMatrix.getColumn3(1).length(),
+			localMatrix.getColumn3(2).length()
+		};
+		
+		localMatrix[0 + 0 * 4] /= scale.x;
+		localMatrix[1 + 0 * 4] /= scale.x;
+		localMatrix[2 + 0 * 4] /= scale.x;
+		
+		localMatrix[0 + 1 * 4] /= scale.y;
+		localMatrix[1 + 1 * 4] /= scale.y;
+		localMatrix[2 + 1 * 4] /= scale.y;
+		
+		localMatrix[0 + 2 * 4] /= scale.z;
+		localMatrix[1 + 2 * 4] /= scale.z;
+		localMatrix[2 + 2 * 4] /= scale.z;
+
+		rotation = vec3(quatFromRotation(localMatrix));
+
+		//const float m00{ localMatrix[0 + 0 * 4] };
+		//const float m01{ localMatrix[0 + 1 * 4] };
+		//const float m02{ localMatrix[0 + 2 * 4] };
+		//const float m12{ localMatrix[1 + 2 * 4] };
+		//const float m22{ localMatrix[2 + 2 * 4] };
+		//
+		//rotation = {
+		//	MARMATH_RAD2DEG * atan2f(m12, m22),
+		//	MARMATH_RAD2DEG * atan2f(-m02, sqrtf(m12 * m12 + m22 * m22)),
+		//	MARMATH_RAD2DEG * atan2f(m01, m00)
+		//};
 	}
 
 	void mat4::decompose(vec3& translation, vec3& rotation, vec3& scale) const {
@@ -399,9 +474,13 @@ namespace marengine::maths {
 	}
 
 	void mat4::recompose(mat4& transform, const vec3& translation, const vec3& rotation, const vec3& scale) {
-		const vec3 rotRadians{ trig::toRadians(rotation.x), trig::toRadians(rotation.y) , trig::toRadians(rotation.z) };
-		//transform = mat4::translation(translation) * mat4::rotationFromQuat(rotRadians) * mat4::scale(scale);
-		transform = mat4::translation(translation) * mat4::rotation(rotRadians.x, { 1.f, 0.f, 0.f }) * mat4::rotation(rotRadians.y, { 0.f, 1.f, 0.f }) * mat4::rotation(rotRadians.z, { 0.f, 0.f, 1.f }) * mat4::scale(scale);
+		const vec3 rotRadians{ trig::toRadians(rotation.x), trig::toRadians(rotation.y), trig::toRadians(rotation.z) };
+		transform = mat4::translation(translation) * mat4::rotationFromQuat(rotRadians) * mat4::scale(scale);
+		//transform = mat4::translation(translation) 
+		//	* mat4::rotation(rotRadians.x, { 1.f, 0.f, 0.f }) 
+		//	* mat4::rotation(rotRadians.y, { 0.f, 1.f, 0.f }) 
+		//	* mat4::rotation(rotRadians.z, { 0.f, 0.f, 1.f }) 
+		//	* mat4::scale(scale);
 	}
 
 	void mat4::recompose(const vec3& translation, const vec3& rotation, const vec3& scale) {
@@ -477,7 +556,7 @@ namespace marengine::maths {
 	float& mat4::operator[](unsigned int index) {
 		if (index >= 4 * 4) {
 			std::cout << "Index out of bound!\n";
-			return elements[0];
+			static_assert(true, "Err");
 		}
 
 		return elements[index];
@@ -486,7 +565,7 @@ namespace marengine::maths {
 	const float& mat4::operator[](unsigned int index) const {
 		if (index >= 4 * 4) {
 			std::cout << "Index out of bound!\n";
-			return elements[0];
+			static_assert(true, "Err");
 		}
 
 		return elements[index];

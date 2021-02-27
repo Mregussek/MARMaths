@@ -184,7 +184,7 @@ namespace marengine::maths {
 			\param v - vec3, which length will be calculated
 			\return float - calculated length
 		*/
-		static float length(vec3& v);
+		static float length(const vec3& v);
 
 		/*
 		Computes normalized vec2. Firstly it calculates length of vector, 

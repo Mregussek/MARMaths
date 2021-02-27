@@ -25,11 +25,11 @@ namespace marengine::maths {
 
 
     float trig::toRadians(float degrees) {
-        return degrees * 0.01745329251f;
+        return degrees * MARMATH_DEG2RAD;
     }
 
     float trig::toDegrees(float radians) {
-        return radians * 57.29577951308f;
+        return radians * MARMATH_RAD2DEG;
     }
 
     float trig::sine(float radians) {

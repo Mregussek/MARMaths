@@ -22,41 +22,51 @@
 #define MAR_MATH_BASIC_MATH_H
 
 
-#include "../maths.h"
+#include "maths.h"
 
 
 namespace marengine::maths {
 
 	
-	/*
-	basic structure defines basic mathematical methods.
-	*/
+	/**
+	 * @struct basic basic.h "basic.h"
+	 * @brief basic structure defines basic mathematical methods,
+	 * like square root, power and so on.
+	 */
 	struct basic {
 	
-		/*
-		Calculates square root of given value.
-
-			\param val - value, of which square root will be computed
-			\return float - calculated sqrt(val).
-		*/
+		/**
+		 * \brief Calculates square root of given value.
+		 * \param val value, of which square root will be computed
+		 * \return  float - calculated sqrt(val).
+		 */
 		static float square(float val);
 
-		/*
-		Calculates power of given value.
-			
-			\param val - value, of which power will be computed
-			\return float - calculated power
-		*/
+		/**
+		 * \brief Calculates power of given value.
+		 * 
+		 * \param val value, of which power will be computed
+		 * \return float - calculated power
+		 */
 		static float power(float val);
 
-		/*
-		Returns the component-wise compare of |x - y| < epsilon.
-		*/
+		/**
+		 * \brief Returns the component-wise compare of |x - y| < epsilon.
+		 * \param x first value
+		 * \param y second value
+		 * \param epsilon some low float value, ex: FLT_EPSILON
+		 * \return True, if equation is lower than given epsilon
+		 */
 		static bool epsilonEqual(float x, float y, float epsilon);
 
-		/*
-		Returns the component-wise compare of |x - y| >= epsilon.
-		*/
+		/**
+		 * \brief Returns the component-wise compare of |x - y| >= epsilon.
+		 * 
+		 * \param x
+		 * \param y
+		 * \param epsilon
+		 * \return 
+		 */
 		static bool epsilonNotEqual(float x, float y, float epsilon);
 
 

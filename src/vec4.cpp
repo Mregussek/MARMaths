@@ -141,6 +141,10 @@ namespace marengine::maths {
 		return v.length();
 	}
 
+	vec4 vec4::normalize() const {
+		return normalize(*this);
+	}
+
 	vec4 vec4::normalize(const vec4& other) {
 		const float magnitude = other.length();
 

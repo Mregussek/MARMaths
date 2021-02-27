@@ -178,6 +178,16 @@ namespace marengine::maths {
 
 		If magnitude is equal to 0, we have debug break.
 
+			\return vec4 - normalized vec4
+		*/
+		vec4 normalize() const;
+
+		/*
+		Computes normalized vec4. Firstly it calculates length of vector, 
+		then it divides every value with length.
+
+		If magnitude is equal to 0, we have debug break.
+
 			\param other - vec4, which will be normalized
 			\return vec4 - normalized vec4
 		*/

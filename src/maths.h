@@ -27,6 +27,8 @@
 #include <cmath>
 #include <vector>
 
-#define MAR_MATH_PI M_PI
+#define MARMATH_PI 3.14159265358979323846f
+#define MARMATH_DEG2RAD 0.01745329251f
+#define MARMATH_RAD2DEG 57.29577951308f
 
 #endif // !MAR_MATH_H

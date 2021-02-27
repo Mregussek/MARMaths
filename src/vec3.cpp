@@ -139,7 +139,7 @@ namespace marengine::maths {
 		return basic::square( dot(*this, *this) );
 	}
 
-	float vec3::length(vec3& v) {
+	float vec3::length(const vec3& v) {
 		return v.length();
 	}
 

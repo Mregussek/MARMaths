@@ -22,7 +22,7 @@
 #define MAR_MATH_MAT_4_H 
 
 
-#include "../maths.h"
+#include "maths.h"
 
 
 namespace marengine::maths {
@@ -31,21 +31,25 @@ namespace marengine::maths {
     struct vec4;
     
     
-    /*
-    mat4 is a structure with only one member - float array of 16 elements.
-    It allows user to calculate basic matrices, such translation, rotation scale.
-    Also implemented are projection matrices (orthographic and perspective) and view
-    matrix (lookAt). Multiplication operator is overloaded, so feel free to use it.
-        
-    column major is used here, cause OpenGL is using it! mat4[row + col * 4]
-    */
+    /**
+     * @struct mat4 mat4.h "mat4/mat4.h"
+     * @brief mat4 is a structure with only one member - float array of 16 elements.
+     * It allows user to calculate basic matrices, such translation, rotation scale.
+     * Also implemented are projection matrices (orthographic and perspective) and view
+     * matrix (lookAt). Multiplication operator is overloaded, so feel free to use it.
+     * 
+     * @warning column major is used here, cause OpenGL is using it! mat4[row + col * 4]
+     * +                                                                       +
+     * | mat4[0 + 0 * 4] , mat4[0 + 1 * 4] , mat4[0 + 2 * 4] , mat4[0 + 3 * 4] |
+     * | mat4[1 + 0 * 4] , mat4[1 + 1 * 4] , mat4[1 + 2 * 4] , mat4[1 + 3 * 4] |
+     * | mat4[2 + 0 * 4] , mat4[2 + 1 * 4] , mat4[2 + 2 * 4] , mat4[2 + 3 * 4] |
+     * | mat4[3 + 0 * 4] , mat4[3 + 1 * 4] , mat4[3 + 2 * 4] , mat4[3 + 3 * 4] |
+     * +                                                                       +
+     */
     struct mat4 {
         
-        // -----------------------------------------------------
-        // Float array, that contains data of 4x4 matrix   
-        // ----------------------------------------------------- 
-        float elements[4 * 4];                           
-        
+        float elements[4 * 4]; ///  Float array, that contains data of 4x4 matrix   
+
         // Default constructor for 4x4 matrix. Initialized all elements to 0.f.
         mat4();
     

@@ -24,14 +24,14 @@
 #define _USE_MATH_DEFINES
 #include <math.h>
 
-#include "../src/math_func/basic.h"
+#include "../src/basic.h"
 
-#include "../src/trig/trig.h"
+#include "../src/trig.h"
 
-#include "../src/vec/vec2.h"
-#include "../src/vec/vec3.h"
-#include "../src/vec/vec4.h"
+#include "../src/vec2.h"
+#include "../src/vec3.h"
+#include "../src/vec4.h"
 
-#include "../src/mat/mat4.h"
+#include "../src/mat4.h"
 
 #endif // !MAR_MATH_MAIN_H
