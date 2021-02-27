@@ -1,52 +1,52 @@
-/**
- *        MARMaths - open source computing library for MAREngine
- * Copyright (C) 2020-present Mateusz Rzeczyca <info@mateuszrzeczyca.pl>
- * All rights reserved.
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
-**/
+/***********************************************************************
+* @internal @copyright
+*
+*        MARMaths - open source computing library for MAREngine
+*
+* Copyright (C) 2020-present Mateusz Rzeczyca <info@mateuszrzeczyca.pl>
+* All rights reserved.
+*
+* This program is free software: you can redistribute it and/or modify
+* it under the terms of the GNU General Public License as published by
+* the Free Software Foundation, either version 3 of the License, or
+* (at your option) any later version.
+* This program is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+* GNU General Public License for more details.
+* You should have received a copy of the GNU General Public License
+* along with this program. If not, see <http://www.gnu.org/licenses/>.
+*
+************************************************************************/
 
 
 #ifndef MAR_MATH_VEC2_H
 #define MAR_MATH_VEC2_H
 
 
-#include "../maths.h"
+#include "maths.h"
 
 
 namespace marengine::maths {
 
 
-	/*
-	2-dimensional vector.
-	*/
+	/**
+	 * \struct vec2 vec2.h "vec2.h"
+	 * \brief 2-dimensional vector.
+	 */
 	struct vec2 {
 		
-		// -------------------------------
-		float x; /* x value of vec2 */
-		float y; /* y value of vec2 */
-		// -------------------------------
+		float x; /// x value of vec2
+		float y; /// y value of vec2
 
-		// Default constructor, creates vec2(0, 0).
+		/// \brief Default constructor, creates vec2(0, 0).
 		vec2();
 
-		/*
-		Constructor, that can create vec2 from given 2 floats (l-values).
-
-			\param x - x value, that will be prescribed to vec2(x, y)
-			\param y - y value, that will be prescribed to vec2(x, y)
-		*/
+		/**
+		 * \brief Constructor, that can create vec2 from given 2 floats (l-values).
+		 * \param x x value, that will be prescribed to vec2(x, y)
+		 * \param y y value, that will be prescribed to vec2(x, y)
+		 */
 		vec2(const float& x, const float& y);
 
 		/*
