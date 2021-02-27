@@ -1,28 +1,30 @@
-/**
- *        MARMaths - open source computing library for MAREngine
- * Copyright (C) 2020-present Mateusz Rzeczyca <info@mateuszrzeczyca.pl>
- * All rights reserved.
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
-**/
+/***********************************************************************
+* @internal @copyright
+*
+*        MARMaths - open source computing library for MAREngine
+*
+* Copyright (C) 2020-present Mateusz Rzeczyca <info@mateuszrzeczyca.pl>
+* All rights reserved.
+*
+* This program is free software: you can redistribute it and/or modify
+* it under the terms of the GNU General Public License as published by
+* the Free Software Foundation, either version 3 of the License, or
+* (at your option) any later version.
+* This program is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+* GNU General Public License for more details.
+* You should have received a copy of the GNU General Public License
+* along with this program. If not, see <http://www.gnu.org/licenses/>.
+*
+************************************************************************/
 
 
 #ifndef MAR_MATH_VEC3_H
 #define MAR_MATH_VEC3_H
 
 
-#include "../maths.h"
+#include "maths.h"
 
 
 namespace marengine::maths {
@@ -30,112 +32,101 @@ namespace marengine::maths {
 	struct vec4;
 
 
-	/*
-	3-dimensional vector.
-	*/
+	/**
+	 * \struct vec3 vec3.h "vec3.h"
+	 * \brief 3-dimensional vector.
+	 */
 	struct vec3 {
 
-		// -------------------------------
-		float x; /* x value of vec3 */
-		float y; /* y value of vec3 */
-		float z; /* w value of vec3 */
-		// -------------------------------
+		float x; /// x value of vec3
+		float y; /// y value of vec3
+		float z; /// w value of vec3
 
-		// Default constructor, creates vec3(0, 0, 0).
+
+		/// \brief Default constructor, creates vec3(0.f, 0.f, 0.f).
 		vec3();
-		
-		/*
-		Constructor, that can create vec3 from given 3 floats (l-values).
 
-			\param x - x value, that will be prescribed to vec3(x, y, z)
-			\param y - y value, that will be prescribed to vec3(x, y, z)
-			\param z - z value, that will be prescribed to vec3(x, y, z)
-		*/
-		vec3(float x, float y, float z);
+		/**
+		 * \brief Constructor, that can create vec3 from given 3 floats.
+		 * \param x x value, that will be prescribed to vec3(x, y, z)
+		 * \param y y value, that will be prescribed to vec3(x, y, z)
+		 * \param z z value, that will be prescribed to vec3(x, y, z)
+		 */
+		vec3(float _x, float _y, float _z);
 
-		/*
-		Constructor, that takes values from vec4 x-y-z
-			
-			\param v - vec4, which values x,y,z will be prescribed to new vec3
-		*/
+		/**
+		 * \brief Constructor, that takes values x, y, z from given vec4
+		 * \param v vec4, which values x,y,z will be prescribed to new vec3
+		 */
 		vec3(const vec4& v);
 
-		/*
-		Addition method of vec3 and float value. 
-		vec3(x, y, z) + float = vec3(x + float, y + float, z + float)
+		/**
+		 * \brief Addition method of vec3 and float value.
+		 * vec3(x, y, z) + float = vec3(x + float, y + float, z + float)
+		 * \param f float value, which will be added
+		 * \return modifed vec3 after addition
+		 */
+		vec3 add(float f) const;
 
-			\param f - float value, which will be added
-			\return vec3 - returns modified *this
-		*/
-		vec3& add(float f);
+		/**
+		 * \brief Subtraction method of vec3 and float value.
+		 * vec3(x, y, z) - float = vec3(x - float, y - float, z - float)
+		 * \param f float value, which will be subtracted
+		 * \return modifed vec3 after subtraction
+		 */
+		vec3 subtract(float f) const;
 
-		/*
-		Subtraction method of vec3 and float value. 
-		vec3(x, y, z) - float = vec3(x - float, y - float, z - float)
+		/**
+		 * \brief Multiplication method of vec3 and float value.
+		 * vec3(x, y, z) * float = vec3(x * float, y * float, z * float)
+		 * \param f float value, which will be multiplied
+		 * \return modifed vec3 after multiplication
+		 */
+		vec3 multiply(float f) const;
 
-			\param f - float value, which will be subtracted
-			\return vec3 - returns modified *this
-		*/
-		vec3& subtract(float f);
+		/**
+		 * \brief Division method of vec3 and float value.
+		 * vec3(x, y, z) / float = vec3(x / float, y / float, z / float)
+		 * Cannot divide by zero = 0.f! If user passes 0.f, then
+		 * debug break is called!
+		 * \param f float value, which will be divided
+		 * \return modifed vec3 after division
+		 */
+		vec3 divide(float f) const;
 
-		/*
-		Multiplication method of vec3 and float value. 
-		vec3(x, y, z) * float = vec3(x * float, y * float, z * float)
+		/**
+		 * \brief Addition method of vec3 and vec3.
+		 * v1 + v2 = vec3(v1.x + v2.x, v1.y + v2.y, v1.z + v2.z)
+		 * \param other second vec3, which will be added to *this
+		 * \return computed vec3
+		 */
+		vec3 add(vec3 other) const;
 
-			\param f - float value, which will be multiplied
-			\return vec3 - returns modified *this
-		*/
-		vec3& multiply(float f);
+		/**
+		 * \brief Subtraction method of vec3 and vec3.
+		 * v1 - v2 = vec3(v1.x - v2.x, v1.y - v2.y, v1.z - v2.z)
+		 * \param other second vec3, which will be subtracted from *this
+		 * \return computed vec3
+		 */
+		vec3 subtract(vec3 other) const;
 
-		/*
-		Division method of vec3 and float value. 
-		vec3(x, y, z) / float = vec3(x / float, y / float, z / float)
+		/**
+		 * \brief Multiplication method of vec3 and vec3.
+		 * v1 * v2 = vec3(v1.x * v2.x, v1.y * v2.y, v1.z * v2.z)
+		 * \param other second vec3, which will be mutliplied with *this
+		 * \return computed vec3
+		 */
+		vec3 multiply(vec3 other) const;
 
-		If user send f as 0, it will return unmodified *this!
-
-			\param f - float value, which will be divided
-			\return vec3 - returns modified *this
-		*/
-		vec3& divide(float f);
-
-		/*
-		Addition method of vec3 and vec3.
-		v1 + v2 = vec3(v1.x + v2.x, v1.y + v2.y, v1.z + v2.z)
-
-			\param other - second vec3, which will be added to *this
-			\return vec3 - computed *this
-		*/
-		vec3& add(const vec3& other);
-
-		/*
-		Subtraction method of vec3 and vec3.
-		v1 - v2 = vec3(v1.x - v2.x, v1.y - v2.y, v1.z - v2.z)
-
-			\param other - second vec3, which will be subtracted from *this
-			\return vec3 - computed *this
-		*/
-		vec3& subtract(const vec3& other);
-
-		/*
-		Multiplication method of vec3 and vec3.
-		v1 * v2 = vec3(v1.x * v2.x, v1.y * v2.y, v1.z * v2.z)
-
-			\param other - second vec3, which will be mutliplied with *this
-			\return vec3 - computed *this
-		*/
-		vec3& multiply(const vec3& other);
-
-		/*
-		Division method of vec3 and vec3.
-		v1 / v2 = vec3(v1.x / v2.x, v1.y / v2.y, v1.z / v2.z)
-
-		Please make sure, that other vec3 isn't equal to 0 (any of its values). If so,
-		method returns unmodified *this.
-
-			\param other - second vec3
-			\return vec3 - computed *this
-		*/
-		vec3& divide(const vec3& other);
+		/**
+		 * \brief Division method of vec3 and vec3.
+		 * v1 / v2 = vec3(v1.x / v2.x, v1.y / v2.y, v1.z / v2.z)
+		 * Please make sure, that other vec3 isn't equal to 0 (any of its values). If so,
+		 * method calls debug break.
+		 * \param other second vec3
+		 * \return computed vec3
+		 */
+		vec3 divide(vec3 other) const;
 
 		/*
 		Computes cross Product of *this and other vec3.
@@ -143,7 +134,7 @@ namespace marengine::maths {
 			\param other - vec3
 			\return vec3 - result of cross product
 		*/
-		vec3 cross(const vec3& other) const;
+		vec3 cross(vec3 other) const;
 
 		/*
 		Static method, Computes cross Product of 2 given vec3's.
@@ -152,7 +143,7 @@ namespace marengine::maths {
 			\param y - second vec3
 			\return vec3 - result of cross product
 		*/
-		static vec3 cross(const vec3& x, const vec3& y);
+		static vec3 cross(vec3 x, vec3 y);
 
 		/*
 		Computes dot product of *this and other vec3.
@@ -160,7 +151,7 @@ namespace marengine::maths {
 			\param other - vec3
 			\return float - calculated dot product
 		*/
-		float dot(const vec3& other) const;
+		float dot(vec3 other) const;
 
 		/*
 		Static method, which computes dot product of 2 given vec3's.
@@ -169,7 +160,7 @@ namespace marengine::maths {
 			\param right - second vec3
 			\return float - calculated dot product
 		*/
-		static float dot(const vec3& left, const vec3& right);
+		static float dot(vec3 left, vec3 right);
 
 		/*
 		Calculate length / magnitude of a vector.
@@ -184,7 +175,14 @@ namespace marengine::maths {
 			\param v - vec3, which length will be calculated
 			\return float - calculated length
 		*/
-		static float length(const vec3& v);
+		static float length(vec3 v);
+
+		/**
+		 * \brief
+		 * 
+		 * \return 
+		 */
+		vec3 normalize() const;
 
 		/*
 		Computes normalized vec2. Firstly it calculates length of vector, 
@@ -195,7 +193,7 @@ namespace marengine::maths {
 			\param other - vec3, which will be normalized
 			\return vec3 - normalized vec3
 		*/
-		static vec3 normalize(const vec3& other);
+		static vec3 normalize(vec3 other);
 
 		/*
 		Calculates angle between 'this' vec3 and other

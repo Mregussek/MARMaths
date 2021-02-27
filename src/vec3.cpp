@@ -1,41 +1,43 @@
-/**
- *        MARMaths - open source computing library for MAREngine
- * Copyright (C) 2020-present Mateusz Rzeczyca <info@mateuszrzeczyca.pl>
- * All rights reserved.
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
-**/
+/***********************************************************************
+* @internal @copyright
+*
+*        MARMaths - open source computing library for MAREngine
+*
+* Copyright (C) 2020-present Mateusz Rzeczyca <info@mateuszrzeczyca.pl>
+* All rights reserved.
+*
+* This program is free software: you can redistribute it and/or modify
+* it under the terms of the GNU General Public License as published by
+* the Free Software Foundation, either version 3 of the License, or
+* (at your option) any later version.
+* This program is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+* GNU General Public License for more details.
+* You should have received a copy of the GNU General Public License
+* along with this program. If not, see <http://www.gnu.org/licenses/>.
+*
+************************************************************************/
 
 
 #include "vec3.h"
 #include "vec4.h"
-#include "../math_func/basic.h"
+#include "basic.h"
 
 
 namespace marengine::maths {
 
 
 	vec3::vec3() {
-		this->x = 0.0f;
-		this->y = 0.0f;
-		this->z = 0.0f;
+		x = 0.f;
+		y = 0.f;
+		z = 0.f;
 	}
 
-	vec3::vec3(float x, float y, float z) {
-		this->x = x;
-		this->y = y;
-		this->z = z;
+	vec3::vec3(float _x, float _y, float _z) {
+		x = _x;
+		y = _y;
+		z = _z;
 	}
 
 	vec3::vec3(const vec4& v) {
@@ -44,82 +46,82 @@ namespace marengine::maths {
 		z = v.z;
 	}
 
-	vec3& vec3::add(float f) {
-		x += f;
-		y += f;
-		z += f;
-
-		return *this;
+	vec3 vec3::add(float f) const {
+		return {
+			x + f,
+			y + f,
+			z + f
+		};
 	}
 
-	vec3& vec3::subtract(float f) {
-		x -= f;
-		y -= f;
-		z -= f;
-	
-		return *this;
+	vec3 vec3::subtract(float f) const {
+		return {
+			x - f,
+			y - f,
+			z - f
+		};
 	}
 
-	vec3& vec3::multiply(float f) {
-		x *= f;
-		y *= f;
-		z *= f;
-
-		return *this;
+	vec3 vec3::multiply(float f) const {
+		return {
+			x * f,
+			y * f,
+			z * f
+		};
 	}
 
-	vec3& vec3::divide(float f) {
-		if (f == 0.f) return *this;
-
-		x /= f;
-		y /= f;
-		z /= f;
-
-		return *this;
+	vec3 vec3::divide(float f) const {
+		if (f == 0.f) {
+			static_assert(true, "vec3::divide(0.f) - cannot divide by zero!");
+		};
+		return {
+			x / f,
+			y / f,
+			z / f
+		};
 	}
 
 
-	vec3& vec3::add(const vec3& other) {
-		x += other.x;
-		y += other.y;
-		z += other.z;
-
-		return *this;
+	vec3 vec3::add(vec3 other) const {
+		return {
+			x + other.x,
+			y + other.y,
+			z + other.z
+		};
 	}
 
-	vec3& vec3::subtract(const vec3& other) {
-		x -= other.x;
-		y -= other.y;
-		z -= other.z;
-
-		return *this;
+	vec3 vec3::subtract(vec3 other) const {
+		return {
+			x - other.x,
+			y - other.y,
+			z - other.z
+		};
 	}
 
-	vec3& vec3::multiply(const vec3& other) {
-		x *= other.x;
-		y *= other.y;
-		z *= other.z;
-
-		return *this;
+	vec3 vec3::multiply(vec3 other) const {
+		return {
+			x * other.x,
+			y * other.y,
+			z * other.z
+		};
 	}
 
-	vec3& vec3::divide(const vec3& other) {
-		if (other.x == 0 || other.y == 0 || other.z == 0) {
-			return *this;
+	vec3 vec3::divide(vec3 other) const {
+		if (other.x == 0.f || other.y == 0.f || other.z == 0.f) {
+			static_assert(true, "vec3::divide({0.f, 0.f, 0.f}) - cannot divide by zero!");
 		}
-
-		x /= other.x;
-		y /= other.y;
-		z /= other.z;
-
-		return *this;
+		return {
+			x / other.x,
+			y / other.y,
+			z / other.z
+		};
 	}
 
-	vec3 vec3::cross(const vec3& other) const {
+	vec3 vec3::cross(vec3 other) const {
 		return cross(*this, other);
 	}
 	
-	vec3 vec3::cross(const vec3& x, const vec3& y) {
+	vec3 vec3::cross(vec3 x, vec3 y) {
 		return {
 			x.y * y.z - y.y * x.z,
 			x.z * y.x - y.z * x.x,
@@ -127,26 +129,33 @@ namespace marengine::maths {
 		};
 	}
 
-	float vec3::dot(const vec3& other) const {
+	float vec3::dot(vec3 other) const {
 		return dot(*this, other);
 	}
 
-	float vec3::dot(const vec3& left, const vec3& right) {
+	float vec3::dot(vec3 left, vec3 right) {
 		return left.x * right.x + left.y * right.y + left.z * right.z;
 	}
 
 	float vec3::length() const {
-		return basic::square( dot(*this, *this) );
+		return length(*this);
 	}
 
-	float vec3::length(const vec3& v) {
-		return v.length();
+	float vec3::length(vec3 v) {
+		return basic::square(dot(v, v));
 	}
 
-	vec3 vec3::normalize(const vec3& other) {
-		const float inverse_square = 1.f / basic::square(dot(other, other));
+	vec3 vec3::normalize() const {
+		return normalize(*this);
+	}
 
-		return other * inverse_square;
+	vec3 vec3::normalize(vec3 other) {
+		const float magnitude{ length(other) };
+		if (magnitude == 0.f) {
+			static_assert(true, "vec3::normalize(magnitude=0.f) - cannot divide by zero!");
+		}
+		const float inverseMagnitude{ 1.f / magnitude };
+		return other * inverseMagnitude;
 	}
 
 	float vec3::angleBetween(const vec3& other) const {

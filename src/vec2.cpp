@@ -124,10 +124,8 @@ namespace marengine::maths {
 		if (magnitude == 0.f) {
 			static_assert(true, "vec2::normalize(magnitude=0.f) - cannot divide by zero!");
 		}
-		return {
-			other.x / magnitude,
-			other.y / magnitude
-		};
+		const float inverseMagnitude{ 1.f / magnitude };
+		return other * inverseMagnitude;
 	}
 
 	vec2 operator+(vec2 left, float right) {

@@ -44,8 +44,8 @@ namespace marengine::maths {
 
 		/**
 		 * \brief Constructor, that can create vec2 from given 2 floats.
-		 * \param x x value, that will be prescribed to vec2(x, y)
-		 * \param y y value, that will be prescribed to vec2(x, y)
+		 * \param _x x value, that will be prescribed to vec2(x, y)
+		 * \param _y y value, that will be prescribed to vec2(x, y)
 		 */
 		vec2(float _x, float _y);
 
