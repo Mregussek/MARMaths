@@ -211,16 +211,6 @@ namespace marengine::maths {
 		friend vec4 operator*(vec4 left, vec4 right);
 		friend vec4 operator/(vec4 left, vec4 right);
 
-		vec4 operator+=(float other) const;
-		vec4 operator-=(float other) const;
-		vec4 operator*=(float other) const;
-		vec4 operator/=(float other) const;
-
-		vec4 operator+=(vec4 other) const;
-		vec4 operator-=(vec4 other) const;
-		vec4 operator*=(vec4 other) const;
-		vec4 operator/=(vec4 other) const;
-
 		bool operator==(vec4 other) const;
 		bool operator!=(vec4 other) const;
 

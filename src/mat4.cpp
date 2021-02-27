@@ -456,18 +456,6 @@ namespace marengine::maths {
 		return left.multiply(right);
 	}
 
-	mat4 mat4::operator*=(const mat4& other) {
-		return multiply(other);
-	}
-
-	vec4 mat4::operator*=(const vec4& other) {
-		return multiply(other);
-	}
-
-	mat4 mat4::operator*=(float other) {
-		return multiply(other);
-	}
-
 	const float& mat4::operator[](unsigned int index) const {
 		if (index >= 4 * 4) {
 			static_assert(true, "matrix.elements[index] out of bound!\n");

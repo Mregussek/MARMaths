@@ -300,30 +300,6 @@ namespace marengine::maths {
         friend mat4 operator*(mat4 left, float right);
     
         /**
-         * \brief Overloaded *= multiplication operator. Says that matrix on the left side is 
-         * *this and its given paramater is on the right side.
-         * \param other matrix after *= operator
-         * \return calculated matrix of (*this) * other
-         */
-        mat4 operator*=(const mat4& other);
-
-        /**
-         * \brief Overloaded *= multiplication operator. Says that matrix on the left side is 
-         * *this and its given paramater is on the right side.
-         * \param other vec4 after *= operator
-         * \return calculated vec4 of (*this) * other
-         */
-        vec4 operator*=(const vec4& other);
-
-        /**
-         * \brief Overloaded *= multiplication operator. Says that matrix on the left side is
-         * *this and its given paramater is on the right side.
-         * \param other float after *= operator
-         * \return calculated matrix of (*this) * other
-         */
-        mat4 operator*=(float other);
-    
-        /**
          * \brief Overloaded [] operator, so that we have ability to call mat4[index], which returns
          * mat4.elements[index]. This is version for read-only method, so returns const value.
          * Make sure to not cause an overflow, pass index in range <0;15>. If passed wrong value,

@@ -74,8 +74,7 @@ namespace marengine::maths {
 			}
 		}
 
-		rtn *= 0.5f / basic::square(sumOfTerms);
-		return rtn;
+		return rtn * 0.5f / basic::square(sumOfTerms);
 	}
 
 	vec4 quat::quatFromRotation2(const mat4& transform) {

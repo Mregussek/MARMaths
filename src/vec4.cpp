@@ -202,38 +202,6 @@ namespace marengine::maths {
 		return left.divide(right);
 	}
 
-	vec4 vec4::operator+=(float other) const {
-		return add(other);
-	}
-
-	vec4 vec4::operator-=(float other) const {
-		return subtract(other);
-	}
-
-	vec4 vec4::operator*=(float other) const {
-		return multiply(other);
-	}
-
-	vec4 vec4::operator/=(float other) const {
-		return divide(other);
-	}
-
-	vec4 vec4::operator+=(vec4 other) const {
-		return add(other);
-	}
-
-	vec4 vec4::operator-=(vec4 other) const {
-		return subtract(other);
-	}
-
-	vec4 vec4::operator*=(vec4 other) const {
-		return multiply(other);
-	}
-
-	vec4 vec4::operator/=(vec4 other) const {
-		return divide(other);
-	}
-
 	bool vec4::operator==(vec4 other) const {
 		return x == other.x && y == other.y && z == other.z && w == other.w;
 	}

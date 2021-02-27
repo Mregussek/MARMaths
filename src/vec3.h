@@ -286,16 +286,6 @@ namespace marengine::maths {
 		friend vec3 operator*(vec3 left, vec3 right);
 		friend vec3 operator/(vec3 left, vec3 right);
 
-		vec3 operator+=(float other) const;
-		vec3 operator-=(float other) const;
-		vec3 operator*=(float other) const;
-		vec3 operator/=(float other) const;
-
-		vec3 operator+=(vec3 other) const;
-		vec3 operator-=(vec3 other) const;
-		vec3 operator*=(vec3 other) const;
-		vec3 operator/=(vec3 other) const;
-
 		bool operator==(vec3 other) const;
 		bool operator!=(vec3 other) const;
 
