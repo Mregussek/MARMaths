@@ -101,7 +101,7 @@ namespace marengine::maths {
 		 * \param other second vec4, which will be added to *this
 		 * \return modifed vec4 after addition
 		 */
-		vec4 add(const vec4& other) const;
+		vec4 add(vec4 other) const;
 
 		/**
 		 * \brief Subtraction method of vec4 and vec4.
@@ -109,7 +109,7 @@ namespace marengine::maths {
 		 * \param other second vec4, which will be subtracted from *this
 		 * \return modifed vec4 after subtraction
 		 */
-		vec4 subtract(const vec4& other) const;
+		vec4 subtract(vec4 other) const;
 
 		/**
 		 * \brief Multiplication method of vec4 and vec4.
@@ -117,7 +117,7 @@ namespace marengine::maths {
 		 * \param other second vec4, which will be mutliplied with *this
 		 * \return  modifed vec4 after multiplication
 		 */
-		vec4 multiply(const vec4& other) const;
+		vec4 multiply(vec4 other) const;
 
 		/**
 		 * \brief Division method of vec4 and vec4.
@@ -127,75 +127,72 @@ namespace marengine::maths {
 		 * \param other second vec4
 		 * \return modifed vec4 after division
 		 */
-		vec4 divide(const vec4& other) const;
+		vec4 divide(vec4 other) const;
 
-		/*
-		Computes dot product of *this and other vec4.
+		/**
+		 * \brief Computes dot product of *this and other vec4.
+		 * \param other vec4
+		 * \return calculated dot product
+		 */
+		float dot(vec4 other) const;
 
-			\param other - vec4
-			\return float - calculated dot product
-		*/
-		float dot(const vec4& other) const;
+		/**
+		 * \brief Static method, which computes dot product of 2 given vec4's.
+		 * 
+		 * \param left first vec4
+		 * \param right second vec4
+		 * \return calculated dot product
+		 */
+		static float dot(vec4 left, vec4 right);
 
-		/*
-		Static method, which computes dot product of 2 given vec4's.
-
-			\param left - first vec4
-			\param right - second vec4
-			\return float - calculated dot product
-		*/
-		static float dot(const vec4& left, const vec4& right);
-
-		/*
-		Calculate length / magnitude of a vector.
-
-			\return float - its magnitude
-		*/
+		/**
+		 * Calculate length / magnitude of a vector.
+		 * \return its magnitude
+		 */
 		float length() const;
 
-		/*
-		Computes length of given vector as a paramater (l-value).
+		/**
+		 * \brief Computes length of given vector as a paramater.
+		 * \param v vec4, which length will be calculated
+		 * \return calculated length
+		 */
+		static float length(vec4 v);
 
-			\param v - vec4, which length will be calculated
-			\return float - calculated length
-		*/
-		static float length(const vec4& v);
-
-		/*
-		Computes normalized vec4. Firstly it calculates length of vector, 
-		then it divides every value with length.
-
-		If magnitude is equal to 0, we have debug break.
-
-			\return vec4 - normalized vec4
-		*/
+		/**
+		 * \brief Computes normalized vec4. Firstly it calculates length of vector,
+		 * then it divides every value with length.
+		 * If magnitude is equal to 0, we have debug break.
+		 * \return normalized vec4
+		 */
 		vec4 normalize() const;
 
-		/*
-		Computes normalized vec4. Firstly it calculates length of vector, 
-		then it divides every value with length.
+		/**
+		 * \brief Computes normalized vec4. Firstly it calculates length of vector,
+		 * then it divides every value with length.
+		 * If magnitude is equal to 0, we have debug break.
+		 * \param other vec4, which will be normalized
+		 * \return normalized vec4
+		 */
+		static vec4 normalize(vec4 other);
 
-		If magnitude is equal to 0, we have debug break.
-
-			\param other - vec4, which will be normalized
-			\return vec4 - normalized vec4
-		*/
-		static vec4 normalize(const vec4& other);
-
-		/*
-		Returns value_ptr to first vec4 at vector. Used especially in shaders.
-
-			\param vec - vector of vec4
-			\return const float* - value pointer
-		*/
+		/**
+		 * \brief Returns value_ptr to first vec4 at vector. Used especially in shaders.
+		 * \param vec vector of vec4
+		 * \return value pointer
+		 */
 		static const float* value_ptr(const std::vector<vec4>& vec);
 
-		/*
-		Returns const value_ptr to vec4. Used especially in shaders.
+		/**
+		 * \brief Returns const value_ptr to vec4. Used especially in shaders.
+		 * \return value pointer
+		 */
+		const float* value_ptr() const;
 
-			\param vec - vector of vec4
-			\return float* - value pointer
-		*/
+		/**
+		 * \brief Returns const value_ptr to vec4. Used especially in shaders.
+		 * \param vec vec4
+		 * \return value pointer
+		 */
 		static const float* value_ptr(const vec4& vec);
 
 		// -------------------------------------------
@@ -207,23 +204,23 @@ namespace marengine::maths {
 		friend vec4 operator*(vec4 left, float right);
 		friend vec4 operator/(vec4 left, float right);
 
-		friend vec4 operator+(vec4 left, const vec4& right);
-		friend vec4 operator-(vec4 left, const vec4& right);
-		friend vec4 operator*(vec4 left, const vec4& right);
-		friend vec4 operator/(vec4 left, const vec4& right);
+		friend vec4 operator+(vec4 left, vec4 right);
+		friend vec4 operator-(vec4 left, vec4 right);
+		friend vec4 operator*(vec4 left, vec4 right);
+		friend vec4 operator/(vec4 left, vec4 right);
 
-		vec4& operator+=(float other);
-		vec4& operator-=(float other);
-		vec4& operator*=(float other);
-		vec4& operator/=(float other);
+		vec4 operator+=(float other) const;
+		vec4 operator-=(float other) const;
+		vec4 operator*=(float other) const;
+		vec4 operator/=(float other) const;
 
-		vec4& operator+=(const vec4& other);
-		vec4& operator-=(const vec4& other);
-		vec4& operator*=(const vec4& other);
-		vec4& operator/=(const vec4& other);
+		vec4 operator+=(vec4 other) const;
+		vec4 operator-=(vec4 other) const;
+		vec4 operator*=(vec4 other) const;
+		vec4 operator/=(vec4 other) const;
 
-		bool operator==(const vec4& other) const;
-		bool operator!=(const vec4& other) const;
+		bool operator==(vec4 other) const;
+		bool operator!=(vec4 other) const;
 
 	};
 

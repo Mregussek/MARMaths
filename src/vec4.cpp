@@ -86,7 +86,7 @@ namespace marengine::maths {
 		};
 	}
 
-	vec4 vec4::add(const vec4& other) const {
+	vec4 vec4::add(vec4 other) const {
 		return {
 			x + other.x,
 			y + other.y,
@@ -95,7 +95,7 @@ namespace marengine::maths {
 		};
 	}
 
-	vec4 vec4::subtract(const vec4& other) const {
+	vec4 vec4::subtract(vec4 other) const {
 		return {
 			x - other.x,
 			y - other.y,
@@ -104,7 +104,7 @@ namespace marengine::maths {
 		};
 	}
 
-	vec4 vec4::multiply(const vec4& other) const {
+	vec4 vec4::multiply(vec4 other) const {
 		return {
 			x * other.x,
 			y * other.y,
@@ -113,7 +113,7 @@ namespace marengine::maths {
 		};
 	}
 
-	vec4 vec4::divide(const vec4& other) const {
+	vec4 vec4::divide(vec4 other) const {
 		if (other.x == 0.f || other.y == 0.f || other.z == 0.f || other.w == 0.f) {
 			static_assert(true, "vec4::divide({0.f, 0.f, 0.f, 0.f}) - cannot divide by zero!");
 		}
@@ -125,19 +125,21 @@ namespace marengine::maths {
 		};
 	}
 
-	float vec4::dot(const vec4& other) const {
+	float vec4::dot(vec4 other) const {
 		return dot(*this, other);
 	}
 
-	float vec4::dot(const vec4& left, const vec4& right) {
-		return left.x * right.x + left.y * right.y + left.z * right.z + left.w * right.w;
+	float vec4::dot(vec4 left, vec4 right) {
+		return {
+			left.x * right.x + left.y * right.y + left.z * right.z + left.w * right.w
+		};
 	}
 
 	float vec4::length() const {
 		return basic::square(dot(*this, *this));
 	}
 
-	float vec4::length(const vec4& v) {
+	float vec4::length(vec4 v) {
 		return v.length();
 	}
 
@@ -145,16 +147,21 @@ namespace marengine::maths {
 		return normalize(*this);
 	}
 
-	vec4 vec4::normalize(const vec4& other) {
-		const float magnitude = other.length();
-
-		vec4 rtn{ other.x / magnitude, other.y / magnitude, other.z / magnitude, other.w / magnitude };
-
-		return rtn;
+	vec4 vec4::normalize(vec4 other) {
+		const float magnitude{ other.length() };
+		if (magnitude == 0.f) {
+			static_assert(true, "vec4::normalize(magnitude=0.f) - cannot divide by zero!");
+		}
+		const float inverseMagnitude{ 1.f / magnitude };
+		return other * inverseMagnitude;
 	}
 
 	const float* vec4::value_ptr(const std::vector<vec4>& vec) {
 		return &(*vec.data()).x;
+	}
+
+	const float* vec4::value_ptr() const {
+		return value_ptr(*this);
 	}
 
 	const float* vec4::value_ptr(const vec4& vec) {
@@ -177,59 +184,59 @@ namespace marengine::maths {
 		return left.divide(right);
 	}
 
-	vec4 operator+(vec4 left, const vec4& right) {
+	vec4 operator+(vec4 left, vec4 right) {
 		return left.add(right);
 	}
 
-	vec4 operator-(vec4 left, const vec4& right) {
+	vec4 operator-(vec4 left, vec4 right) {
 		return left.subtract(right);
 	}
 
-	vec4 operator*(vec4 left, const vec4& right) {
+	vec4 operator*(vec4 left, vec4 right) {
 		return left.multiply(right);
 	}
 
-	vec4 operator/(vec4 left, const vec4& right) {
+	vec4 operator/(vec4 left, vec4 right) {
 		return left.divide(right);
 	}
 
-	vec4& vec4::operator+=(float other) {
+	vec4 vec4::operator+=(float other) const {
 		return add(other);
 	}
 
-	vec4& vec4::operator-=(float other) {
+	vec4 vec4::operator-=(float other) const {
 		return subtract(other);
 	}
 
-	vec4& vec4::operator*=(float other) {
+	vec4 vec4::operator*=(float other) const {
 		return multiply(other);
 	}
 
-	vec4& vec4::operator/=(float other) {
+	vec4 vec4::operator/=(float other) const {
 		return divide(other);
 	}
 
-	vec4& vec4::operator+=(const vec4& other) {
+	vec4 vec4::operator+=(vec4 other) const {
 		return add(other);
 	}
 
-	vec4& vec4::operator-=(const vec4& other) {
+	vec4 vec4::operator-=(vec4 other) const {
 		return subtract(other);
 	}
 
-	vec4& vec4::operator*=(const vec4& other) {
+	vec4 vec4::operator*=(vec4 other) const {
 		return multiply(other);
 	}
 
-	vec4& vec4::operator/=(const vec4& other) {
+	vec4 vec4::operator/=(vec4 other) const {
 		return divide(other);
 	}
 
-	bool vec4::operator==(const vec4& other) const {
+	bool vec4::operator==(vec4 other) const {
 		return x == other.x && y == other.y && z == other.z && w == other.w;
 	}
 
-	bool vec4::operator!=(const vec4& other) const {
+	bool vec4::operator!=(vec4 other) const {
 		return !(*this == other);
 	}
 
