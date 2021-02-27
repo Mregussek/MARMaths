@@ -20,27 +20,44 @@
 ************************************************************************/
 
 
-#include "basic.h"
+#ifndef MAR_MATH_QUAT_H
+#define MAR_MATH_QUAT_H
+
+
+#include "maths.h"
 
 
 namespace marengine::maths {
 
 
-	float basic::square(float val) {
-		return sqrt(val);
-	}
+	/**
+	 * \brief quat is a namespace as abstraction of quanternion. Because I don't
+	 * want to create structure with the same members as vec4 contains, I have wrote
+	 * new namespace that contains all needed functions for quanterion implementation.
+	 */
+	namespace quat {
 
-	float basic::power(float val) {
-		return val * val;
-	}
+		typedef ::marengine::maths::vec4 vec4;
+		struct vec4;
 
-	bool basic::epsilonEqual(float x, float y, float epsilon) {
-		return abs(x - y) < epsilon;
-	}
+		typedef ::marengine::maths::mat4 mat4;
+		struct mat4;
 
-	bool basic::epsilonNotEqual(float x, float y, float epsilon) {
-		return !epsilonEqual(x, y, epsilon);
+
+		/**
+		 * \brief Retrieves quanterion from rotation matrix based on Mike Day's implementation:
+		 * https://drive.google.com/file/d/1XfGftHswm-MBsIm2d2wPb8YG8TThiXi-/view?usp=sharing
+		 * \param transform rotation matrix, from which we want to retrieve quanterion
+		 * \return retrieved quanterion in vec4 format
+		 */
+		vec4 quatFromRotation(const mat4& transform);
+
+
+
 	}
 
 
 }
+
+
+#endif // !MAR_MATH_QUAT_H
