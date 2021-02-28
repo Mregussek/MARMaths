@@ -109,7 +109,7 @@ breathe_default_members = ('members', 'undoc-members')
 from bs4 import BeautifulSoup
 
 marmaths_xml_path = "_build/xml/"
-marmaths_classes_xml = [marmaths_xml_path + x for x in os.listdir(marmaths_xml_path) if x.startswith("_") and x.endswith("h.xml")]
+marmaths_classes_xml = [marmaths_xml_path + x for x in os.listdir(marmaths_xml_path) if x.endswith("8h.xml")]
 
 references_path = "references/"
 cpp_rst_file_template = """
