@@ -48,9 +48,9 @@ namespace marengine::maths {
 
 		/**
 		 * \brief Constructor, that can create vec3 from given 3 floats.
-		 * \param x x value, that will be prescribed to vec3(x, y, z)
-		 * \param y y value, that will be prescribed to vec3(x, y, z)
-		 * \param z z value, that will be prescribed to vec3(x, y, z)
+		 * \param _x x value, that will be prescribed to vec3(x, y, z)
+		 * \param _y y value, that will be prescribed to vec3(x, y, z)
+		 * \param _z z value, that will be prescribed to vec3(x, y, z)
 		 */
 		vec3(float _x, float _y, float _z);
 
@@ -272,21 +272,25 @@ namespace marengine::maths {
 		 */
 		static float* value_ptr_nonconst(vec3& vec);
 
-		// -------------------------------------------
-		// Overloaded operators, I think they are self-explanatory.
-		// -------------------------------------------
-
+		/// \brief self-explanatory
 		friend vec3 operator+(vec3 left, float right);
+		/// \brief self-explanatory
 		friend vec3 operator-(vec3 left, float right);
+		/// \brief self-explanatory
 		friend vec3 operator*(vec3 left, float right);
+		/// \brief self-explanatory
 		friend vec3 operator/(vec3 left, float right);
-
+		/// \brief self-explanatory
 		friend vec3 operator+(vec3 left, vec3 right);
+		/// \brief self-explanatory
 		friend vec3 operator-(vec3 left, vec3 right);
+		/// \brief self-explanatory
 		friend vec3 operator*(vec3 left, vec3 right);
+		/// \brief self-explanatory
 		friend vec3 operator/(vec3 left, vec3 right);
-
+		/// \brief self-explanatory
 		bool operator==(vec3 other) const;
+		/// \brief self-explanatory
 		bool operator!=(vec3 other) const;
 
 	};

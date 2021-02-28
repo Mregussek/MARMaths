@@ -51,7 +51,7 @@ namespace marengine::maths {
 
 		/**
 		 * \brief Retrieves quanterion from rotation matrix based on:
-		 * <unknown URL> hopefully I will find it soon
+		 * <unknown URL hopefully I will find it soon
 		 * \param transform rotation matrix, from which we want to retrieve quanterion
 		 * \return retrieved quanterion in vec4 format
 		 */

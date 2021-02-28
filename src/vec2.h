@@ -162,22 +162,26 @@ namespace marengine::maths {
 		 * \return normalized vec2
 		 */
 		static vec2 normalize(vec2 other);
-
-		// -------------------------------------------
-		// Overloaded operators, I think they are self-explanatory.
-		// -------------------------------------------
-
+		
+		/// \brief self-explanatory
 		friend vec2 operator+(vec2 left, float right);
+		/// \brief self-explanatory
 		friend vec2 operator-(vec2 left, float right);
+		/// \brief self-explanatory
 		friend vec2 operator*(vec2 left, float right);
+		/// \brief self-explanatory
 		friend vec2 operator/(vec2 left, float right);
-
+		/// \brief self-explanatory
 		friend vec2 operator+(vec2 left, vec2 right);
+		/// \brief self-explanatory
 		friend vec2 operator-(vec2 left, vec2 right);
+		/// \brief self-explanatory
 		friend vec2 operator*(vec2 left, vec2 right);
+		/// \brief self-explanatory
 		friend vec2 operator/(vec2 left, vec2 right);
-
+		/// \brief self-explanatory
 		bool operator==(vec2 other) const;
+		/// \brief self-explanatory
 		bool operator!=(vec2 other) const;
 
 	};

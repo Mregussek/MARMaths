@@ -197,21 +197,25 @@ namespace marengine::maths {
 		 */
 		static const float* value_ptr(const vec4& vec);
 
-		// -------------------------------------------
-		// Overloaded operators, I think they are self-explanatory.
-		// -------------------------------------------
-
+		/// \brief self-explanatory
 		friend vec4 operator+(vec4 left, float right);
+		/// \brief self-explanatory
 		friend vec4 operator-(vec4 left, float right);
+		/// \brief self-explanatory
 		friend vec4 operator*(vec4 left, float right);
+		/// \brief self-explanatory
 		friend vec4 operator/(vec4 left, float right);
-
+		/// \brief self-explanatory
 		friend vec4 operator+(vec4 left, vec4 right);
+		/// \brief self-explanatory
 		friend vec4 operator-(vec4 left, vec4 right);
+		/// \brief self-explanatory
 		friend vec4 operator*(vec4 left, vec4 right);
+		/// \brief self-explanatory
 		friend vec4 operator/(vec4 left, vec4 right);
-
+		/// \brief self-explanatory
 		bool operator==(vec4 other) const;
+		/// \brief self-explanatory
 		bool operator!=(vec4 other) const;
 
 	};

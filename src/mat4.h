@@ -50,7 +50,8 @@ namespace marengine::maths {
      */
     struct mat4 {
         
-        float elements[4 * 4]; ///  Float array, that contains data of 4x4 matrix   
+        /// \brief Float array, that contains data of 4x4 matrix
+        float elements[4 * 4];
 
         /// \brief Default constructor for 4x4 matrix. Initializes all elements to 0.f.
         mat4();
