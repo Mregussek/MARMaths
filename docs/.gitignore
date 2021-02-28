@@ -1,0 +1,5 @@
+_build
+VSWorkspaceState.json
+.suo
+ProjectSettings.json
+slnx.sqlite

@@ -37,10 +37,13 @@ namespace marengine::maths {
 	 * \brief 3-dimensional vector.
 	 */
 	struct vec3 {
-
-		float x; /// x value of vec3
-		float y; /// y value of vec3
-		float z; /// w value of vec3
+		
+		/// \brief x value of vec3
+		float x;
+		/// \brief y value of vec3
+		float y;
+		/// \brief w value of vec3
+		float z; 
 
 
 		/// \brief Default constructor, creates vec3(0.f, 0.f, 0.f).

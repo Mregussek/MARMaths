@@ -36,8 +36,11 @@ namespace marengine::maths {
 	 */
 	struct vec2 {
 		
-		float x; /// x value of vec2
-		float y; /// y value of vec2
+		/// \brief x value of vec2
+		float x;
+		/// \brief y value of vec2
+		float y;
+
 
 		/// \brief Default constructor, creates vec2(0, 0).
 		vec2();

@@ -33,15 +33,19 @@ namespace marengine::maths {
 
 
 	/**
-	 * \struct vec4 vec4 "vec4.h"
+	 * \struct vec4 vec4.h "vec4.h"
 	 * \brief 4-dimensional vector.
 	 */
 	struct vec4 {
 		
-		float x; /// x value of vec4
-		float y; /// y value of vec4
-		float z; /// z value of vec4
-		float w; /// w value of vec4
+		/// \brief x value of vec4
+		float x;
+		/// \brief y value of vec4
+		float y; 
+		/// \brief z value of vec4
+		float z;
+		/// \brief w value of vec4
+		float w;
 
 
 		/// \brief Default constructor, creates vec4(0.f, 0.f, 0.f, 0.f).

@@ -1,4 +1,0 @@
-Basic
-==============
-
-MARMaths site.
