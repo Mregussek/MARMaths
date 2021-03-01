@@ -201,21 +201,34 @@ namespace marengine::maths {
         void orthonormalize();
 
         /**
+         * \brief Transposes current matrix
+         * \return transposed matrix
+         */
+        void transpose();
+
+        /**
+         * \brief Transposes given matrix
+         * \param transform matrix, that will be transposed
+         * \return transposed matrix
+         */
+        void transpose(mat4& transform);
+
+        /**
          * \brief Decomposes a model matrix to translations, rotation and scale components.
          * \param transform transform which will be decomposed
          * \param translation reference to which decomposed translation will be written
-         * \param rotation reference to which decomposed rotation will be written (radians)
+         * \param quaternion reference to which decomposed quaternion will be written (radians)
          * \param scale reference to which decomposed scale will be written
          */
-        static void decompose(const mat4& transform, vec3& translation, vec3& rotation, vec3& scale);
+        static void decompose(const mat4& transform, vec3& translation, vec4& quaternion, vec3& scale);
     
         /**
          * \brief Decomposes a model matrix to translations, rotation and scale components.
          * \param translation reference to which decomposed translation will be written
-         * \param rotation reference to which decomposed rotation will be written (radians)
+         * \param quaternion reference to which decomposed quaternion will be written (radians)
          * \param scale reference to which decomposed scale will be written
          */
-        void decompose(vec3& translation, vec3& rotation, vec3& scale) const;
+        void decompose(vec3& translation, vec4& quaternion, vec3& scale) const;
     
         /** 
          * \brief Recomposes matrix from given parameters (translation, rotation and scale).
@@ -239,7 +252,7 @@ namespace marengine::maths {
          * \param quat vec4 that is quanternion (should contain values in RADIANS)
          * \return newly created rotation matrix
          */
-        static mat4 rotationFromQuat(const vec4& quat);
+        static mat4 rotationFromQuat(vec4 quat);
 
         /**
          * \brief Get value pointer to first matrix element. Used especially in shaders.

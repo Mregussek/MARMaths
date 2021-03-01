@@ -29,11 +29,13 @@
 
 namespace marengine::maths {
 
+	struct vec3;
 	struct vec4;
 	struct mat4;
 
 
 	/**
+	 * \struct quat quat.h "quat.h"
 	 * \brief quat is a structure written as a abstraction of quanternion. 
 	 * I have wrote new struct that contains all needed functions for quanterion 
 	 * implementation with no members, please use vec4 as quanternion and call needed methods.
@@ -50,12 +52,24 @@ namespace marengine::maths {
 		static vec4 quatFromRotation1(const mat4& transform);
 
 		/**
-		 * \brief Retrieves quanterion from rotation matrix based on:
-		 * <unknown URL hopefully I will find it soon
+		 * \brief Retrieves quanternion from rotation matrix based on:
+		 * ImGuizmo.cpp implementation
 		 * \param transform rotation matrix, from which we want to retrieve quanterion
 		 * \return retrieved quanterion in vec4 format
 		 */
 		static vec4 quatFromRotation2(const mat4& transform);
+
+		/**
+		 * \brief Retrieves quanternion from rotation matrix based on:
+		 * glm code to retrieve euler angles
+		 * \param transform rotation matrix, from which we want to retrieve quanterion
+		 * \return retrieved quanterion in vec4 format
+		 */
+		static vec4 quatFromRotation3(const mat4& transform);
+
+		static vec4 eulerAnglesToQuat(vec3 euler);
+
+		static vec3 quatToEulerAngles(vec4 q);
 
 	};
 

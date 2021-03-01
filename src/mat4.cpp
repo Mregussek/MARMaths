@@ -319,6 +319,39 @@ namespace marengine::maths {
 		return inv;
 	}
 
+	void mat4::transpose() {
+		transpose(*this);
+	}
+
+	void mat4::transpose(mat4& transform) {
+		const vec4 columns[]{ 
+			transform.getColumn4(0),
+			transform.getColumn4(1),
+			transform.getColumn4(2),
+			transform.getColumn4(3)
+		};
+
+		transform[0 + 0 * 4] = columns[0].x;
+		transform[0 + 1 * 4] = columns[0].y;
+		transform[0 + 2 * 4] = columns[0].z;
+		transform[0 + 3 * 4] = columns[0].w;
+
+		transform[1 + 0 * 4] = columns[1].x;
+		transform[1 + 1 * 4] = columns[1].y;
+		transform[1 + 2 * 4] = columns[1].z;
+		transform[1 + 3 * 4] = columns[1].w;
+
+		transform[2 + 0 * 4] = columns[2].x;
+		transform[2 + 1 * 4] = columns[2].y;
+		transform[2 + 2 * 4] = columns[2].z;
+		transform[2 + 3 * 4] = columns[2].w;
+
+		transform[3 + 0 * 4] = columns[3].x;
+		transform[3 + 1 * 4] = columns[3].y;
+		transform[3 + 2 * 4] = columns[3].z;
+		transform[3 + 3 * 4] = columns[3].w;
+	}
+
 	void mat4::orthonormalize(mat4& transform) {
 		const vec4 col[]{
 			transform.getColumn4(0).normalize(),
@@ -343,18 +376,34 @@ namespace marengine::maths {
 		orthonormalize(*this);
 	}
 
-	void mat4::decompose(const mat4& transform, vec3& translation, vec3& rotation, vec3& scale) {
+	void mat4::decompose(const mat4& transform, vec3& translation, vec4& quaternion, vec3& scale) {
 		mat4 localMatrix(transform);
 
 		if (basic::epsilonEqual(localMatrix[3 + 3 * 4], 0.f, FLT_EPSILON)) { return; }
 		
+		const bool shouldIsolatePerspective{
+			basic::epsilonNotEqual(localMatrix[3 + 0 * 4], 0.f, FLT_EPSILON) ||
+			basic::epsilonNotEqual(localMatrix[3 + 1 * 4], 0.f, FLT_EPSILON) ||
+			basic::epsilonNotEqual(localMatrix[3 + 2 * 4], 0.f, FLT_EPSILON)
+		};
+		if (shouldIsolatePerspective) {
+			localMatrix[3 + 0 * 4] = localMatrix[3 + 1 * 4] = localMatrix[3 + 2 * 4] = 0.f;
+			localMatrix[3 + 3 * 4] = 1.f;
+		}
+
+		// take translation and clear its matrix coefficients
 		translation = localMatrix.getColumn3(3);
+		localMatrix[0 + 3 * 4] = 0.f;
+		localMatrix[1 + 3 * 4] = 0.f;
+		localMatrix[2 + 3 * 4] = 0.f;
+		
+		// take scale
 		scale = {
 			localMatrix.getColumn3(0).length(),
 			localMatrix.getColumn3(1).length(),
 			localMatrix.getColumn3(2).length()
 		};
-		
+
 		localMatrix[0 + 0 * 4] /= scale.x;
 		localMatrix[1 + 0 * 4] /= scale.x;
 		localMatrix[2 + 0 * 4] /= scale.x;
@@ -366,59 +415,59 @@ namespace marengine::maths {
 		localMatrix[0 + 2 * 4] /= scale.z;
 		localMatrix[1 + 2 * 4] /= scale.z;
 		localMatrix[2 + 2 * 4] /= scale.z;
-
-		rotation = vec3(quat::quatFromRotation1(localMatrix));
-		//rotation = vec3(quat::quatFromRotation2(localMatrix));
+		
+		//quaternion = quat::quatFromRotation1(localMatrix);
+		quaternion = quat::quatFromRotation2(localMatrix);
+		//quaternion = quat::quatFromRotation3(localMatrix);
 	}
 
-	void mat4::decompose(vec3& translation, vec3& rotation, vec3& scale) const {
-		decompose(*this, translation, rotation, scale);
+	void mat4::decompose(vec3& translation, vec4& quaternion, vec3& scale) const {
+		decompose(*this, translation, quaternion, scale);
 	}
 
 	void mat4::recompose(mat4& transform, const vec3& translation, const vec3& rotation, const vec3& scale) {
-		const vec4 rotRadians{ 
-			trig::toRadians(rotation.x), 
-			trig::toRadians(rotation.y), 
-			trig::toRadians(rotation.z),
-			0.f
+		transform = {
+			mat4::translation(translation)
+			* mat4::rotation(rotation.x, { 1.f, 0.f, 0.f })
+			* mat4::rotation(rotation.y, { 0.f, 1.f, 0.f })
+			* mat4::rotation(rotation.z, { 0.f, 0.f, 1.f })
+			//* mat4::rotationFromQuat({ rotation, 0.f })
+			* mat4::scale(scale)
 		};
-		transform = mat4::translation(translation) 
-		//    * mat4::rotation(rotRadians.x, { 1.f, 0.f, 0.f })
-		//    * mat4::rotation(rotRadians.y, { 0.f, 1.f, 0.f })
-		//    * mat4::rotation(rotRadians.z, { 0.f, 0.f, 1.f })
-			* mat4::rotationFromQuat(rotRadians) 
-			* mat4::scale(scale);
 	}
 
 	void mat4::recompose(const vec3& translation, const vec3& rotation, const vec3& scale) {
 		recompose(*this, translation, rotation, scale);
 	}
 
-	mat4 mat4::rotationFromQuat(const vec4& quat) {
+	mat4 mat4::rotationFromQuat(vec4 quat) {
 		mat4 rtn(1.f);
+
+		//quat =  quat.normalize();
 
 		const float xx(quat.x * quat.x);
 		const float yy(quat.y * quat.y);
 		const float zz(quat.z * quat.z);
-
+		const float ww(quat.w * quat.w);
+				
 		const float xz(quat.x * quat.z);
 		const float xy(quat.x * quat.y);
 		const float yz(quat.y * quat.z);
-
+					 	
 		const float wx(quat.w * quat.x);
 		const float wy(quat.w * quat.y);
 		const float wz(quat.w * quat.z);
 
 		rtn[0 + 0 * 4] = 1.f - 2.f * (yy + zz);
-		rtn[1 + 0 * 4] = 2.f * (xy - wz);
-		rtn[2 + 0 * 4] = 2.f * (xz + wy);
-
-		rtn[0 + 1 * 4] = 2.f * (xy + wz);
+		rtn[1 + 0 * 4] = 2.f * (xy + wz);
+		rtn[2 + 0 * 4] = 2.f * (xz - wy);
+		
+		rtn[0 + 1 * 4] = 2.f * (xy - wz);
 		rtn[1 + 1 * 4] = 1.f - 2.f * (xx + zz);
-		rtn[2 + 1 * 4] = 2.f * (yz - wx);
-
-		rtn[0 + 2 * 4] = 2.f * (xz - wy);
-		rtn[1 + 2 * 4] = 2.f * (yz + wx);
+		rtn[2 + 1 * 4] = 2.f * (yz + wx);
+		
+		rtn[0 + 2 * 4] = 2.f * (xz + wy);
+		rtn[1 + 2 * 4] = 2.f * (yz - wx);
 		rtn[2 + 2 * 4] = 1.f - 2.f * (xx + yy);
 
 		return rtn;

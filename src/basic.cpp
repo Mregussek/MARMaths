@@ -39,7 +39,7 @@ namespace marengine::maths {
 	}
 
 	bool basic::epsilonNotEqual(float x, float y, float epsilon) {
-		return !epsilonEqual(x, y, epsilon);
+		return abs(x - y) >= epsilon;
 	}
 
 
