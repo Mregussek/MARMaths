@@ -31,7 +31,8 @@ namespace marengine::maths {
 
     struct vec3;
     struct vec4;
-    
+    struct quat;
+
     
     /**
      * @struct mat4 mat4.h "mat4/mat4.h"
@@ -220,7 +221,7 @@ namespace marengine::maths {
          * \param quaternion reference to which decomposed quaternion will be written (radians)
          * \param scale reference to which decomposed scale will be written
          */
-        static void decompose(const mat4& transform, vec3& translation, vec4& quaternion, vec3& scale);
+        static void decompose(const mat4& transform, vec3& translation, vec3& rotation, vec3& scale);
     
         /**
          * \brief Decomposes a model matrix to translations, rotation and scale components.
@@ -228,31 +229,24 @@ namespace marengine::maths {
          * \param quaternion reference to which decomposed quaternion will be written (radians)
          * \param scale reference to which decomposed scale will be written
          */
-        void decompose(vec3& translation, vec4& quaternion, vec3& scale) const;
+        void decompose(vec3& translation, vec3& rotation, vec3& scale) const;
     
         /** 
          * \brief Recomposes matrix from given parameters (translation, rotation and scale).
          * \param transform transform which will be recomposed, from given args
          * \param translation vec3 translate used in recomposition
-         * \param rotation vec3 rotation(degrees) used in recomposition
+         * \param quat rotation used in recomposition (make sure to convert euler angles to quanternion)
          * \param scale vec3 scale used in recomposition
          */
-        static void recompose(mat4& transform, const vec3& translation, const vec3& rotation, const vec3& scale);
+        static void recompose(mat4& transform, const vec3& translation, const quat& quaternion, const vec3& scale);
     
         /**
          * \brief Recomposes matrix from given parameters (translation, rotation and scale).
          * \param translation vec3 translate used in recomposition
-         * \param rotation vec3 rotation(degrees) used in recomposition
+         * \param quat rotation used in recomposition (make sure to convert euler angles to quanternion)
          * \param scale vec3 scale used in recomposition
          */
-        void recompose(const vec3& translation, const vec3& rotation, const vec3& scale);
-
-        /**
-         * \brief Creates rotation matrix from given quanternion
-         * \param quat vec4 that is quanternion (should contain values in RADIANS)
-         * \return newly created rotation matrix
-         */
-        static mat4 rotationFromQuat(vec4 quat);
+        void recompose(const vec3& translation, const quat& quaternion, const vec3& scale);
 
         /**
          * \brief Get value pointer to first matrix element. Used especially in shaders.

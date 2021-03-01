@@ -37,39 +37,55 @@ namespace marengine::maths {
 	/**
 	 * \struct quat quat.h "quat.h"
 	 * \brief quat is a structure written as a abstraction of quanternion. 
-	 * I have wrote new struct that contains all needed functions for quanterion 
-	 * implementation with no members, please use vec4 as quanternion and call needed methods.
 	 */
 	struct quat {
 
-		/**
-		 * \brief Retrieves quanternion from rotation matrix based on Mike Day's implementation:
-		 * https://drive.google.com/file/d/1XfGftHswm-MBsIm2d2wPb8YG8TThiXi-/view?usp=sharing
-		 * If you have issued with flipping, check if transposition will help (row-major vs column-major).
-		 * \param transform rotation matrix, from which we want to retrieve quanterion
-		 * \return retrieved quanterion in vec4 format
-		 */
-		static vec4 quatFromRotation1(const mat4& transform);
+		/// \brief w value of quat
+		float w;
+		/// \brief x (roll) value of quat
+		float x;
+		/// \brief y (pitch) value of quat
+		float y;
+		/// \brief z (yaw) value of quat
+		float z;
+
+		/// \brief Default constructor, creates quat(0.f, 0.f, 0.f, 0.f).
+		quat();
 
 		/**
-		 * \brief Retrieves quanternion from rotation matrix based on:
-		 * ImGuizmo.cpp implementation
-		 * \param transform rotation matrix, from which we want to retrieve quanterion
-		 * \return retrieved quanterion in vec4 format
+		 * \brief Constructor, that can create quat from given 4 floats.
+		 * \param _x x value, that will be prescribed to quat(x, y, z, w)
+		 * \param _y y value, that will be prescribed to quat(x, y, z, w)
+		 * \param _z z value, that will be prescribed to quat(x, y, z, w)
+		 * \param _w w value, that will be prescribed to quat(x, y, z, w)
 		 */
-		static vec4 quatFromRotation2(const mat4& transform);
+		quat(float _w, float _x, float _y, float _z);
 
 		/**
-		 * \brief Retrieves quanternion from rotation matrix based on:
-		 * glm code to retrieve euler angles
-		 * \param transform rotation matrix, from which we want to retrieve quanterion
-		 * \return retrieved quanterion in vec4 format
+		 * \brief Constructor, that converts euler angles vec3 to quanterion
+		 * \param eulerAngles euler angles in vec3
 		 */
-		static vec4 quatFromRotation3(const mat4& transform);
+		quat(vec3 eulerAngles);
+		
+		/**
+		 * \brief Constructor, that converts euler angles vec4 to quanterion
+		 * \param eulerAngles euler angles in vec4
+		 */
+		quat(vec4 eulerAngles);
 
-		static vec4 eulerAnglesToQuat(vec3 euler);
+		/**
+		 * \brief Converts euler angles to quanterion.
+		 * \param eulerAngles euler angles in vec3
+		 * \return newly created quanternion
+		 */
+		static quat eulerAnglesToQuat(vec3 eulerAngles);
 
-		static vec3 quatToEulerAngles(vec4 q);
+		/**
+		 * \brief Creates rotation matrix from given quanternion
+		 * \param q quat that is quanternion
+		 * \return newly created rotation matrix
+		 */
+		static mat4 rotationFromQuat(quat q);
 
 	};
 
