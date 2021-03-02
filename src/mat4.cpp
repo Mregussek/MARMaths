@@ -344,12 +344,12 @@ namespace marengine::maths {
 		transform[2 + 0 * 4] = columns[2].x;
 		transform[2 + 1 * 4] = columns[2].y;
 		transform[2 + 2 * 4] = columns[2].z;
-		transform[2 + 3 * 4] = columns[2].w;
+transform[2 + 3 * 4] = columns[2].w;
 
-		transform[3 + 0 * 4] = columns[3].x;
-		transform[3 + 1 * 4] = columns[3].y;
-		transform[3 + 2 * 4] = columns[3].z;
-		transform[3 + 3 * 4] = columns[3].w;
+transform[3 + 0 * 4] = columns[3].x;
+transform[3 + 1 * 4] = columns[3].y;
+transform[3 + 2 * 4] = columns[3].z;
+transform[3 + 3 * 4] = columns[3].w;
 	}
 
 	void mat4::orthonormalize(mat4& transform) {
@@ -394,26 +394,35 @@ namespace marengine::maths {
 			localMatrix[3 + 0 * 4] = localMatrix[3 + 1 * 4] = localMatrix[3 + 2 * 4] = 0.f;
 			localMatrix[3 + 3 * 4] = 1.f;
 		}
-		
+
 		translation = localMatrix.getColumn3(3);
 		localMatrix[0 + 3 * 4] = localMatrix[1 + 3 * 4] = localMatrix[2 + 3 * 4] = 0.f;
-
-		vec3 row[3];
-		for (size_t i = 0; i < 3; i++) {
-			row[i].x = localMatrix[i + 0 * 4];
-			row[i].y = localMatrix[i + 1 * 4];
-			row[i].z = localMatrix[i + 2 * 4];
-		}
-
+		
 		scale = {
-			row[0].length(),
-			row[1].length(),
-			row[2].length()
+			localMatrix.getRow3(0).length(),
+			localMatrix.getRow3(1).length(),
+			localMatrix.getRow3(2).length()
 		};
 
-		for (size_t i = 0; i < 3; i++) {
-			row[i] = row[i].normalize();
-		}
+		const vec3 row[3]{
+			localMatrix.getRow3(0).normalize(),
+			localMatrix.getRow3(1).normalize(),
+			localMatrix.getRow3(2).normalize()
+		};
+		
+		// At this point, the matrix (in rows[]) is orthonormal.
+		// Check for a coordinate system flip.  If the determinant
+		// is -1, then negate the matrix and the scaling factors.
+		//if (vec3::dot(row[0], vec3::cross(row[1], row[2])) < 0.f) {
+		//	scale.x = -scale.x;
+		//	scale.y = -scale.y;
+		//	scale.z = -scale.z;
+		//	for (size_t i = 0; i < 3; i++) {
+		//		row[i].x = -row[i].x;
+		//		row[i].y = -row[i].y;
+		//		row[i].z = -row[i].z;
+		//	}
+		//}
 		
 		rotation.y = asin(-row[0].z);
 		if (cos(rotation.y) != 0.f) {
