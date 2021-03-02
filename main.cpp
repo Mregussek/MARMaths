@@ -22,7 +22,7 @@
 
 #include <iomanip>
 
-using namespace mar;
+using namespace marengine;
 
 std::ostream& operator<<(std::ostream& stream, maths::vec2 vector) {
     stream << "vec2: ( " << vector.x << " , " << vector.y << " )";

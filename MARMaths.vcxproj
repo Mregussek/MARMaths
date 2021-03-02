@@ -105,6 +105,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>msvcrtd.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -160,23 +161,24 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="src\math_func\basic.cpp" />
-    <ClCompile Include="src\mat\mat4.cpp" />
-    <ClCompile Include="src\trig\trig.cpp" />
-    <ClCompile Include="src\vec\vec2.cpp" />
-    <ClCompile Include="src\vec\vec3.cpp" />
-    <ClCompile Include="src\vec\vec4.cpp" />
+    <ClCompile Include="src\basic.cpp" />
+    <ClCompile Include="src\mat4.cpp" />
+    <ClCompile Include="src\quat.cpp" />
+    <ClCompile Include="src\trig.cpp" />
+    <ClCompile Include="src\vec2.cpp" />
+    <ClCompile Include="src\vec3.cpp" />
+    <ClCompile Include="src\vec4.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\MARMaths.h" />
-    <ClInclude Include="src\maths_functions.h" />
-    <ClInclude Include="src\math_func\basic.h" />
-    <ClInclude Include="src\mat\mat4.h" />
+    <ClInclude Include="src\basic.h" />
+    <ClInclude Include="src\mat4.h" />
     <ClInclude Include="src\maths.h" />
-    <ClInclude Include="src\trig\trig.h" />
-    <ClInclude Include="src\vec\vec2.h" />
-    <ClInclude Include="src\vec\vec3.h" />
-    <ClInclude Include="src\vec\vec4.h" />
+    <ClInclude Include="src\quat.h" />
+    <ClInclude Include="src\trig.h" />
+    <ClInclude Include="src\vec2.h" />
+    <ClInclude Include="src\vec3.h" />
+    <ClInclude Include="src\vec4.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include=".gitattributes" />
