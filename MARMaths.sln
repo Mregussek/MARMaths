@@ -5,6 +5,8 @@ VisualStudioVersion = 16.0.30011.22
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MARMaths", "MARMaths.vcxproj", "{549C0FA3-C34A-4FAC-A4FB-9F8C6E0729C0}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "tests", "tests\tests.vcxproj", "{4918F3AD-C886-45FB-AB3E-E934FDBAC89D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -21,6 +23,14 @@ Global
 		{549C0FA3-C34A-4FAC-A4FB-9F8C6E0729C0}.Release|x64.Build.0 = Release|x64
 		{549C0FA3-C34A-4FAC-A4FB-9F8C6E0729C0}.Release|x86.ActiveCfg = Release|Win32
 		{549C0FA3-C34A-4FAC-A4FB-9F8C6E0729C0}.Release|x86.Build.0 = Release|Win32
+		{4918F3AD-C886-45FB-AB3E-E934FDBAC89D}.Debug|x64.ActiveCfg = Debug|x64
+		{4918F3AD-C886-45FB-AB3E-E934FDBAC89D}.Debug|x64.Build.0 = Debug|x64
+		{4918F3AD-C886-45FB-AB3E-E934FDBAC89D}.Debug|x86.ActiveCfg = Debug|Win32
+		{4918F3AD-C886-45FB-AB3E-E934FDBAC89D}.Debug|x86.Build.0 = Debug|Win32
+		{4918F3AD-C886-45FB-AB3E-E934FDBAC89D}.Release|x64.ActiveCfg = Release|x64
+		{4918F3AD-C886-45FB-AB3E-E934FDBAC89D}.Release|x64.Build.0 = Release|x64
+		{4918F3AD-C886-45FB-AB3E-E934FDBAC89D}.Release|x86.ActiveCfg = Release|Win32
+		{4918F3AD-C886-45FB-AB3E-E934FDBAC89D}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

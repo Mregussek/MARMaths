@@ -87,15 +87,15 @@ namespace marengine::maths {
 		mat4 rtn(1.f);
 
 		rtn[0 + 0 * 4] = 1.f - 2.f * (qyy + qzz);
-		rtn[0 + 1 * 4] = 2.f * (qxy + qwz);
-		rtn[0 + 2 * 4] = 2.f * (qxz - qwy);
+		rtn[1 + 0 * 4] = 2.f * (qxy + qwz);
+		rtn[2 + 0 * 4] = 2.f * (qxz - qwy);
 
-		rtn[1 + 0 * 4] = 2.f * (qxy - qwz);
+		rtn[0 + 1 * 4] = 2.f * (qxy - qwz);
 		rtn[1 + 1 * 4] = 1.f - 2.f * (qxx + qzz);
-		rtn[1 + 2 * 4] = 2.f * (qyz + qwx);
+		rtn[2 + 1 * 4] = 2.f * (qyz + qwx);
 	
-		rtn[2 + 0 * 4] = 2.f * (qxz + qwy);
-		rtn[2 + 1 * 4] = 2.f * (qyz - qwx);
+		rtn[0 + 2 * 4] = 2.f * (qxz + qwy);
+		rtn[1 + 2 * 4] = 2.f * (qyz - qwx);
 		rtn[2 + 2 * 4] = 1.f - 2.f * (qxx + qyy);
 		return rtn;
 	}
