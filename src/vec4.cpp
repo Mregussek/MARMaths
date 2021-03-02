@@ -132,9 +132,8 @@ namespace marengine::maths {
 	}
 
 	float vec4::dot(vec4 left, vec4 right) {
-		return {
-			left.x * right.x + left.y * right.y + left.z * right.z + left.w * right.w
-		};
+		const vec4 tmp{ left * right };
+		return (tmp.x + tmp.y) + (tmp.z + tmp.w);//left.x * right.x + left.y * right.y + left.z * right.z + left.w * right.w;
 	}
 
 	float vec4::length() const {

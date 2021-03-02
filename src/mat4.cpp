@@ -194,10 +194,21 @@ namespace marengine::maths {
 
 	mat4 mat4::translation(vec3 trans) {
 		mat4 result(1.0f);
-
 		result.elements[0 + 3 * 4] = trans.x;
 		result.elements[1 + 3 * 4] = trans.y;
 		result.elements[2 + 3 * 4] = trans.z;
+
+		// GLM IMPLEMENTATION
+		//const vec4 v{
+		//	result.getColumn4(0) * trans.x
+		//	+ result.getColumn4(1) * trans.y
+		//	+ result.getColumn4(2) * trans.z
+		//	+ result.getColumn4(3)
+		//};
+		//
+		//result[0 + 3 * 4] = v.x;
+		//result[1 + 3 * 4] = v.y;
+		//result[2 + 3 * 4] = v.z;
 
 		return result;
 	}
@@ -235,6 +246,11 @@ namespace marengine::maths {
 		result.elements[0 + 0 * 4] = scal.x;
 		result.elements[1 + 1 * 4] = scal.y;
 		result.elements[2 + 2 * 4] = scal.z;
+
+		// GLM IMPLEMENTATION
+		//result.elements[0 + 0 * 4] *= scal.x;
+		//result.elements[1 + 1 * 4] *= scal.y;
+		//result.elements[2 + 2 * 4] *= scal.z;
 
 		return result;
 	}
@@ -344,12 +360,12 @@ namespace marengine::maths {
 		transform[2 + 0 * 4] = columns[2].x;
 		transform[2 + 1 * 4] = columns[2].y;
 		transform[2 + 2 * 4] = columns[2].z;
-transform[2 + 3 * 4] = columns[2].w;
-
-transform[3 + 0 * 4] = columns[3].x;
-transform[3 + 1 * 4] = columns[3].y;
-transform[3 + 2 * 4] = columns[3].z;
-transform[3 + 3 * 4] = columns[3].w;
+		transform[2 + 3 * 4] = columns[2].w;
+		
+		transform[3 + 0 * 4] = columns[3].x;
+		transform[3 + 1 * 4] = columns[3].y;
+		transform[3 + 2 * 4] = columns[3].z;
+		transform[3 + 3 * 4] = columns[3].w;
 	}
 
 	void mat4::orthonormalize(mat4& transform) {
@@ -384,6 +400,10 @@ transform[3 + 3 * 4] = columns[3].w;
 			return;
 		}
 
+		for (size_t i = 0; i < 16; i++) {
+			localMatrix[i] /= localMatrix[3 + 3 * 4];
+		}
+
 		// First, isolate perspective.  This is the messiest.
 		const bool shouldIsolatePerspective{
 			basic::epsilonNotEqual(localMatrix[0 + 3 * 4], 0.f, FLT_EPSILON) ||
@@ -405,11 +425,10 @@ transform[3 + 3 * 4] = columns[3].w;
 		};
 
 		const vec3 row[3]{
-			localMatrix.getRow3(0).normalize(),
-			localMatrix.getRow3(1).normalize(),
-			localMatrix.getRow3(2).normalize()
+			localMatrix.getRow3(0) / scale.x,
+			localMatrix.getRow3(1) / scale.y,
+			localMatrix.getRow3(2) / scale.z,
 		};
-		
 		// At this point, the matrix (in rows[]) is orthonormal.
 		// Check for a coordinate system flip.  If the determinant
 		// is -1, then negate the matrix and the scaling factors.
@@ -423,7 +442,7 @@ transform[3 + 3 * 4] = columns[3].w;
 		//		row[i].z = -row[i].z;
 		//	}
 		//}
-		
+
 		rotation.y = asin(-row[0].z);
 		if (cos(rotation.y) != 0.f) {
 			rotation.x = atan2(row[1].z, row[2].z);
