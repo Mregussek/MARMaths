@@ -6,6 +6,9 @@
 # MR
 docs/_build
 build
+tests/3rd_party/glm
+tests/3rd_party/glm-master
+tests/3rd_party/glm-master.zip
 
 # User-specific files
 *.rsuser
