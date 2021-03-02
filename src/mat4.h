@@ -249,6 +249,21 @@ namespace marengine::maths {
         void recompose(const vec3& translation, const quat& quaternion, const vec3& scale);
 
         /**
+         * \brief Compares current matrix with given one and returns result.
+         * \param other other matrix, with which current one should be compared
+         * \return True, of two matrices contain the same data
+         */
+        bool compare(const mat4& other) const;
+
+        /**
+         * \brief Compares left matrix to the right one and returns result.
+         * \param left left matrix
+         * \param right right matrix
+         * \return True, of two matrices contain the same data
+         */
+        static bool compare(const mat4& left, const mat4& right);
+
+        /**
          * \brief Get value pointer to first matrix element. Used especially in shaders.
          * \param matrices vector of matrices
          * \return pointer to first value at first matrix
@@ -327,6 +342,11 @@ namespace marengine::maths {
          * \return elements[index]
          */
         float& operator[](unsigned int index);
+
+        /// \brief self-explanatory
+        bool operator==(const mat4& right) const;
+        /// \brief self-explanatory
+        bool operator!=(const mat4& right) const;
     
     };
 

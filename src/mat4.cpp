@@ -451,6 +451,20 @@ transform[3 + 3 * 4] = columns[3].w;
 		recompose(*this, translation, quaternion, scale);
 	}
 
+	bool mat4::compare(const mat4& other) const {
+		return compare(*this, other);
+	}
+
+	bool mat4::compare(const mat4& left, const mat4& right) {
+		for (size_t i = 0; i < 16; i++) {
+			if (left[i] != right[i]) {
+				return false;
+			}
+		}
+
+		return true;
+	};
+
 	const float* mat4::value_ptr(const std::vector<mat4>& matrices) {
 		return &(*matrices.data())[0];
 	}
@@ -497,6 +511,14 @@ transform[3 + 3 * 4] = columns[3].w;
 		}
 
 		return elements[index];
+	}
+
+	bool mat4::operator==(const mat4& right) const {
+		return compare(*this, right);
+	}
+
+	bool mat4::operator!=(const mat4& right) const {
+		return !compare(*this, right);
 	}
 
 		
