@@ -399,31 +399,17 @@ transform[3 + 3 * 4] = columns[3].w;
 		localMatrix[0 + 3 * 4] = localMatrix[1 + 3 * 4] = localMatrix[2 + 3 * 4] = 0.f;
 		
 		scale = {
-			localMatrix.getRow3(0).length(),
-			localMatrix.getRow3(1).length(),
-			localMatrix.getRow3(2).length()
+			localMatrix.getColumn3(0).length(),
+			localMatrix.getColumn3(1).length(),
+			localMatrix.getColumn3(2).length()
 		};
 
 		const vec3 row[3]{
-			localMatrix.getRow3(0).normalize(),
-			localMatrix.getRow3(1).normalize(),
-			localMatrix.getRow3(2).normalize()
+			localMatrix.getColumn3(0).normalize(),
+			localMatrix.getColumn3(1).normalize(),
+			localMatrix.getColumn3(2).normalize()
 		};
-		
-		// At this point, the matrix (in rows[]) is orthonormal.
-		// Check for a coordinate system flip.  If the determinant
-		// is -1, then negate the matrix and the scaling factors.
-		//if (vec3::dot(row[0], vec3::cross(row[1], row[2])) < 0.f) {
-		//	scale.x = -scale.x;
-		//	scale.y = -scale.y;
-		//	scale.z = -scale.z;
-		//	for (size_t i = 0; i < 3; i++) {
-		//		row[i].x = -row[i].x;
-		//		row[i].y = -row[i].y;
-		//		row[i].z = -row[i].z;
-		//	}
-		//}
-		
+
 		rotation.y = asin(-row[0].z);
 		if (cos(rotation.y) != 0.f) {
 			rotation.x = atan2(row[1].z, row[2].z);
