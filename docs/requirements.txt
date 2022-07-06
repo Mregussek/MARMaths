@@ -1,4 +1,4 @@
-lxml==4.6.3
+lxml==4.9.1
 bs4==0.0.1
 beautifulsoup4==4.9.3
 breathe==4.26.0
